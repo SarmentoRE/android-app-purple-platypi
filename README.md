@@ -7,6 +7,12 @@ Iteration 1 Goals Accomplished:
 
 
 Iteration 1 Goals Left:
-
+- UI for Home, My Info, Contacts, and New Contact screens
+- Mock UI for Group, Important, and Settings screens
+- Contact class structure
+- SQLite Database to store contacts, groups, and files
+  - Ability to associate files with a Contact
+- Search through Contacts screen using Search bar
 
 Comments: 
+Iteration 1 started September 29, ended October 19.
