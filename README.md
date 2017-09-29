@@ -6,7 +6,7 @@ This documentation tracks the progress of our app "INSERT APP NAME".
 Iteration 1 Goals Accomplished:
 
 
-Iteration 1 Goals Left:
+Iteration 1 Goals Unfinished:
 - UI for Home, My Info, Contacts, and New Contact screens
 - Mock UI for Group, Important, and Settings screens
 - Instantiate Contacts
