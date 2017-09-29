@@ -14,5 +14,5 @@ Iteration 1 Goals Left:
   - Ability to associate files with a Contact
 - Search through Contacts screen using Search bar
 
-Comments:
+**Comments:**
 Iteration 1 started September 29, ended October 19.
