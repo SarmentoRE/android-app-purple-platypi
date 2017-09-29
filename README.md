@@ -15,5 +15,4 @@ Iteration 1 Goals Left:
 - Search through Contacts screen using Search bar
 
 Comments:
-
 Iteration 1 started September 29, ended October 19.
