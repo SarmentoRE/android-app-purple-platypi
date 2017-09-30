@@ -6,13 +6,76 @@
     android:layout_height="match_parent"
     tools:context="cmsc355.contactapp.HomeActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/buttonConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="80dp"
+        android:text="@string/buttonConnect"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonGroups"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp" />
+
+    <Button
+        android:id="@+id/buttonGroups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonGroups"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonContacts"
+        app:layout_constraintRight_toRightOf="@+id/buttonContacts"
+        app:layout_constraintTop_toBottomOf="@+id/buttonConnect"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonContacts"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonFavorites"
+        app:layout_constraintRight_toRightOf="@+id/buttonFavorites"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGroups"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonFavorites"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonMyInfo"
+        app:layout_constraintRight_toRightOf="@+id/buttonMyInfo"
+        app:layout_constraintTop_toBottomOf="@+id/buttonContacts"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonMyInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonMyInfo"
+        app:layout_constraintLeft_toLeftOf="@+id/buttonScan"
+        app:layout_constraintRight_toRightOf="@+id/buttonScan"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFavorites"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/buttonScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/buttonScan"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/buttonMyInfo"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 </android.support.constraint.ConstraintLayout>
