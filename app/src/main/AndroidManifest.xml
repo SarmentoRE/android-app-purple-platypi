@@ -66,6 +66,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cmsc355.contactapp.HomeActivity" />
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmsc355.contactapp.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".EditContactActivity"
+            android:label="@string/title_activity_edit_contact"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmsc355.contactapp.ContactDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".EditGroupActivity"
+            android:label="@string/title_activity_edit_group"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cmsc355.contactapp.GroupsActivity" />
+        </activity>
     </application>
 
 </manifest>

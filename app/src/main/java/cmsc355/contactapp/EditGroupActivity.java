@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class GroupsActivity extends AppCompatActivity {
-
+public class EditGroupActivity extends AppCompatActivity {
+    //TODO - Link Groups Activity to here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_groups);
+        setContentView(R.layout.activity_edit_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -27,5 +27,3 @@ public class GroupsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
-
-//TODO - each group clicked should open EditGroupActivity with that group's info loaded
