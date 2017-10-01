@@ -26,6 +26,8 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
