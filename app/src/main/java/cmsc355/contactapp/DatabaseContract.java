@@ -16,13 +16,9 @@ public final class DatabaseContract {
         public static final String COLUMN_JSON = "JSON";
     }
 
-    final String SQL_CREATE_CONTACT_TABLE = "CREATE TABLE"  + DatabaseContract.Contact.TABLE_NAME + "("+
-            DatabaseContract.Contact._ID+"INTEGER PRIMARY KEY AUTOINCREMENT," +
-            DatabaseContract.Contact.COLUMN_FIRST_NAME + "TEXT NOT NULL," +
-            DatabaseContract.Contact.COLUMN_LAST_NAME + "TEXT NOT NULL," +
-            DatabaseContract.Contact.COLUMN_JSON + "BLOB NOT NULL" +");";
-
-    final String SQL_DELETE_CONTACT_TABLE =
-            "DROP TABLE IF EXISTS" + DatabaseContract.Contact.TABLE_NAME;
+    public static class Group implements BaseColumns{
+        public static final String TABLE_NAME = "Group";
+        public static final String COLUMN_NAME = "Name";
+    }
 
 }
