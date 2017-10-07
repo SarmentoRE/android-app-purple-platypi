@@ -17,8 +17,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             DatabaseContract.Contact.COLUMN_LAST_NAME + "TEXT NOT NULL," +
             DatabaseContract.Contact.COLUMN_JSON + "BLOB NOT NULL" +");";
 
-    final String SQL_DELETE_CONTACT_TABLE =
+
+    private final String SQL_DELETE_CONTACT_TABLE =
             "DROP TABLE IF EXISTS" + DatabaseContract.Contact.TABLE_NAME;
+
+    private final String SQL_CREATE_GROUPS_TABLE = "CREATE TABLE"  + DatabaseContract.Contact.TABLE_NAME + "("+
+            DatabaseContract.Group._ID+"INTEGER PRIMARY KEY AUTOINCREMENT," +
+            DatabaseContract.Group.COLUMN_NAME +"TEXT NOT NULL"+");";
+
+    private final String SQL_DELETE_GROUPS_TABLE =
+            "DROP TABLE IF EXISTS" + DatabaseContract.Group.TABLE_NAME;
 
     private static final String DATABASE_NAME = "Contacts.db";
     private static final int DATABASE_VERSION = 1;
@@ -30,7 +38,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_CONTACT_TABLE);
-        Log.d(TAG,"Database created successfully!");
+        Log.d(TAG,"Contact database created successfully!");
+        db.execSQL(SQL_CREATE_GROUPS_TABLE);
+        Log.d(TAG,"Groups database created successfully!");
     }
 
     @Override
