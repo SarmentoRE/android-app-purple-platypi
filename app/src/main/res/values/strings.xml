@@ -195,6 +195,8 @@
 
     <!-- Strings defined by Shane -->
     <string name="search_title">Search</string>
-    <string name="search_hint">Enter contact...</string>
+    <string name="search_hint">Search Contacts</string>
+    <string name="menu_search">Search Menu</string>
+    <string name="search_result">Search results for </string>
 
 </resources>
