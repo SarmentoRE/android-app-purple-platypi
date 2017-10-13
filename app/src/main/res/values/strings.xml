@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vogella tutorials</string>
+    <string name="app_name">ContactApp</string>
 
     <!--Home screen Strings-->
     <string name="list_icon">Icon</string>
