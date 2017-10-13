@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("cmsc355.contactapp", appContext.getPackageName());
+        assertEquals("cmsc355.vogellatutorials", appContext.getPackageName());
     }
 }
