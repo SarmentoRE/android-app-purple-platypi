@@ -1,11 +1,15 @@
 package cmsc355.contactapp;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -14,73 +18,55 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Button[] buttons = new Button[7];
-        SetButtons(buttons);
+        ListView listView = (ListView) findViewById(R.id.home_list);
+        SetupListView(listView);
     }
 
-    //Assign destination activity to each button
-    private void SetButtons(Button[] buttons) {
-        buttons[0] = (Button) findViewById(R.id.buttonConnect);
-        buttons[0].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, ConnectActivity.class);
-                startActivity(i);
-            }
-        });
+    private void SetupListView(ListView listView) {
+        ArrayList<String> buttonNames = new ArrayList<>();
+        buttonNames.addAll(Arrays.asList(getResources().getStringArray(R.array.home_button_names)));
 
-        buttons[1] = (Button) findViewById(R.id.buttonGroups);
-        buttons[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, GroupsActivity.class);
-                startActivity(i);
-            }
-        });
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.item_home, R.id.firstLine, buttonNames);
+        listView.setAdapter(adapter);
 
-        buttons[2] = (Button) findViewById(R.id.buttonContacts);
-        buttons[2].setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, ContactsActivity.class);
-                startActivity(i);
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+//              Toast.makeText(getApplicationContext(),
+//                      "Click ListItem Number " + position, Toast.LENGTH_SHORT)
+//                      .show();
+                switch(position) {
+                    case 0:
+                        SendToActivity(ConnectActivity.class);
+                        break;
+                    case 1:
+                        SendToActivity(ContactsActivity.class);
+                        break;
+                    case 2:
+                        SendToActivity(FavoritesActivity.class);
+                        break;
+                    case 3:
+                        SendToActivity(GroupsActivity.class);
+                        break;
+                    case 4:
+                        SendToActivity(MyInfoActivity.class);
+                        break;
+                    case 5:
+                        SendToActivity(ScanActivity.class);
+                        break;
+                    case 6:
+                        SendToActivity(SettingsActivity.class);
+                        break;
+                    default:
+                        break;
+                }
             }
         });
+    }
 
-        buttons[3] = (Button) findViewById(R.id.buttonFavorites);
-        buttons[3].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, FavoritesActivity.class);
-                startActivity(i);
-            }
-        });
-
-        buttons[4] = (Button) findViewById(R.id.buttonMyInfo);
-        buttons[4].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, ContactDetailsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        buttons[5] = (Button) findViewById(R.id.buttonScan);
-        buttons[5].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, ScanActivity.class);
-                startActivity(i);
-            }
-        });
-
-        buttons[6] = (Button) findViewById(R.id.buttonSettings);
-        buttons[6].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
-                startActivity(i);
-            }
-        });
+    private void SendToActivity(Class activityClass) {
+        Intent i = new Intent(HomeActivity.this, activityClass);
+        startActivity(i);
     }
 }

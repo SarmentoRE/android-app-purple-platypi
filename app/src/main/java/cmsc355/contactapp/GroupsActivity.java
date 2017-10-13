@@ -1,11 +1,11 @@
 package cmsc355.contactapp;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class GroupsActivity extends AppCompatActivity {
 
@@ -13,21 +13,12 @@ public class GroupsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.groups_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<ContactGroup> groupsList = new ArrayList<>();
+        ContactGroup.GenerateRandomGroups(groupsList, 3);       //TODO - replace this line with pulling groups from database
+
+        recyclerView.setAdapter(new GroupsAdapter(groupsList));
     }
 }
-
-//TODO - each group clicked should open EditGroupActivity with that group's info loaded
