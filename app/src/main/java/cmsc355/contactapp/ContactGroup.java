@@ -17,12 +17,12 @@ class ContactGroup {
     private ContactGroup(String n, ArrayList<JSONObject> cList) {
         name = n;
         contacts = new ArrayList<>();
-        //contacts.add(cList);
+        contacts.addAll(cList);
     }
 
-    static void GenerateRandomGroups(ArrayList<ContactGroup> groupList, int numGroups) {
+    void GenerateRandomGroups(ArrayList<ContactGroup> groupList, int numGroups) {
         for (int i = 0; i < numGroups; i++) {
-            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), new ArrayList<JSONObject>()));
+            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), contacts));
             Contact.GenerateRandomContacts(groupList.get(i).contacts, 3);
         }
     }
