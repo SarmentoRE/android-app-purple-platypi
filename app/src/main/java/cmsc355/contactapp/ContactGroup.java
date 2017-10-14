@@ -20,10 +20,12 @@ class ContactGroup {
         contacts.addAll(cList);
     }
 
-    void GenerateRandomGroups(ArrayList<ContactGroup> groupList, int numGroups) {
+    static void GenerateRandomGroups(ArrayList<ContactGroup> groupList, int numGroups) {
+        ArrayList<JSONObject> cList;
         for (int i = 0; i < numGroups; i++) {
-            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), contacts));
-            Contact.GenerateRandomContacts(groupList.get(i).contacts, 3);
+            cList = new ArrayList<>();
+            Contact.GenerateRandomContacts(cList, 3);
+            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), cList));
         }
     }
 }

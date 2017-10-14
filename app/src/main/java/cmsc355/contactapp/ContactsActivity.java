@@ -3,9 +3,8 @@ package cmsc355.contactapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,7 +26,10 @@ public class ContactsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contacts_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<JSONObject> contactList = getContactList(db);
-        Contact.GenerateRandomContacts(contactList, 7);   //TODONE - replace this line with pulling contacts from database
+        //TODONE - replace this line with pulling contacts from database
+        //This line still generates random data despite what is in the db
+        //TODO: comment next line to see things inside the db
+        Contact.GenerateRandomContacts(contactList, 7);
         recyclerView.setAdapter(new ContactsAdapter(contactList));
     }
 
