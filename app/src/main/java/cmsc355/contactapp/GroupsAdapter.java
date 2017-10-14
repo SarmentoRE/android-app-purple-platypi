@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 class GroupsAdapter extends RecyclerView.Adapter {
@@ -48,8 +50,8 @@ class GroupsAdapter extends RecyclerView.Adapter {
 
         RecyclerView recyclerView = v.findViewById(R.id.group_contact_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        ArrayList<Contact> contactList = new ArrayList<>();
-        Contact.GenerateRandomContacts(contactList, 3);   //TODO - replace this line with pulling contacts from database
+        ArrayList<JSONObject> contactList = new ArrayList<>();
+        //Contact.GenerateRandomContacts(contactList, 3);   //TODO - replace this line with pulling contacts from database
 
         recyclerView.setAdapter(new ContactsAdapter(contactList));
 
@@ -67,7 +69,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(Contact c : groupArrayList.get(pos).contacts) {
+                for(JSONObject c : groupArrayList.get(pos).contacts) {
 
                 }
                 //TODO - Should inflate into group contacts display instead of toasting

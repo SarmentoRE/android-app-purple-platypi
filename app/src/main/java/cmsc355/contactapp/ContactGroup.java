@@ -1,26 +1,28 @@
 package cmsc355.contactapp;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 class ContactGroup {
 
     String name;
-    ArrayList<Contact> contacts;
+    ArrayList<JSONObject> contacts;
 
     public ContactGroup() {
         name = "Default";
         contacts = new ArrayList<>();
     }
 
-    private ContactGroup(String n, ArrayList<Contact> cList) {
+    private ContactGroup(String n, ArrayList<JSONObject> cList) {
         name = n;
         contacts = new ArrayList<>();
-        contacts.addAll(cList);
+        //contacts.add(cList);
     }
 
     static void GenerateRandomGroups(ArrayList<ContactGroup> groupList, int numGroups) {
         for (int i = 0; i < numGroups; i++) {
-            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), new ArrayList<Contact>()));
+            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), new ArrayList<JSONObject>()));
             Contact.GenerateRandomContacts(groupList.get(i).contacts, 3);
         }
     }
