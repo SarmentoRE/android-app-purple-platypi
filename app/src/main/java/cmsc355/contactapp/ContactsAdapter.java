@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Contact> contactArrayList;
+    private ArrayList<JSONObject> contactArrayList;
 
     private class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName;
@@ -24,11 +28,11 @@ class ContactsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    ContactsAdapter(ArrayList<Contact> cList) {
+    ContactsAdapter(ArrayList<JSONObject> cList) {
         contactArrayList = cList;
     }
 
-    public void add(int position, Contact item) {
+    public void add(int position, JSONObject item) {
         contactArrayList.add(position, item);
         notifyItemInserted(position);
     }
@@ -49,7 +53,13 @@ class ContactsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int pos = position;
         ViewHolder vHolder = (ViewHolder) holder;
-        final String name = contactArrayList.get(position).name;
+        String name = "";
+        try {
+            name = contactArrayList.get(position).getString("First name");
+            name = name.concat(" "+contactArrayList.get(position).getString("Last name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         vHolder.txtName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

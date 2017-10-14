@@ -1,6 +1,10 @@
 package cmsc355.contactapp;
 
 import java.util.ArrayList;
+import android.content.Context;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static cmsc355.contactapp.Utilities.GenerateRandomString;
 
@@ -31,13 +35,13 @@ class Contact {
         email = e;
     }
 
-    static void GenerateRandomContacts(ArrayList<Contact> contactList, int numContacts) {
+    static void GenerateRandomContacts(ArrayList<JSONObject> contactList, int numContacts) {
         for (int i = 0; i < numContacts; i++) {
-            contactList.add(new Contact());
-            contactList.get(i).name = GenerateRandomString(8);
-            contactList.get(i).address = GenerateRandomString(8);
-            contactList.get(i).phoneNumber = GenerateRandomString(8);
-            contactList.get(i).email = GenerateRandomString(8);
+            try {
+                contactList.add(new JSONObject("{\"First name\":\" "+GenerateRandomString(8)+" \",\"Last name\":\" "+GenerateRandomString(8)+" \"}"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
