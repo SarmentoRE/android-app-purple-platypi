@@ -21,4 +21,10 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME = "Name";
     }
 
+    public static class Relation implements BaseColumns{
+        public static final String TABLE_NAME = "Relation";
+        public static final String COLUMN_CONTACT_ID = "Contact id";
+        public static final String COLUMN_GROUP_ID = "Group id";
+    }
+
 }

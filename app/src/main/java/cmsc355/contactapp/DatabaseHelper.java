@@ -15,17 +15,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             DatabaseContract.Contact._ID+"INTEGER PRIMARY KEY AUTOINCREMENT," +
             DatabaseContract.Contact.COLUMN_FIRST_NAME + "TEXT NOT NULL," +
             DatabaseContract.Contact.COLUMN_LAST_NAME + "TEXT NOT NULL," +
-            DatabaseContract.Contact.COLUMN_JSON + "BLOB NOT NULL" +");";
+            DatabaseContract.Contact.COLUMN_JSON + "BLOB NOT NULL" +");" ;
 
 
     private final String SQL_DELETE_CONTACT_TABLE =
             "DROP TABLE IF EXISTS" + DatabaseContract.Contact.TABLE_NAME;
 
-    private final String SQL_CREATE_GROUPS_TABLE = "CREATE TABLE"  + DatabaseContract.Contact.TABLE_NAME + "("+
+    private final String SQL_CREATE_GROUPS_TABLE = "CREATE TABLE"  + DatabaseContract.Group.TABLE_NAME + "("+
             DatabaseContract.Group._ID+"INTEGER PRIMARY KEY AUTOINCREMENT," +
             DatabaseContract.Group.COLUMN_NAME +"TEXT NOT NULL"+");";
 
     private final String SQL_DELETE_GROUPS_TABLE =
+            "DROP TABLE IF EXISTS" + DatabaseContract.Group.TABLE_NAME;
+
+    private final String SQL_CREATE_RELATION_TABLE = "CREATE TABLE"  + DatabaseContract.Relation.TABLE_NAME + "("+
+            DatabaseContract.Relation._ID+"INTEGER PRIMARY KEY AUTOINCREMENT," +
+            DatabaseContract.Relation.COLUMN_CONTACT_ID+"INTEGER NOT NULL,"+
+            DatabaseContract.Relation.COLUMN_GROUP_ID +"INTEGER NOT NULL"+");";
+    ;
+
+    private final String SQL_DELETE_RELATION_TABLE =
             "DROP TABLE IF EXISTS" + DatabaseContract.Group.TABLE_NAME;
 
     private static final String DATABASE_NAME = "Contacts.db";
