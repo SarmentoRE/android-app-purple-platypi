@@ -12,6 +12,7 @@ class Contact {
     public String name;
     private String address;
     private String phoneNumber;
+
     private String email;
 
     private Contact() {

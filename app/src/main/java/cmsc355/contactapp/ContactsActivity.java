@@ -21,51 +21,17 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        SQLiteDatabase db = openDatabase(ContactsActivity.this);
+        //SQLiteDatabase db = DatabaseHelper.openDatabase(this);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contacts_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<JSONObject> contactList = getContactList(db);
+
+        ArrayList<JSONObject> contactList = new ArrayList<>();
+        //ArrayList<JSONObject> contactList = DatabaseHelper.getContactList(db);
         //TODONE - replace this line with pulling contacts from database
         //This line still generates random data despite what is in the db
         //TODO: comment next line to see things inside the db
         Contact.GenerateRandomContacts(contactList, 7);
         recyclerView.setAdapter(new ContactsAdapter(contactList));
     }
-
-
-    public ArrayList<JSONObject> getContactList(SQLiteDatabase db)
-    {
-        String table = "Contact";
-        String[] columns = {"JSON"};
-        String selection = DatabaseContract.Contact.COLUMN_JSON+" = ?";
-        String[] selectionArgs = null;
-        String groupBy = null;
-        String having = null;
-        String orderBy = null;
-
-        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-
-        JSONObject json = new JSONObject();
-        ArrayList contactsJSON = new ArrayList();
-
-        while(cursor.moveToNext()){
-            String stringForm = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.Contact.COLUMN_JSON));
-            try {
-                 json = new JSONObject(stringForm);
-            } catch (JSONException e) {
-                Log.d("Contacts Activity", "Could not parse JSON: **"+stringForm+"**");
-            }
-            contactsJSON.add(json);
-        }
-        return contactsJSON;
-    }
-
-    public SQLiteDatabase openDatabase(Context context)
-    {
-        DatabaseHelper DbHelper = new DatabaseHelper(context);
-        SQLiteDatabase db = DbHelper.getReadableDatabase();
-        return db;
-    }
-
 }
