@@ -1,7 +1,7 @@
 package cmsc355.contactapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -16,8 +16,8 @@ public class GroupsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.groups_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<ContactGroup> groupsList = new ArrayList<>();
-        ContactGroup.GenerateRandomGroups(groupsList, 3);       //TODO - replace this line with pulling groups from database
+        ArrayList<Group> groupsList = new ArrayList<>();
+        Group.GenerateRandomGroups(groupsList, 3);       //TODO - replace this line with pulling groups from database
 
         recyclerView.setAdapter(new GroupsAdapter(groupsList));
     }

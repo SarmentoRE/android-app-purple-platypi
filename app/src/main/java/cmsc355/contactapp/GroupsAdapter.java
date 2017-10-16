@@ -7,30 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 class GroupsAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<ContactGroup> groupArrayList;
+    private ArrayList<Group> groupArrayList;
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView groupName;
-        public View layout;
-
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            groupName = v.findViewById(R.id.group_name);
-        }
-    }
-
-    GroupsAdapter(ArrayList<ContactGroup> gList) {
+    GroupsAdapter(ArrayList<Group> gList) {
         groupArrayList = gList;
     }
 
-    public void add(int position, ContactGroup item) {
+    public void add(int position, Group item) {
         groupArrayList.add(position, item);
         notifyItemInserted(position);
     }
@@ -49,7 +37,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
         RecyclerView recyclerView = v.findViewById(R.id.group_contact_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         ArrayList<Contact> contactList = new ArrayList<>();
-        Contact.GenerateRandomContacts(contactList, 3);   //TODO - replace this line with pulling contacts from database
+        //Contact.GenerateRandomContacts(contactList, 3);   //TODO - replace this line with pulling contacts from database
 
         recyclerView.setAdapter(new ContactsAdapter(contactList));
 
@@ -61,13 +49,13 @@ class GroupsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int pos = position;
         final GroupsAdapter.ViewHolder vHolder = (GroupsAdapter.ViewHolder) holder;
-        final String name = groupArrayList.get(position).name;
+        final String name = groupArrayList.get(position).getName();
         final Context context = vHolder.layout.getContext();
         vHolder.groupName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(Contact c : groupArrayList.get(pos).contacts) {
+                for (Contact c : groupArrayList.get(pos).getContacts()) {
 
                 }
                 //TODO - Should inflate into group contacts display instead of toasting
@@ -78,4 +66,15 @@ class GroupsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() { return groupArrayList.size(); }
+
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        public View layout;
+        TextView groupName;
+
+        ViewHolder(View v) {
+            super(v);
+            layout = v;
+            groupName = v.findViewById(R.id.group_name);
+        }
+    }
 }

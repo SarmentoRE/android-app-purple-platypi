@@ -13,17 +13,6 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Contact> contactArrayList;
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtName;
-        public View layout;
-
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtName = v.findViewById(R.id.contact_name);
-        }
-    }
-
     ContactsAdapter(ArrayList<Contact> cList) {
         contactArrayList = cList;
     }
@@ -49,7 +38,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int pos = position;
         ViewHolder vHolder = (ViewHolder) holder;
-        final String name = contactArrayList.get(position).name;
+        final String name = contactArrayList.get(position).getName();
         vHolder.txtName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,4 +51,15 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() { return contactArrayList.size(); }
+
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        public View layout;
+        TextView txtName;
+
+        ViewHolder(View v) {
+            super(v);
+            layout = v;
+            txtName = v.findViewById(R.id.contact_name);
+        }
+    }
 }

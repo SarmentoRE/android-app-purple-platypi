@@ -8,6 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ListView listView = (ListView) findViewById(R.id.home_list);
+
         SetupListView(listView);
     }
 
@@ -63,6 +67,18 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void insertSampleData() throws JSONException {
+        ContactRepo contactRepo = new ContactRepo();
+        GroupRepo groupRepo = new GroupRepo();
+        RelationRepo relationRepo = new RelationRepo();
+
+        contactRepo.delete();
+        groupRepo.delete();
+        relationRepo.delete();
+
+        Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
     }
 
     private void SendToActivity(Class activityClass) {
