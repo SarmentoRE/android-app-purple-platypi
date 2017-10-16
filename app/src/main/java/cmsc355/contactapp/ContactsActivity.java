@@ -14,10 +14,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ContactsActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
@@ -49,17 +51,21 @@ public class ContactsActivity extends AppCompatActivity {
         JSONObject json = new JSONObject();
         ArrayList contactsJSON = new ArrayList();
 
-        while(cursor.moveToNext()){
+        while(cursor.moveToNext())
+        {
             String stringForm = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.Contact.COLUMN_JSON));
-            try {
+            try
+            {
                  json = new JSONObject(stringForm);
-            } catch (JSONException e) {
+            }
+            catch (JSONException e)
+            {
                 Log.d("Contacts Activity", "Could not parse JSON: **"+stringForm+"**");
             }
             contactsJSON.add(json);
         }
         return contactsJSON;
-    }
+    }//getContactList method
 
     public SQLiteDatabase openDatabase(Context context)
     {
@@ -67,5 +73,4 @@ public class ContactsActivity extends AppCompatActivity {
         SQLiteDatabase db = DbHelper.getReadableDatabase();
         return db;
     }
-
-}
+}//ContactsActivity class
