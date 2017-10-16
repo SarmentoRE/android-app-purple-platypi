@@ -14,7 +14,7 @@ class ContactGroup {
         contacts = new ArrayList<>();
     }
 
-    private ContactGroup(String n, ArrayList<JSONObject> cList) {
+    public ContactGroup(String n, ArrayList<JSONObject> cList) {
         name = n;
         contacts = new ArrayList<>();
         contacts.addAll(cList);
@@ -27,5 +27,13 @@ class ContactGroup {
             Contact.GenerateRandomContacts(cList, 3);
             groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), cList));
         }
+    }
+
+    private String getName(){
+        return name;
+    }
+
+    private ArrayList<JSONObject> getContacts() {
+        return contacts;
     }
 }
