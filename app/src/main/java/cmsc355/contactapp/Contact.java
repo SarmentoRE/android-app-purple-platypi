@@ -33,7 +33,6 @@ class Contact {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
->>>>>>>>> Temporary merge branch 2
         }
     }
 
