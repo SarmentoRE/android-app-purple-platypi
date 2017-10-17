@@ -13,6 +13,11 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Contact> contactArrayList;
 
+    ContactsAdapter(ArrayList<JSONObject> cList) {
+        contactArrayList = cList;
+    }
+
+    public void add(int position, JSONObject item) {
     ContactsAdapter(ArrayList<Contact> cList) {
         contactArrayList = cList;
     }
