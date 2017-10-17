@@ -26,7 +26,7 @@ public class App extends Application {
         DatabaseManager.initializeInstance(dbHelper);
 
         contactsMock = new ArrayList<>();
-        groupsMock = GenerateRandomGroups(3,3);
+        groupsMock = GenerateRandomGroups(2,3);
         for (ContactGroup group : groupsMock) {
             contactsMock.addAll(group.getContacts());
         }

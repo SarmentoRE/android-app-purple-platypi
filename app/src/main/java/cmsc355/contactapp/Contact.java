@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Random;
 
 import static cmsc355.contactapp.Utilities.GenerateRandomString;
 
@@ -42,8 +44,10 @@ class Contact {
         contact.name = GenerateRandomString(8);
 
         JSONObject jsonAttributes = new JSONObject();
+        Random random = new Random();
         try {
-            jsonAttributes.put("Email", GenerateRandomString(8) + "@gmail.com");
+            jsonAttributes.put("Email", contact.name + "@gmail.com");
+            jsonAttributes.put("Phone Number", String.format(Locale.getDefault(),"%03d",random.nextInt(999)) + "-" + String.format(Locale.getDefault(),"%04d",random.nextInt(9999)));
         }
         catch (JSONException e) {
             e.printStackTrace();

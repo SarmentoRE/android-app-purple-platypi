@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import static cmsc355.contactapp.Contact.contactsMock;
+
 public class ContactsActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +21,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         //SQLiteDatabase db = DatabaseHelper.openDatabase(this);
 
-        ArrayList<Contact> contactList = Contact.GenerateRandomContacts(7);   //TODO - replace this line with pulling contacts from database
+        ArrayList<Contact> contactList = contactsMock;   //TODO - replace this line with pulling contacts from database
 
         recyclerView.setAdapter(new ContactsAdapter(contactList));
     }
