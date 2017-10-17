@@ -17,6 +17,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<JSONObject> contactArrayList;
 
+    //List itself has a view (linearLayout). ViewHolder holds a reference to that
     private class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName;
         public View layout;
@@ -27,16 +28,18 @@ class ContactsAdapter extends RecyclerView.Adapter {
             txtName = v.findViewById(R.id.contact_name);
         }
     }
-
+    //Arraylist declaration for static list of JSON objects
     ContactsAdapter(ArrayList<JSONObject> cList) {
         contactArrayList = cList;
     }
 
+    //If scrolling and we want to add new objects, add at a given position
     public void add(int position, JSONObject item) {
         contactArrayList.add(position, item);
         notifyItemInserted(position);
     }
 
+    //
     public void remove(int position) {
         contactArrayList.remove(position);
         notifyItemRemoved(position);

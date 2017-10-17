@@ -85,4 +85,16 @@ class Contact
             }
         }//for loop
     }//GenerateRandomContact
+
+    /*
+    static void GenerateRandomContactsA(ArrayList<Contact> dummyContactList, int numOfContacts)
+    {
+        for (int i = 0; i < numOfContacts; i++)
+        {
+            Contact dummyContact = new Contact(GenerateRandomString(5));
+            dummyContactList.add(dummyContact);
+        }
+
+    }
+    */
 }//contact class
