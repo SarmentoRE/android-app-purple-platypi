@@ -50,19 +50,40 @@ class Contact {
         return contact;
     }
 
-    public String getName() {
+    JSONObject ContactToJSON() {
+        JSONObject jsonContact = new JSONObject();
+        try {
+            jsonContact.put("Name",name);
+            jsonContact.put("Attributes",attributes);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonContact;
+    }
+
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public JSONObject getAttributes() {
+    JSONObject getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(JSONObject attributes) {
+    void setAttributes(JSONObject attributes) {
         this.attributes = attributes;
+    }
+
+    static void AddAttribute(Contact contact, String key, String value) {
+        try {
+            contact.attributes.put(key, value);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

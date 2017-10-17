@@ -40,27 +40,36 @@ public class HomeActivity extends AppCompatActivity {
 //              Toast.makeText(getApplicationContext(),
 //                      "Click ListItem Number " + position, Toast.LENGTH_SHORT)
 //                      .show();
+                Intent i;
                 switch(position) {
                     case 0:
-                        SendToActivity(ConnectActivity.class);
+                        i = new Intent(HomeActivity.this, ConnectActivity.class);
+                        startActivity(i);
                         break;
                     case 1:
-                        SendToActivity(ContactsActivity.class);
+                        i = new Intent(HomeActivity.this, ContactsActivity.class);
+                        startActivity(i);
                         break;
                     case 2:
-                        SendToActivity(FavoritesActivity.class);
+                        i = new Intent(HomeActivity.this, FavoritesActivity.class);
+                        startActivity(i);
                         break;
                     case 3:
-                        SendToActivity(GroupsActivity.class);
+                        i = new Intent(HomeActivity.this, GroupsActivity.class);
+                        startActivity(i);
                         break;
                     case 4:
-                        SendToActivity(MyInfoActivity.class);
+                        i = new Intent(HomeActivity.this, ContactInfoActivity.class);
+                        i.putExtra("Contact",Contact.GenerateRandomContact().ContactToJSON().toString());       //TODO - retrieve "my info" contact info
+                        startActivity(i);
                         break;
                     case 5:
-                        SendToActivity(ScanActivity.class);
+                        i = new Intent(HomeActivity.this, ScanActivity.class);
+                        startActivity(i);
                         break;
                     case 6:
-                        SendToActivity(SettingsActivity.class);
+                        i = new Intent(HomeActivity.this, SettingsActivity.class);
+                        startActivity(i);
                         break;
                     default:
                         break;
@@ -79,10 +88,5 @@ public class HomeActivity extends AppCompatActivity {
         relationRepo.delete();
 
         Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
-    }
-
-    private void SendToActivity(Class activityClass) {
-        Intent i = new Intent(HomeActivity.this, activityClass);
-        startActivity(i);
     }
 }

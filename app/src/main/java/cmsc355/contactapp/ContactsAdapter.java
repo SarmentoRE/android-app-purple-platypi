@@ -1,16 +1,11 @@
 package cmsc355.contactapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -41,7 +36,6 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final int pos = position;
         final Contact contact = contactArrayList.get(position);
         ViewHolder vHolder = (ViewHolder) holder;
         String name = contact.getName();
@@ -53,8 +47,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
 //                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
-                i.putExtra("Contact Name", contact.getName());
-                i.putExtra("Contact Attributes", contact.getAttributes().toString());
+                i.putExtra("Contact", contact.ContactToJSON().toString());
                 v.getContext().startActivity(i);
             }
         });
