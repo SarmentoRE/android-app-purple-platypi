@@ -16,19 +16,11 @@ public class ContactsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contacts_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Contact> contactList = new ArrayList<>();
-        Contact.GenerateRandomContacts(contactList, 7);   //TODO - replace this line with pulling contacts from database
 
         //SQLiteDatabase db = DatabaseHelper.openDatabase(this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contacts_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Contact> contactList = Contact.GenerateRandomContacts(7);   //TODO - replace this line with pulling contacts from database
 
-
-        //TODONE - replace this line with pulling contacts from database
-        //This line still generates random data despite what is in the db
-        //TODO: comment next line to see things inside the db
-        Contact.GenerateRandomContacts(contactList, 7);
         recyclerView.setAdapter(new ContactsAdapter(contactList));
     }
 }

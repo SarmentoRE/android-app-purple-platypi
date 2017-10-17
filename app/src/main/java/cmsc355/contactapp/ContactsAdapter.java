@@ -7,17 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Contact> contactArrayList;
 
-    ContactsAdapter(ArrayList<JSONObject> cList) {
-        contactArrayList = cList;
-    }
-
-    public void add(int position, JSONObject item) {
     ContactsAdapter(ArrayList<Contact> cList) {
         contactArrayList = cList;
     }
@@ -43,7 +41,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int pos = position;
         ViewHolder vHolder = (ViewHolder) holder;
-        final String name = contactArrayList.get(position).getName();
+        String name = contactArrayList.get(position).getName();
         vHolder.txtName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

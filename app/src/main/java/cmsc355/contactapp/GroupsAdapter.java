@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 class GroupsAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Group> groupArrayList;
+    private ArrayList<ContactGroup> groupArrayList;
 
-    GroupsAdapter(ArrayList<Group> gList) {
+    GroupsAdapter(ArrayList<ContactGroup> gList) {
         groupArrayList = gList;
     }
 
-    public void add(int position, Group item) {
+    public void add(int position, ContactGroup item) {
         groupArrayList.add(position, item);
         notifyItemInserted(position);
     }
@@ -56,10 +56,8 @@ class GroupsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 for (Contact c : groupArrayList.get(pos).getContacts()) {
-
+                    //TODO - Display contacts inside the group
                 }
-                //TODO - Should inflate into group contacts display instead of toasting
-//                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }

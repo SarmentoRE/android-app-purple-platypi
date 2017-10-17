@@ -3,18 +3,19 @@ package cmsc355.contactapp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static cmsc355.contactapp.Utilities.GenerateRandomString;
 
 class Contact {
     private String name;
-    private JSONObject json;
+    private JSONObject attributes;
 
     public Contact() {
         name = "N/A";
         try {
-            json = new JSONObject("{}");
+            attributes = new JSONObject("{}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -22,18 +23,31 @@ class Contact {
 
     public Contact(String name, JSONObject json) {
         this.name = name;
-        this.json = json;
+        this.attributes = json;
     }
 
-    static void GenerateRandomContacts(ArrayList<Contact> contactList, int numContacts) {
+    static ArrayList<Contact> GenerateRandomContacts(int numContacts) {
+        ArrayList<Contact> contactList = new ArrayList<>();
         for (int i = 0; i < numContacts; i++) {
-            String name = GenerateRandomString(8) + " " + GenerateRandomString(8);
-            try {
-                contactList.add(new Contact(name, new JSONObject("{\"Name\":\"" + name + "\" \"PhoneNumber\":" + "\"555-443-7089\"}")));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            contactList.add(GenerateRandomContact());
         }
+        return contactList;
+    }
+
+    static Contact GenerateRandomContact() {
+        Contact contact = new Contact();
+        contact.name = GenerateRandomString(8);
+
+        JSONObject jsonAttributes = new JSONObject();
+        try {
+            jsonAttributes.put("Email", GenerateRandomString(8) + "@gmail.com");
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        contact.attributes = jsonAttributes;
+
+        return contact;
     }
 
     public String getName() {
@@ -44,11 +58,11 @@ class Contact {
         this.name = name;
     }
 
-    public JSONObject getJson() {
-        return json;
+    public JSONObject getAttributes() {
+        return attributes;
     }
 
-    public void setJson(JSONObject json) {
-        this.json = json;
+    public void setAttributes(JSONObject attributes) {
+        this.attributes = attributes;
     }
 }

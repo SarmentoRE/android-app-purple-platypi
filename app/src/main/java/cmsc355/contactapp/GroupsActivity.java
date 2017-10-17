@@ -16,8 +16,7 @@ public class GroupsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.groups_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Group> groupsList = new ArrayList<>();
-        Group.GenerateRandomGroups(groupsList, 3);       //TODO - replace this line with pulling groups from database
+        ArrayList<ContactGroup> groupsList = ContactGroup.GenerateRandomGroups(3,3); //TODO - replace this line with pulling groups from database
 
         recyclerView.setAdapter(new GroupsAdapter(groupsList));
     }

@@ -18,8 +18,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<JSONObject> favoritesList = new ArrayList<>();
-        //Contact.GenerateRandomContacts(favoritesList, 3);   //TODO - replace this line with pulling favorite contacts from database
+        ArrayList<Contact> favoritesList = Contact.GenerateRandomContacts(3);   //TODO - replace this line with pulling favorite contacts from database
 
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }
