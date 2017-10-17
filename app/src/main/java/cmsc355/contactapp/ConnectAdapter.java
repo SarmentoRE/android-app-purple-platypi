@@ -1,41 +1,48 @@
 package cmsc355.contactapp;
 
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.Toast;
-
-import java.util.List;
+import android.widget.TextView;
 
 class ConnectAdapter extends RecyclerView.Adapter {
 
-    private List<String> attributeNames;
+    private ArrayMap<String, String> attributes;
 
     private class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox txtCheck;
+        TextView txtValue;
         public View layout;
 
         ViewHolder(View v) {
             super(v);
             layout = v;
             txtCheck = v.findViewById(R.id.connect_check);
+            txtValue = v.findViewById(R.id.connect_value);
         }
     }
 
-    ConnectAdapter(List<String> attrNames) {
-        attributeNames = attrNames;
+    ConnectAdapter(ArrayMap<String, Object> attr) {
+        attributes = new ArrayMap<>();
+        for (String k : attr.keySet()) {
+            if (attr.get(k).getClass() == String.class) {
+                attributes.put(k, (String) attr.get(k));
+            }
+        }
     }
 
-    public void add(int position, String item) {
-        attributeNames.add(position, item);
-        notifyItemInserted(position);
+    public void add(String key, String value) {
+        attributes.put(key, value);
+        notifyItemInserted(attributes.indexOfKey(key));
     }
 
-    public void remove(int position) {
-        attributeNames.remove(position);
-        notifyItemRemoved(position);
+    public void remove(String key) {
+        int index = attributes.indexOfKey(key);
+        attributes.remove(key);
+        notifyItemRemoved(index);
     }
 
     @Override
@@ -47,26 +54,21 @@ class ConnectAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final int pos = position;
         ViewHolder vHolder = (ViewHolder) holder;
-        final String name = attributeNames.get(position);
-        vHolder.txtCheck.setText(name);
+        final String key = attributes.keyAt(position);
+        final String value = attributes.valueAt(position);
+        vHolder.txtCheck.setText(key);
+        vHolder.txtValue.setText(value);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO - Should check/uncheck attributes instead of toasting
-                if(((CheckBox)v).isChecked()) {
-                    Toast.makeText(v.getContext(), pos + " is checked", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(v.getContext(), pos + " is unchecked", Toast.LENGTH_SHORT).show();
-                }
+                        //TODO - Implement packaging desired attributes before sending
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return attributeNames.size();
+        return attributes.size();
     }
 }

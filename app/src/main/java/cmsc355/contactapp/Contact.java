@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import static cmsc355.contactapp.Utilities.GenerateRandomString;
 
 class Contact {
+
+    static ArrayList<Contact> contactsMock;
+
     private String name;
     private JSONObject attributes;
 

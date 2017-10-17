@@ -3,9 +3,11 @@ package cmsc355.contactapp;
 import android.app.Application;
 import android.content.Context;
 
-/**
- * Created by Austin on 10/16/2017.
- */
+import java.util.ArrayList;
+
+import static cmsc355.contactapp.ContactGroup.GenerateRandomGroups;
+import static cmsc355.contactapp.ContactGroup.groupsMock;
+import static cmsc355.contactapp.Contact.contactsMock;
 
 public class App extends Application {
 
@@ -22,6 +24,12 @@ public class App extends Application {
         context = this.getApplicationContext();
         dbHelper = new DatabaseHelper();
         DatabaseManager.initializeInstance(dbHelper);
+
+        contactsMock = new ArrayList<>();
+        groupsMock = GenerateRandomGroups(3,3);
+        for (ContactGroup group : groupsMock) {
+            contactsMock.addAll(group.getContacts());
+        }
     }
 
 

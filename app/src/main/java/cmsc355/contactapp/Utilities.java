@@ -23,7 +23,7 @@ class Utilities {
         return stringBuilder.toString();
     }
 
-    static ArrayMap<String, Object> jsonToMap(JSONObject json) {
+    static ArrayMap<String, Object> JSONToMap(JSONObject json) {
         ArrayMap<String, Object> retMap = new ArrayMap<>();
 
         if(json != JSONObject.NULL) {
@@ -57,8 +57,8 @@ class Utilities {
         return map;
     }
 
-    private static List<Object> toList(JSONArray array) {
-        List<Object> list = new ArrayList<>();
+    private static ArrayList<Object> toList(JSONArray array) {
+        ArrayList<Object> list = new ArrayList<>();
         for(int i = 0; i < array.length(); i++) {
             Object value = new Object();
             try {
@@ -77,5 +77,14 @@ class Utilities {
             list.add(value);
         }
         return list;
+    }
+
+    static ArrayList<String> JSONKeysToStringList(JSONObject json) {
+        ArrayList<String> stringList = new ArrayList<>();
+        Iterator<String> keysItr = json.keys();
+        while (keysItr.hasNext()) {
+            stringList.add(keysItr.next());
+        }
+        return stringList;
     }
 }

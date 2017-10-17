@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class ContactGroup {
 
+    static ArrayList<ContactGroup> groupsMock;
+
     String name;
     private ArrayList<Contact> contacts;
 

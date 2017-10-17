@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 4:
                         i = new Intent(HomeActivity.this, ContactInfoActivity.class);
-                        i.putExtra("Contact",Contact.GenerateRandomContact().ContactToJSON().toString());       //TODO - retrieve "my info" contact info
+                        i.putExtra("Contact",Contact.contactsMock.get(0).ContactToJSON().toString());       //TODO - retrieve "my info" contact info
                         startActivity(i);
                         break;
                     case 5:
