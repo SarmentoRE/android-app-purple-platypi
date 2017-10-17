@@ -1,5 +1,7 @@
 package cmsc355.contactapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,14 +42,20 @@ class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int pos = position;
+        final Contact contact = contactArrayList.get(position);
         ViewHolder vHolder = (ViewHolder) holder;
-        String name = contactArrayList.get(position).getName();
+        String name = contact.getName();
         vHolder.txtName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO - Should goto Edit Contact screen instead of toasting
-                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
+                i.putExtra("Contact Name", contact.getName());
+                i.putExtra("Contact Attributes", contact.getAttributes().toString());
+                v.getContext().startActivity(i);
             }
         });
     }
