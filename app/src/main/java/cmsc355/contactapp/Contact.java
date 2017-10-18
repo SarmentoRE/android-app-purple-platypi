@@ -19,6 +19,8 @@ class Contact implements BaseColumns {
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_JSON = "JSON";
     static ArrayList<Contact> contactsMock;
+    static Contact myInfoMock;
+
     private String name;
     private int contactId;
     private JSONObject attributes;
@@ -41,7 +43,7 @@ class Contact implements BaseColumns {
         return contactList;
     }
 
-    static private Contact GenerateRandomContact() {
+    static Contact GenerateRandomContact() {
         Contact contact = new Contact();
         contact.name = GenerateRandomString(8);
 

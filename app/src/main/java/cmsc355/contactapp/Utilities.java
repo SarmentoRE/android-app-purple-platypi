@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -106,5 +108,39 @@ class Utilities {
         if (activity.getCurrentFocus() != null) {
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    static ArrayList<Contact> SortContactList(ArrayList<Contact> contactList) {
+        ArrayList<Contact> newContactList = new ArrayList<>();
+        int numContacts = contactList.size();
+        for (int i = 0; i < numContacts; i++) {
+            Contact nextContact = new Contact();
+            nextContact.setName("ZZZZZZZZZZZZZZZZZZZZZ");
+            for (int j = 0; j < contactList.size(); j++) {
+                if (contactList.get(j).getName().compareToIgnoreCase(nextContact.getName()) < 0) {
+                    nextContact = contactList.get(j);
+                }
+            }
+            newContactList.add(nextContact);
+            contactList.remove(contactList.indexOf(nextContact));
+        }
+        return newContactList;
+    }
+
+    static ArrayList<ContactGroup> SortGroupList(ArrayList<ContactGroup> groupList) {
+        ArrayList<ContactGroup> newGroupList = new ArrayList<>();
+        int numGroups = groupList.size();
+        for (int i = 0; i < numGroups; i++) {
+            ContactGroup nextGroup = new ContactGroup();
+            nextGroup.setName("ZZZZZZZZZZZZZZZZZZZZZ");
+            for (int j = 0; j < groupList.size(); j++) {
+                if (groupList.get(j).getName().compareToIgnoreCase(nextGroup.getName()) < 0) {
+                    nextGroup = groupList.get(j);
+                }
+            }
+            newGroupList.add(nextGroup);
+            groupList.remove(groupList.indexOf(nextGroup));
+        }
+        return newGroupList;
     }
 }

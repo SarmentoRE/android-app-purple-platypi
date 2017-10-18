@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.method.KeyListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,8 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static cmsc355.contactapp.Contact.contactsMock;
+import static cmsc355.contactapp.Contact.myInfoMock;
 
 public class ContactInfoActivity extends AppCompatActivity {
+
+    private boolean isEditDisabled;
+    private KeyListener keyListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -30,8 +35,9 @@ public class ContactInfoActivity extends AppCompatActivity {
         Toolbar infoToolbar = (Toolbar) findViewById(R.id.info_toolbar);
         setSupportActionBar(infoToolbar);
 
-
+        isEditDisabled = true;
         setupUI(findViewById(R.id.info_parent));
+        ((Button)findViewById(R.id.info_button)).setText(R.string.info_edit);
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.info_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -49,60 +55,80 @@ public class ContactInfoActivity extends AppCompatActivity {
         }
         final Contact contact = new Contact(name,attributes);       //TODO - Pull correct contact from db
         final EditText txtName = (EditText) findViewById(R.id.info_name);
+        keyListener = txtName.getKeyListener();
         txtName.setHint(contact.getName());
 
-        recyclerView.setAdapter(new InfoAdapter(contact));
+        txtName.setEnabled(false);
+        txtName.setClickable(false);
+        txtName.setKeyListener(null);
 
-        Button submitButton = (Button) findViewById(R.id.info_submit);
+        recyclerView.setAdapter(new InfoAdapter(contact, isEditDisabled));
+
+        Button submitButton = (Button) findViewById(R.id.info_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Contact newContact = new Contact(contact.getName(),contact.getAttributes());
-                String nameInput = txtName.getText().toString();
-                if (!nameInput.matches("")) {
-                    newContact.setName(nameInput);
-                    txtName.setHint(nameInput);
-                    txtName.getText().clear();
-                }
-
-                int numAttributes = recyclerView.getAdapter().getItemCount();
-                JSONObject newAttributes = newContact.getAttributes();
-                for (int i = 0; i < numAttributes; i++) {
-                    InfoAdapter.ViewHolder vHolder = (InfoAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(i);
-                    TextView textView = vHolder.txtKey;
-                    EditText editText = vHolder.txtValue;
-                    if (!editText.getText().toString().matches("")) {
-                        String attrKey = textView.getText().toString();
-                        attrKey = attrKey.substring(0,attrKey.length()-1);
-                        String newAttrValue = editText.getText().toString();
-                        try {
-                            newAttributes.put(attrKey,newAttrValue);
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        editText.setHint(newAttrValue);
-                        editText.getText().clear();
-                    }
-                }
-                newContact.setAttributes(newAttributes);
-
-                if (contactsMock.contains(contact)) {
-                    contactsMock.set(contactsMock.indexOf(contact),newContact);
+                Button sButton = (Button) findViewById(R.id.info_button);
+                if (isEditDisabled) {
+                    isEditDisabled = false;
+                    txtName.setEnabled(true);
+                    txtName.setClickable(true);
+                    txtName.setKeyListener(keyListener);
+                    sButton.setText(R.string.info_submit);
+                    recyclerView.setAdapter(new InfoAdapter(contact, false));
                 }
                 else {
-                    int index = 0;
-                    for (Contact c : contactsMock) {
-                        if (c.getName().matches(contact.getName())) {
-                            index = contactsMock.indexOf(c);
+                    Contact newContact = new Contact();
+                    try {
+                        newContact = new Contact(contact.getName(),new JSONObject(contact.getAttributes().toString()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String nameInput = txtName.getText().toString();
+                    if (!nameInput.matches("")) {
+                        newContact.setName(nameInput);
+                        txtName.setHint(nameInput);
+                        txtName.getText().clear();
+                    }
+
+                    int numAttributes = recyclerView.getAdapter().getItemCount();
+                    JSONObject newAttributes = newContact.getAttributes();
+                    for (int i = 0; i < numAttributes; i++) {
+                        InfoAdapter.ViewHolder vHolder = (InfoAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(i);
+                        TextView textView = vHolder.txtKey;
+                        EditText editText = vHolder.txtValue;
+                        if (!editText.getText().toString().matches("")) {
+                            String attrKey = textView.getText().toString();
+                            attrKey = attrKey.substring(0,attrKey.length()-1);
+                            String newAttrValue = editText.getText().toString();
+                            try {
+                                newAttributes.put(attrKey,newAttrValue);
+                            }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            editText.setHint(newAttrValue);
+                            editText.getText().clear();
                         }
                     }
-                    contactsMock.set(index,newContact);
+                    newContact.setAttributes(newAttributes);
+
+                    Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
+                    if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                        myInfoMock = newContact;
+                        i = new Intent(ContactInfoActivity.this, HomeActivity.class);
+                    }
+                    else {
+                        for (Contact c : contactsMock) {
+                            if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                                contactsMock.set(contactsMock.indexOf(c),newContact);
+                            }
+                        }
+                    }
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
                 }
 
-                Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
             }
         });
     }

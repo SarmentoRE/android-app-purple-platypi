@@ -59,6 +59,7 @@ public class ContactsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        contactsMock = Utilities.SortContactList(contactsMock);
         recyclerView.setAdapter(new ContactsAdapter(contactsMock));
     }
 
