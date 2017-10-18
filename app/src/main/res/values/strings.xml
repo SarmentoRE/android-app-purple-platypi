@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">ContactApp</string>
 
-    <!--Home screen Strings-->
-    <string name="list_icon">Icon</string>
+    <!--App-wide Strings; defaults, etc.-->
     <string name="list_description">Description</string>
+    <string name="home_title">Home</string>
+
+    <!--Home screen Strings-->
     <string-array name="home_button_names">
         <item>Connect</item>
         <item>Contacts</item>
@@ -13,5 +15,11 @@
         <item>Scan</item>
         <item>Settings</item>
     </string-array>
+
+    <!--Contacts screen Strings-->
+    <string name="contact_new">New Contact</string>
+
+    <!--Contact Info screen Strings-->
+    <string name="info_button">Submit Changes</string>
 
 </resources>

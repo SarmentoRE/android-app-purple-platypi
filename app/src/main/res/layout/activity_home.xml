@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cmsc355.contactapp.HomeActivity">
 
+    <include layout="@layout/toolbar_default"
+        android:id="@+id/home_toolbar" />
+
     <ListView
         android:id="@+id/home_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_below="@id/home_toolbar" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

@@ -9,40 +9,43 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class GroupRepo {
 
-    private DatabaseContract.Group group;
+    private ContactGroup contactGroup;
 
     public GroupRepo() {
-        group = new DatabaseContract.Group();
+        contactGroup = new ContactGroup();
     }
 
-    public void insert(DatabaseContract.Group group) {
+    public void insert(ContactGroup contactGroup) {
+        int groupId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.Group.COLUMN_NAME, group.getName());
+        values.put(ContactGroup.COLUMN_NAME, contactGroup.getName());
 
-        db.insert(DatabaseContract.Group.TABLE_NAME, null, values);
+
+        groupId = (int) db.insert(ContactGroup.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
+        contactGroup.setGroupID(groupId);
     }
 
     public void delete(int group_Id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Group.TABLE_NAME, DatabaseContract.Group.KEY_GroupId + "= ?", new String[]{String.valueOf(group_Id)});
+        db.delete(ContactGroup.TABLE_NAME, ContactGroup._ID + "= ?", new String[]{String.valueOf(group_Id)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void delete() {
+    public void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Group.TABLE_NAME, null, null);
+        db.delete(ContactGroup.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void update(DatabaseContract.Group group) {
+    public void update(ContactGroup contactGroup) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseContract.Group.COLUMN_NAME, group.getName());
+        values.put(ContactGroup.COLUMN_NAME, contactGroup.getName());
 
-        db.update(DatabaseContract.Group.TABLE_NAME, values, DatabaseContract.Group.KEY_GroupId + "= ?", new String[]{String.valueOf(group.getGroupID())});
+        db.update(ContactGroup.TABLE_NAME, values, ContactGroup._ID + "= ?", new String[]{String.valueOf(contactGroup.getGroupID())});
         DatabaseManager.getInstance().closeDatabase();
     }
 }

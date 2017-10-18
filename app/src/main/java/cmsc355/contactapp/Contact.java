@@ -1,29 +1,31 @@
 package cmsc355.contactapp;
 
+import android.provider.BaseColumns;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
 import static cmsc355.contactapp.Utilities.GenerateRandomString;
 
-class Contact {
+class Contact implements BaseColumns {
 
+    public static final String TAG = Contact.class.getSimpleName();
+    public static final String TABLE_NAME = "Contact";
+    public static final String _ID = "ContactId";
+    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_JSON = "JSON";
     static ArrayList<Contact> contactsMock;
-
     private String name;
+    private int contactId;
     private JSONObject attributes;
 
     public Contact() {
-        name = "N/A";
-        try {
-            attributes = new JSONObject("{}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        name = "Enter Name";
+        attributes = new JSONObject();
     }
 
     public Contact(String name, JSONObject json) {
@@ -39,7 +41,7 @@ class Contact {
         return contactList;
     }
 
-    static Contact GenerateRandomContact() {
+    static private Contact GenerateRandomContact() {
         Contact contact = new Contact();
         contact.name = GenerateRandomString(8);
 
@@ -47,7 +49,7 @@ class Contact {
         Random random = new Random();
         try {
             jsonAttributes.put("Email", contact.name + "@gmail.com");
-            jsonAttributes.put("Phone Number", String.format(Locale.getDefault(),"%03d",random.nextInt(999)) + "-" + String.format(Locale.getDefault(),"%04d",random.nextInt(9999)));
+            jsonAttributes.put("Phone Number", String.format(Locale.getDefault(), "%03d", random.nextInt(999)) + "-" + String.format(Locale.getDefault(), "%03d", random.nextInt(999)) + "-" + String.format(Locale.getDefault(), "%04d", random.nextInt(9999)));
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -55,6 +57,14 @@ class Contact {
         contact.attributes = jsonAttributes;
 
         return contact;
+    }
+
+    static void AddAttribute(Contact contact, String key, String value) {
+        try {
+            contact.attributes.put(key, value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     JSONObject ContactToJSON() {
@@ -85,12 +95,11 @@ class Contact {
         this.attributes = attributes;
     }
 
-    static void AddAttribute(Contact contact, String key, String value) {
-        try {
-            contact.attributes.put(key, value);
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
+    int getContactId() {
+        return contactId;
+    }
+
+    void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 }

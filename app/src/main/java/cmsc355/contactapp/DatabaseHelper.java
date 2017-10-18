@@ -12,24 +12,30 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "Contacts.db";
     private static final int DATABASE_VERSION = 1;
-    private final String SQL_CREATE_CONTACT_TABLE = "CREATE TABLE " + DatabaseContract.Contact.TABLE_NAME + "(" +
-            DatabaseContract.Contact.KEY_ContactId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            DatabaseContract.Contact.COLUMN_NAME + " TEXT NOT NULL, " +
-            DatabaseContract.Contact.COLUMN_JSON + " BLOB NOT NULL )";
+
+    private final String SQL_CREATE_CONTACT_TABLE = "CREATE TABLE IF NOT EXISTS " + Contact.TABLE_NAME + "(" +
+            Contact._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            Contact.COLUMN_NAME + " TEXT NOT NULL, " +
+            Contact.COLUMN_JSON + " TEXT NOT NULL );";
+
     private final String SQL_DELETE_CONTACT_TABLE =
-            "DROP TABLE IF EXISTS" + DatabaseContract.Contact.TABLE_NAME;
-    private final String SQL_CREATE_GROUPS_TABLE = "CREATE TABLE " + DatabaseContract.Group.TABLE_NAME + "(" +
-            DatabaseContract.Group.KEY_GroupId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            DatabaseContract.Group.COLUMN_NAME + " TEXT NOT NULL )";
+            "DROP TABLE IF EXISTS" + Contact.TABLE_NAME;
+
+    private final String SQL_CREATE_GROUPS_TABLE = "CREATE TABLE IF NOT EXISTS " + ContactGroup.TABLE_NAME + "(" +
+            ContactGroup._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            ContactGroup.COLUMN_NAME + " TEXT NOT NULL );";
+
     private final String SQL_DELETE_GROUPS_TABLE =
-            "DROP TABLE IF EXISTS" + DatabaseContract.Group.TABLE_NAME;
-    private final String SQL_CREATE_RELATION_TABLE = "CREATE TABLE " + DatabaseContract.Relation.TABLE_NAME + "(" +
-            DatabaseContract.Relation.KEY_RelationId + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            DatabaseContract.Relation.COLUMN_CONTACT_ID + " INTEGER NOT NULL, " +
-            DatabaseContract.Relation.COLUMN_GROUP_ID + " INTEGER NOT NULL )";
+            "DROP TABLE IF EXISTS" + ContactGroup.TABLE_NAME;
+
+    private final String SQL_CREATE_RELATION_TABLE = "CREATE TABLE IF NOT EXISTS " + Relation.TABLE_NAME + "(" +
+            Relation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            Relation.COLUMN_CONTACT_ID + " INTEGER NOT NULL, " +
+            Relation.COLUMN_GROUP_ID + " INTEGER NOT NULL );";
+
     private final String SQL_DELETE_RELATION_TABLE =
-            "DROP TABLE IF EXISTS" + DatabaseContract.Group.TABLE_NAME;
-    ;
+            "DROP TABLE IF EXISTS" + Relation.TABLE_NAME;
+
 
     public DatabaseHelper() {
         super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);

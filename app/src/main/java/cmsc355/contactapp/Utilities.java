@@ -1,6 +1,12 @@
 package cmsc355.contactapp;
 
+import android.app.Activity;
 import android.support.v4.util.ArrayMap;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +15,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -21,6 +28,21 @@ class Utilities {
             stringBuilder.append((char) ('a' + random.nextInt(26)));
         }
         return stringBuilder.toString();
+    }
+
+    static String GetKeyAtPosition(LinkedHashMap<String, Object> map, int position) {
+        Iterator<String> itr = map.keySet().iterator();
+        String key = "";
+        if (position == 0) {
+            key = itr.next();
+        }
+        else {
+            int i = 0;
+            while (itr.hasNext() && i++ <= position) {
+                key = itr.next();
+            }
+        }
+        return key;
     }
 
     static ArrayMap<String, Object> JSONToMap(JSONObject json) {
@@ -79,12 +101,10 @@ class Utilities {
         return list;
     }
 
-    static ArrayList<String> JSONKeysToStringList(JSONObject json) {
-        ArrayList<String> stringList = new ArrayList<>();
-        Iterator<String> keysItr = json.keys();
-        while (keysItr.hasNext()) {
-            stringList.add(keysItr.next());
+    static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (activity.getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
-        return stringList;
     }
 }

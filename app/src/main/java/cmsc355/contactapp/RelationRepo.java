@@ -9,42 +9,44 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class RelationRepo {
 
-    private DatabaseContract.Relation relation;
+    private Relation relation;
 
     public RelationRepo() {
-        relation = new DatabaseContract.Relation();
+        relation = new Relation();
     }
 
-    public void insert(DatabaseContract.Relation relation) {
+    public void insert(Relation relation) {
+        int relationId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.Relation.COLUMN_CONTACT_ID, relation.getContactId());
-        values.put(DatabaseContract.Relation.COLUMN_GROUP_ID, relation.getGroupId());
+        values.put(Relation.COLUMN_CONTACT_ID, relation.getContactId());
+        values.put(Relation.COLUMN_GROUP_ID, relation.getGroupId());
 
-        db.insert(DatabaseContract.Relation.TABLE_NAME, null, values);
+        relationId = (int) db.insert(Relation.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
+        relation.setRelationId(relationId);
     }
 
     public void delete(int relation_Id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Relation.TABLE_NAME, DatabaseContract.Relation.KEY_RelationId + "= ?", new String[]{String.valueOf(relation_Id)});
+        db.delete(Relation.TABLE_NAME, Relation._ID + "= ?", new String[]{String.valueOf(relation_Id)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void delete() {
+    public void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Relation.TABLE_NAME, null, null);
+        db.delete(Relation.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void update(DatabaseContract.Relation relation) {
+    public void update(Relation relation) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseContract.Relation.COLUMN_CONTACT_ID, relation.getContactId());
-        values.put(DatabaseContract.Relation.COLUMN_GROUP_ID, relation.getGroupId());
+        values.put(Relation.COLUMN_CONTACT_ID, relation.getContactId());
+        values.put(Relation.COLUMN_GROUP_ID, relation.getGroupId());
 
-        db.update(DatabaseContract.Relation.TABLE_NAME, values, DatabaseContract.Relation.KEY_RelationId + "= ?", new String[]{String.valueOf(relation.getRelationId())});
+        db.update(Relation.TABLE_NAME, values, Relation._ID + "= ?", new String[]{String.valueOf(relation.getRelationId())});
         DatabaseManager.getInstance().closeDatabase();
     }
 }

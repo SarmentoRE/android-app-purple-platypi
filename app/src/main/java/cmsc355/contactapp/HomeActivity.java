@@ -3,6 +3,7 @@ package cmsc355.contactapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Toolbar homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(homeToolbar);
         ListView listView = (ListView) findViewById(R.id.home_list);
 
         SetupListView(listView);
@@ -83,10 +86,12 @@ public class HomeActivity extends AppCompatActivity {
         GroupRepo groupRepo = new GroupRepo();
         RelationRepo relationRepo = new RelationRepo();
 
-        contactRepo.delete();
-        groupRepo.delete();
-        relationRepo.delete();
+        contactRepo.deleteAll();
+        groupRepo.deleteAll();
+        relationRepo.deleteAll();
 
         Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
+        contactRepo.insert(contact);
+
     }
 }

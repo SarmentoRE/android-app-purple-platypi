@@ -5,17 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 class InfoAdapter extends RecyclerView.Adapter {
 
-    private Contact contact;
     private ArrayMap<String, Object> attributes;
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         public View layout;
         TextView txtKey;
-        TextView txtValue;
+        EditText txtValue;
 
         ViewHolder(View v) {
             super(v);
@@ -26,8 +26,7 @@ class InfoAdapter extends RecyclerView.Adapter {
     }
 
     InfoAdapter(Contact c) {
-        contact = c;
-        attributes = Utilities.JSONToMap(contact.getAttributes());
+        attributes = Utilities.JSONToMap(c.getAttributes());
     }
 
     public void add(String key, String value) {
@@ -54,13 +53,13 @@ class InfoAdapter extends RecyclerView.Adapter {
         String value = (String) attributes.get(key);        //TODO - need to make this generic for non-string value types
         key = key.concat(":");
         vHolder.txtKey.setText(key);
-        vHolder.txtValue.setText(value);
-        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                                                            //TODO - Implement onClick for attributes to modify values?
-            }
-        });
+        vHolder.txtValue.setHint(value);
+//        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                                                            //TODO - Implement onClick for attributes to modify values?
+//            }
+//        });
     }
 
     @Override
