@@ -17,7 +17,7 @@ import static cmsc355.contactapp.Contact.contactsMock;
 import static cmsc355.contactapp.Contact.myInfoMock;
 
 public class ConnectActivity extends AppCompatActivity {
-
+    // This is a test comment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
