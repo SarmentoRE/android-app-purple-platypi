@@ -1,6 +1,7 @@
 package cmsc355.contactapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -107,13 +108,14 @@ class GroupsAdapter extends RecyclerView.Adapter {
         else {
             if (viewType == 1) {
                 final ContactViewHolder vHolder = (ContactViewHolder) holder;
-                Contact contact = (Contact) groupAndContactMap.get(Utilities.GetKeyAtPosition(groupAndContactMap, position));
-                final Context context = vHolder.layout.getContext();
+                final Contact contact = (Contact) groupAndContactMap.get(Utilities.GetKeyAtPosition(groupAndContactMap, position));
                 vHolder.contactName.setText(contact.getName());
                 vHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
+                        i.putExtra("Contact", contact.ContactToJSON().toString());
+                        v.getContext().startActivity(i);
                     }
                 });
             }

@@ -43,9 +43,6 @@ class ContactsAdapter extends RecyclerView.Adapter {
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO - Should goto Edit Contact screen instead of toasting
-//                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
-
                 Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
                 i.putExtra("Contact", contact.ContactToJSON().toString());
                 v.getContext().startActivity(i);
