@@ -38,7 +38,9 @@ class Contact implements BaseColumns {
     static ArrayList<Contact> GenerateRandomContacts(int numContacts) {
         ArrayList<Contact> contactList = new ArrayList<>();
         for (int i = 0; i < numContacts; i++) {
-            contactList.add(GenerateRandomContact());
+            Contact contact = GenerateRandomContact();
+            contactList.add(contact);
+            ContactRepo.insertToDB(contact);
         }
         return contactList;
     }
@@ -57,7 +59,6 @@ class Contact implements BaseColumns {
             e.printStackTrace();
         }
         contact.attributes = jsonAttributes;
-
         return contact;
     }
 
