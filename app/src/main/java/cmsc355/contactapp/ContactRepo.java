@@ -1,7 +1,13 @@
 package cmsc355.contactapp;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by Austin on 10/16/2017.
@@ -15,7 +21,7 @@ public class ContactRepo {
         contact = new Contact();
     }
 
-    public void insert(Contact contact) {
+    public static int insertToDB(Contact contact) {
         int contactId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
@@ -24,7 +30,7 @@ public class ContactRepo {
 
         contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
-        // contact.setContactId(String.valueOf(contactId));
+        return contactId;
     }
 
     public void delete(int contact_Id) {
@@ -48,5 +54,26 @@ public class ContactRepo {
 
         db.update(Contact.TABLE_NAME, values, Contact._ID + "= ?", new String[]{String.valueOf(contact.getContactId())});
         DatabaseManager.getInstance().closeDatabase();
+    }
+
+    public ArrayList<Contact> searchContacts(String searchQuery) {
+        ArrayList<Contact> allContacts = new ArrayList<>();
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact.COLUMN_NAME + " LIKE ?", new String[]{"%" + searchQuery + "%"});
+        Contact contact;
+
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    contact = new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)), new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
+                    allContacts.add(contact);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } while (cursor.moveToNext());
+        }
+
+        DatabaseManager.getInstance().closeDatabase();
+        return allContacts;
     }
 }

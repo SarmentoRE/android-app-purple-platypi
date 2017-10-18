@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
         relationRepo.deleteAll();
 
         Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
-        contactRepo.insert(contact);
+        contactRepo.insertToDB(contact);
 
     }
 }

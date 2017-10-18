@@ -1,7 +1,10 @@
 package cmsc355.contactapp;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
 
 /**
  * Created by Austin on 10/16/2017.
@@ -15,7 +18,7 @@ public class GroupRepo {
         contactGroup = new ContactGroup();
     }
 
-    public void insert(ContactGroup contactGroup) {
+    public int insertToDB(ContactGroup contactGroup) {
         int groupId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
@@ -24,7 +27,7 @@ public class GroupRepo {
 
         groupId = (int) db.insert(ContactGroup.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
-        contactGroup.setGroupID(groupId);
+        return groupId;
     }
 
     public void delete(int group_Id) {
@@ -47,5 +50,23 @@ public class GroupRepo {
 
         db.update(ContactGroup.TABLE_NAME, values, ContactGroup._ID + "= ?", new String[]{String.valueOf(contactGroup.getGroupID())});
         DatabaseManager.getInstance().closeDatabase();
+    }
+
+    public ArrayList<ContactGroup> searchGroups(String searchQuery) {
+        ArrayList<ContactGroup> groups = new ArrayList<>();
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + contactGroup.TABLE_NAME + " WHERE " + contactGroup.COLUMN_NAME + " LIKE ?", new String[]{"%" + searchQuery + "%"});
+        ContactGroup group;
+
+        if (cursor.moveToFirst()) {
+            do {
+                //TODO: make groups return with proper contact list
+                group = new ContactGroup(cursor.getString(cursor.getColumnIndex(contactGroup.COLUMN_NAME)), new ArrayList<Contact>());
+                groups.add(group);
+            } while (cursor.moveToNext());
+        }
+
+        DatabaseManager.getInstance().closeDatabase();
+        return groups;
     }
 }
