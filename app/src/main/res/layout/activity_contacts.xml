@@ -8,17 +8,18 @@
     <include layout="@layout/toolbar_default"
         android:id="@+id/contact_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/contacts_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/contact_toolbar" />
-
     <Button
         android:id="@+id/contact_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contacts_list"
+        android:layout_alignParentBottom="true"
         android:text="@string/contact_new" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_toolbar"
+        android:layout_above="@id/contact_new"/>
 
 </RelativeLayout>

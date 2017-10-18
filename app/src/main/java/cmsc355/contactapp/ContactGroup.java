@@ -40,8 +40,14 @@ class ContactGroup implements BaseColumns {
         return name;
     }
 
+    public void setName(String n) {this.name = n;}
+
     public ArrayList<Contact> getContacts() {
         return contacts;
+    }
+
+    public void setContacts(ArrayList<Contact> cList) {
+        this.contacts = cList;
     }
 
     public int getGroupID() {

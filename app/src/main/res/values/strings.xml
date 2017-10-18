@@ -20,6 +20,10 @@
     <string name="contact_new">New Contact</string>
 
     <!--Contact Info screen Strings-->
-    <string name="info_button">Submit Changes</string>
+    <string name="info_edit">Edit Contact Info</string>
+    <string name="info_submit">Submit Changes</string>
+
+    <!--Group Screen Strings-->
+    <string name="groups_new">New Group</string>
 
 </resources>

@@ -26,13 +26,15 @@ public class GroupsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.groups_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<ContactGroup> groupsList = groupsMock; //TODO - replace this line with pulling groups from database
         ArrayList<ArrayList<Contact>> contactsLists = new ArrayList<>();
+
+        groupsMock = Utilities.SortGroupList(groupsMock);
         for (ContactGroup group : groupsMock) {
+            group.setContacts(Utilities.SortContactList(group.getContacts()));
             contactsLists.add(group.getContacts());
         }
 
-        recyclerView.setAdapter(new GroupsAdapter(groupsList, contactsLists));
+        recyclerView.setAdapter(new GroupsAdapter(groupsMock, contactsLists));
     }
 
     @Override

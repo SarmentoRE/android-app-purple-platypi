@@ -8,10 +8,18 @@
     <include layout="@layout/toolbar_default"
         android:id="@+id/group_toolbar" />
 
+    <Button
+        android:id="@+id/groups_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/groups_new" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/groups_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/group_toolbar" />
+        android:layout_below="@id/group_toolbar"
+        android:layout_above="@id/groups_new"/>
 
 </RelativeLayout>

@@ -19,6 +19,8 @@ class Contact implements BaseColumns {
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_JSON = "JSON";
     static ArrayList<Contact> contactsMock;
+    static Contact myInfoMock;
+
     private String name;
     private int contactId;
     private JSONObject attributes;
@@ -36,12 +38,14 @@ class Contact implements BaseColumns {
     static ArrayList<Contact> GenerateRandomContacts(int numContacts) {
         ArrayList<Contact> contactList = new ArrayList<>();
         for (int i = 0; i < numContacts; i++) {
-            contactList.add(GenerateRandomContact());
+            Contact contact = GenerateRandomContact();
+            contactList.add(contact);
+            ContactRepo.insertToDB(contact);
         }
         return contactList;
     }
 
-    static private Contact GenerateRandomContact() {
+    static Contact GenerateRandomContact() {
         Contact contact = new Contact();
         contact.name = GenerateRandomString(8);
 
@@ -55,7 +59,6 @@ class Contact implements BaseColumns {
             e.printStackTrace();
         }
         contact.attributes = jsonAttributes;
-
         return contact;
     }
 

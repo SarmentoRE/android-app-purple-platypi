@@ -2,6 +2,7 @@ package cmsc355.contactapp;
 
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 class InfoAdapter extends RecyclerView.Adapter {
 
     private ArrayMap<String, Object> attributes;
+    private boolean isEditDisabled;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public View layout;
@@ -25,8 +27,9 @@ class InfoAdapter extends RecyclerView.Adapter {
         }
     }
 
-    InfoAdapter(Contact c) {
+    InfoAdapter(Contact c, boolean iED) {
         attributes = Utilities.JSONToMap(c.getAttributes());
+        isEditDisabled = iED;
     }
 
     public void add(String key, String value) {
@@ -54,12 +57,11 @@ class InfoAdapter extends RecyclerView.Adapter {
         key = key.concat(":");
         vHolder.txtKey.setText(key);
         vHolder.txtValue.setHint(value);
-//        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                                                            //TODO - Implement onClick for attributes to modify values?
-//            }
-//        });
+        if (isEditDisabled) {
+            vHolder.txtValue.setEnabled(false);
+            vHolder.txtValue.setClickable(false);
+            vHolder.txtValue.setKeyListener(null);
+        }
     }
 
     @Override

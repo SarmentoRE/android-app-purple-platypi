@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static cmsc355.contactapp.Contact.contactsMock;
+import static cmsc355.contactapp.Contact.myInfoMock;
 
 public class ConnectActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class ConnectActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(contactsMock.get(0).getAttributes());
+        ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(myInfoMock.getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
     }
 

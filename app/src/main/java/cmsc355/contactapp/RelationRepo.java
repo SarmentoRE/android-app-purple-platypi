@@ -15,7 +15,7 @@ public class RelationRepo {
         relation = new Relation();
     }
 
-    public void insert(Relation relation) {
+    public int insertToDB(Relation relation) {
         int relationId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
@@ -24,7 +24,7 @@ public class RelationRepo {
 
         relationId = (int) db.insert(Relation.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
-        relation.setRelationId(relationId);
+        return relationId;
     }
 
     public void delete(int relation_Id) {
