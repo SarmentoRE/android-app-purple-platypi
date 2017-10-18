@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -21,6 +22,21 @@ class Utilities {
             stringBuilder.append((char) ('a' + random.nextInt(26)));
         }
         return stringBuilder.toString();
+    }
+
+    static String GetKeyAtPosition(LinkedHashMap<String, Object> map, int position) {
+        Iterator<String> itr = map.keySet().iterator();
+        String key = "";
+        if (position == 0) {
+            key = itr.next();
+        }
+        else {
+            int i = 0;
+            while (itr.hasNext() && i++ <= position) {
+                key = itr.next();
+            }
+        }
+        return key;
     }
 
     static ArrayMap<String, Object> JSONToMap(JSONObject json) {
