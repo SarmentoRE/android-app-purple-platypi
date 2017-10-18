@@ -1,45 +1,27 @@
 package cmsc355.contactapp;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<JSONObject> contactArrayList;
+    private ArrayList<Contact> contactArrayList;
 
-    //List itself has a view (linearLayout). ViewHolder holds a reference to that
-    private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtName;
-        public View layout;
-
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtName = v.findViewById(R.id.contact_name);
-        }
-    }
-    //Arraylist declaration for static list of JSON objects
-    ContactsAdapter(ArrayList<JSONObject> cList) {
+    ContactsAdapter(ArrayList<Contact> cList) {
         contactArrayList = cList;
     }
 
-    //If scrolling and we want to add new objects, add at a given position
-    public void add(int position, JSONObject item) {
+    public void add(int position, Contact item) {
         contactArrayList.add(position, item);
         notifyItemInserted(position);
     }
 
-    //
     public void remove(int position) {
         contactArrayList.remove(position);
         notifyItemRemoved(position);
@@ -54,25 +36,34 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final int pos = position;
+        final Contact contact = contactArrayList.get(position);
         ViewHolder vHolder = (ViewHolder) holder;
-        String name = "";
-        try {
-            name = contactArrayList.get(position).getString("First name");
-            name = name.concat(" "+contactArrayList.get(position).getString("Last name"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String name = contact.getName();
         vHolder.txtName.setText(name);
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO - Should goto Edit Contact screen instead of toasting
-                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), pos + " is clicked", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
+                i.putExtra("Contact", contact.ContactToJSON().toString());
+                v.getContext().startActivity(i);
             }
         });
     }
 
     @Override
     public int getItemCount() { return contactArrayList.size(); }
+
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        public View layout;
+        TextView txtName;
+
+        ViewHolder(View v) {
+            super(v);
+            layout = v;
+            txtName = v.findViewById(R.id.contact_name);
+        }
+    }
 }

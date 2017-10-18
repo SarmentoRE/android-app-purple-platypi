@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static cmsc355.contactapp.ContactGroup.groupsMock;
+
 public class FavoritesActivity extends AppCompatActivity {
 
     @Override
@@ -18,8 +20,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<JSONObject> favoritesList = new ArrayList<>();
-        //Contact.GenerateRandomContacts(favoritesList, 3);   //TODO - replace this line with pulling favorite contacts from database
+        ArrayList<Contact> favoritesList = groupsMock.get(0).getContacts();   //TODO - replace this line with pulling favorite contacts from database
 
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }

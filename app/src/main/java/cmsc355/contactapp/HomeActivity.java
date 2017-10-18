@@ -8,6 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ListView listView = (ListView) findViewById(R.id.home_list);
+
         SetupListView(listView);
     }
 
@@ -36,27 +40,36 @@ public class HomeActivity extends AppCompatActivity {
 //              Toast.makeText(getApplicationContext(),
 //                      "Click ListItem Number " + position, Toast.LENGTH_SHORT)
 //                      .show();
+                Intent i;
                 switch(position) {
                     case 0:
-                        SendToActivity(ConnectActivity.class);
+                        i = new Intent(HomeActivity.this, ConnectActivity.class);
+                        startActivity(i);
                         break;
                     case 1:
-                        SendToActivity(ContactsActivity.class);
+                        i = new Intent(HomeActivity.this, ContactsActivity.class);
+                        startActivity(i);
                         break;
                     case 2:
-                        SendToActivity(FavoritesActivity.class);
+                        i = new Intent(HomeActivity.this, FavoritesActivity.class);
+                        startActivity(i);
                         break;
                     case 3:
-                        SendToActivity(GroupsActivity.class);
+                        i = new Intent(HomeActivity.this, GroupsActivity.class);
+                        startActivity(i);
                         break;
                     case 4:
-                        SendToActivity(MyInfoActivity.class);
+                        i = new Intent(HomeActivity.this, ContactInfoActivity.class);
+                        i.putExtra("Contact",Contact.contactsMock.get(0).ContactToJSON().toString());       //TODO - retrieve "my info" contact info
+                        startActivity(i);
                         break;
                     case 5:
-                        SendToActivity(ScanActivity.class);
+                        i = new Intent(HomeActivity.this, ScanActivity.class);
+                        startActivity(i);
                         break;
                     case 6:
-                        SendToActivity(SettingsActivity.class);
+                        i = new Intent(HomeActivity.this, SettingsActivity.class);
+                        startActivity(i);
                         break;
                     default:
                         break;
@@ -65,8 +78,15 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void SendToActivity(Class activityClass) {
-        Intent i = new Intent(HomeActivity.this, activityClass);
-        startActivity(i);
+    private void insertSampleData() throws JSONException {
+        ContactRepo contactRepo = new ContactRepo();
+        GroupRepo groupRepo = new GroupRepo();
+        RelationRepo relationRepo = new RelationRepo();
+
+        contactRepo.delete();
+        groupRepo.delete();
+        relationRepo.delete();
+
+        Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
     }
 }
