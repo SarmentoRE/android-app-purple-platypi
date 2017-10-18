@@ -1,14 +1,18 @@
 package cmsc355.contactapp;
 
-import org.json.JSONObject;
+import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
-class ContactGroup {
+class ContactGroup implements BaseColumns {
 
+    public static final String TAG = ContactGroup.class.getSimpleName();
+    public static final String TABLE_NAME = "ContactGroup";
+    public static final String _ID = "GroupId";
+    public static final String COLUMN_NAME = "Name";
     static ArrayList<ContactGroup> groupsMock;
-
-    String name;
+    private int groupID;
+    private String name;
     private ArrayList<Contact> contacts;
 
     ContactGroup() {
@@ -32,11 +36,19 @@ class ContactGroup {
         return groupList;
     }
 
-    String getName(){
+    public String getName() {
         return name;
     }
 
-    ArrayList<Contact> getContacts() {
+    public ArrayList<Contact> getContacts() {
         return contacts;
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 }

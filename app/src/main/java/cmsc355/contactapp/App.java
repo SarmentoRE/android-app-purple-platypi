@@ -5,9 +5,9 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import static cmsc355.contactapp.Contact.contactsMock;
 import static cmsc355.contactapp.ContactGroup.GenerateRandomGroups;
 import static cmsc355.contactapp.ContactGroup.groupsMock;
-import static cmsc355.contactapp.Contact.contactsMock;
 
 public class App extends Application {
 

@@ -2,7 +2,6 @@ package cmsc355.contactapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
         boolean isGroup = true;
         while (idx < numElements) {
             if (isGroup) {
-                gcMap.put("Group"+gIdx, groupArrayList.get(gIdx));
+                gcMap.put("ContactGroup" + gIdx, groupArrayList.get(gIdx));
                 idx++;
                 isGroup = false;
             }
@@ -49,7 +48,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
                 groupContacts = contactLists.get(gIdx);
                 int cIdx = 0;
                 while (cIdx < groupContacts.size()) {
-                    gcMap.put("Group"+gIdx+"Contact"+cIdx,groupContacts.get(cIdx++));
+                    gcMap.put("ContactGroup" + gIdx + "Contact" + cIdx, groupContacts.get(cIdx++));
                     idx++;
                 }
                 gIdx++;

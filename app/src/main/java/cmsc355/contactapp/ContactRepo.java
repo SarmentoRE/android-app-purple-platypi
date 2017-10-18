@@ -9,42 +9,44 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class ContactRepo {
 
-    private DatabaseContract.Contact contact;
+    private Contact contact;
 
     public ContactRepo() {
-        contact = new DatabaseContract.Contact();
+        contact = new Contact();
     }
 
-    public void insert(DatabaseContract.Contact contact) {
+    public void insert(Contact contact) {
+        int contactId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.Contact.COLUMN_NAME, contact.getName());
-        values.put(DatabaseContract.Contact.COLUMN_JSON, contact.getJson());
+        values.put(Contact.COLUMN_NAME, contact.getName());
+        values.put(Contact.COLUMN_JSON, contact.ContactToJSON().toString());
 
-        db.insert(DatabaseContract.Contact.TABLE_NAME, null, values);
+        contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
+        // contact.setContactId(String.valueOf(contactId));
     }
 
     public void delete(int contact_Id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Contact.TABLE_NAME, DatabaseContract.Contact.KEY_ContactId + "= ?", new String[]{String.valueOf(contact_Id)});
+        db.delete(Contact.TABLE_NAME, Contact._ID + "= ?", new String[]{String.valueOf(contact_Id)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void delete() {
+    public void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        db.delete(DatabaseContract.Contact.TABLE_NAME, null, null);
+        db.delete(Contact.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void update(DatabaseContract.Contact contact) {
+    public void update(Contact contact) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseContract.Contact.COLUMN_NAME, contact.getName());
-        values.put(DatabaseContract.Contact.COLUMN_JSON, contact.getJson());
+        values.put(Contact.COLUMN_NAME, contact.getName());
+        values.put(Contact.COLUMN_JSON, contact.ContactToJSON().toString());
 
-        db.update(DatabaseContract.Contact.TABLE_NAME, values, DatabaseContract.Contact.KEY_ContactId + "= ?", new String[]{String.valueOf(contact.getContactId())});
+        db.update(Contact.TABLE_NAME, values, Contact._ID + "= ?", new String[]{String.valueOf(contact.getContactId())});
         DatabaseManager.getInstance().closeDatabase();
     }
 }
