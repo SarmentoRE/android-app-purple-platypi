@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +23,14 @@ import static cmsc355.contactapp.Contact.contactsMock;
 public class ContactInfoActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_info);
+
+        Toolbar infoToolbar = (Toolbar) findViewById(R.id.info_toolbar);
+        setSupportActionBar(infoToolbar);
+
+
         setupUI(findViewById(R.id.info_parent));
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.info_list);
@@ -92,10 +100,31 @@ public class ContactInfoActivity extends AppCompatActivity {
                     contactsMock.set(index,newContact);
                 }
 
-//                Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
-//                startActivity(i);
+                Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_default,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Intent i = new Intent(ContactInfoActivity.this, HomeActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     public void setupUI(View view) {

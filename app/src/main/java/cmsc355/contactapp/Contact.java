@@ -18,12 +18,8 @@ class Contact {
     private JSONObject attributes;
 
     public Contact() {
-        name = "N/A";
-        try {
-            attributes = new JSONObject("{}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        name = "Enter Name";
+        attributes = new JSONObject();
     }
 
     public Contact(String name, JSONObject json) {
@@ -39,7 +35,7 @@ class Contact {
         return contactList;
     }
 
-    static Contact GenerateRandomContact() {
+    static private Contact GenerateRandomContact() {
         Contact contact = new Contact();
         contact.name = GenerateRandomString(8);
 

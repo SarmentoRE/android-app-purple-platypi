@@ -2,7 +2,10 @@ package cmsc355.contactapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +24,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Toolbar homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(homeToolbar);
         ListView listView = (ListView) findViewById(R.id.home_list);
 
         SetupListView(listView);
