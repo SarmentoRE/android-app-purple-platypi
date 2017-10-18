@@ -14,4 +14,7 @@
         <item>Settings</item>
     </string-array>
 
+    <!--Contact Info screen Strings-->
+    <string name="info_button">Submit Changes</string>
+
 </resources>

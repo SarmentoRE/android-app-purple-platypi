@@ -6,17 +6,19 @@
     <TextView
         android:id="@+id/info_key"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="43dp"
+        android:gravity="center_vertical"
         android:text="@string/app_name"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:textSize="20sp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/info_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/info_key"
         android:layout_toEndOf="@id/info_key"
-        android:text="@string/list_description" />
+        android:hint="@string/list_description" />
 
 </RelativeLayout>

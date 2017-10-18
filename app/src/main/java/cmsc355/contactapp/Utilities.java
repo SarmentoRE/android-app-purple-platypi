@@ -1,6 +1,12 @@
 package cmsc355.contactapp;
 
+import android.app.Activity;
 import android.support.v4.util.ArrayMap;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,12 +101,10 @@ class Utilities {
         return list;
     }
 
-    static ArrayList<String> JSONKeysToStringList(JSONObject json) {
-        ArrayList<String> stringList = new ArrayList<>();
-        Iterator<String> keysItr = json.keys();
-        while (keysItr.hasNext()) {
-            stringList.add(keysItr.next());
+    static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (activity.getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
-        return stringList;
     }
 }
