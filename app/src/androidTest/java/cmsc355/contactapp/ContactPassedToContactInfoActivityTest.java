@@ -63,7 +63,9 @@ public class ContactPassedToContactInfoActivityTest /*Contact and Group Persiste
 
         //onView(withText(contactOne.getName())).check(matches(withText("Harry")));
 
+        //onView(withText(contactOne.getName())).check(matches(withId(R.id.info_name)));
 
+        onView(withId(R.id.info_name)).check(matches(withText("Harry")));
 
 
     }//TestContactPassedToContactInfoActivity method

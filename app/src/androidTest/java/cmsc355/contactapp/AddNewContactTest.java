@@ -62,10 +62,10 @@ public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
         /*confirms that the button associated with the previous click has a string associated with it
          that reads "Edit Contact Info". This string is unique and only assigned to this button at this
          point in the execution so it confirms we are in the correct activity at the correct time.*/
-        onView(withId(R.id.info_button)).check(matches(withText(R.string.info_edit)));
+        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_edit)));
 
         //performs a click operation on the EDIT CONTACT INFO button
-        onView(withId(R.id.info_button)).perform(click());
+        onView(withId(R.id.info_edit_button)).perform(click());
 
         //types in the name Harry to the contact name field in the edit contact activity
         onView(withId(R.id.info_name)).perform(typeText("Harry"));
@@ -73,10 +73,10 @@ public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
         /*confirms that the button associated with the previous click has a string associated with it
          that reads "Submit Changes". This string is unique and only assigned to this button at this
          point in the execution so it confirms we are in teh correct activity at the correct time.*/
-        onView(withId(R.id.info_button)).check(matches(withText(R.string.info_submit)));
+        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_submit)));
 
         //performs a click operation on the SUBMIT CHANGES button
-        onView(withId(R.id.info_button)).perform(click());
+        onView(withId(R.id.info_edit_button)).perform(click());
 
         /*confirms that the only contact currently in the ArrayList of Contact objects is the one that we just
         added. Contact added successfully, test complete.*/
