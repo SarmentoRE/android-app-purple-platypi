@@ -9,14 +9,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static cmsc355.contactapp.Contact.contactsMock;
+import static cmsc355.contactapp.Contact.myInfoMock;
 import static cmsc355.contactapp.ContactGroup.GenerateRandomGroups;
 import static cmsc355.contactapp.ContactGroup.groupsMock;
-import static cmsc355.contactapp.Contact.contactsMock;
-import static cmsc355.contactapp.Contact.myInfoMock;
 
 public class App extends Application {
-
-    private static Context context;
+    //todo figure out why android wants me to not use a static Context. The app works with this currently but gives a warning which I would like to research.
+    public static Context context;
     private static DatabaseHelper dbHelper;
 
     public static Context getContext() {
