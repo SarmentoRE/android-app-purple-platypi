@@ -32,7 +32,8 @@ public class App extends Application {
 
         contactsMock = new ArrayList<>();
         groupsMock = GenerateRandomGroups(2, 2);
-        for (ContactGroup group : groupsMock) {
+        for (ContactGroup group : groupsMock)
+        {
             contactsMock.addAll(group.getContacts());
         }
         myInfoMock = new Contact();

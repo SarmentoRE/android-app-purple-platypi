@@ -20,16 +20,19 @@ class ContactGroup implements BaseColumns {
         contacts = new ArrayList<>();
     }
 
-    ContactGroup(String n, ArrayList<Contact> cList) {
+    ContactGroup(String n, ArrayList<Contact> cList)
+    {
         name = n;
         contacts = new ArrayList<>();
         contacts.addAll(cList);
     }
 
-    static ArrayList<ContactGroup> GenerateRandomGroups(int numGroups, int numContacts) {
+    static ArrayList<ContactGroup> GenerateRandomGroups(int numGroups, int numContacts)
+    {
         ArrayList<ContactGroup> groupList = new ArrayList<>();
         ArrayList<Contact> cList;
-        for (int i = 0; i < numGroups; i++) {
+        for (int i = 0; i < numGroups; i++)
+        {
             cList = Contact.GenerateRandomContacts(numContacts);
             groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), cList));
         }

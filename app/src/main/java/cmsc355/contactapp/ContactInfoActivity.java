@@ -22,7 +22,8 @@ import org.json.JSONObject;
 import static cmsc355.contactapp.Contact.contactsMock;
 import static cmsc355.contactapp.Contact.myInfoMock;
 
-public class ContactInfoActivity extends AppCompatActivity {
+public class ContactInfoActivity extends AppCompatActivity
+{
 
     private boolean isEditDisabled;
     private KeyListener keyListener;
@@ -45,12 +46,14 @@ public class ContactInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name = null;
         JSONObject attributes = new JSONObject();
-        try {
+        try
+        {
             JSONObject json = new JSONObject(intent.getStringExtra("Contact"));
             name = json.getString("Name");
             attributes = json.getJSONObject("Attributes");
         }
-        catch (JSONException e) {
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         final Contact contact = new Contact(name,attributes);       //TODO - Pull correct contact from db
@@ -69,7 +72,8 @@ public class ContactInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Button sButton = (Button) findViewById(R.id.info_button);
-                if (isEditDisabled) {
+                if (isEditDisabled)
+                {
                     isEditDisabled = false;
                     txtName.setEnabled(true);
                     txtName.setClickable(true);
@@ -77,15 +81,20 @@ public class ContactInfoActivity extends AppCompatActivity {
                     sButton.setText(R.string.info_submit);
                     recyclerView.setAdapter(new InfoAdapter(contact, false));
                 }
-                else {
+                else
+                {
                     Contact newContact = new Contact();
-                    try {
+                    try
+                    {
                         newContact = new Contact(contact.getName(),new JSONObject(contact.getAttributes().toString()));
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
                     String nameInput = txtName.getText().toString();
-                    if (!nameInput.matches("")) {
+                    if (!nameInput.matches(""))
+                    {
                         newContact.setName(nameInput);
                         txtName.setHint(nameInput);
                         txtName.getText().clear();
@@ -93,18 +102,22 @@ public class ContactInfoActivity extends AppCompatActivity {
 
                     int numAttributes = recyclerView.getAdapter().getItemCount();
                     JSONObject newAttributes = newContact.getAttributes();
-                    for (int i = 0; i < numAttributes; i++) {
+                    for (int i = 0; i < numAttributes; i++)
+                    {
                         InfoAdapter.ViewHolder vHolder = (InfoAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(i);
                         TextView textView = vHolder.txtKey;
                         EditText editText = vHolder.txtValue;
-                        if (!editText.getText().toString().matches("")) {
+                        if (!editText.getText().toString().matches(""))
+                        {
                             String attrKey = textView.getText().toString();
                             attrKey = attrKey.substring(0,attrKey.length()-1);
                             String newAttrValue = editText.getText().toString();
-                            try {
+                            try
+                            {
                                 newAttributes.put(attrKey,newAttrValue);
                             }
-                            catch (JSONException e) {
+                            catch (JSONException e)
+                            {
                                 e.printStackTrace();
                             }
                             editText.setHint(newAttrValue);
@@ -114,13 +127,17 @@ public class ContactInfoActivity extends AppCompatActivity {
                     newContact.setAttributes(newAttributes);
 
                     Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
-                    if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                    if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString()))
+                    {
                         myInfoMock = newContact;
                         i = new Intent(ContactInfoActivity.this, HomeActivity.class);
                     }
-                    else {
-                        for (Contact c : contactsMock) {
-                            if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                    else
+                    {
+                        for (Contact c : contactsMock)
+                        {
+                            if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString()))
+                            {
                                 contactsMock.set(contactsMock.indexOf(c),newContact);
                             }
                         }
@@ -128,13 +145,13 @@ public class ContactInfoActivity extends AppCompatActivity {
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
-
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_default,menu);
         return true;
     }

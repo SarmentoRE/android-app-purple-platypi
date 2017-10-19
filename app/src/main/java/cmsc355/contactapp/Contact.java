@@ -35,17 +35,22 @@ class Contact implements BaseColumns {
         this.attributes = json;
     }
 
-    static ArrayList<Contact> GenerateRandomContacts(int numContacts) {
+    //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT BACK IN
+    static ArrayList<Contact> GenerateRandomContacts(int numContacts)
+    {
         ArrayList<Contact> contactList = new ArrayList<>();
+        ArrayList<Contact> contactListDummy = new ArrayList<>(); //BAD CODE, DELETE AFTER TESTING
         for (int i = 0; i < numContacts; i++) {
             Contact contact = GenerateRandomContact();
             contactList.add(contact);
             ContactRepo.insertToDB(contact);
         }
-        return contactList;
+        return contactListDummy;
     }
 
-    static Contact GenerateRandomContact() {
+    //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT ALL CODE BACK IN
+    static Contact GenerateRandomContact()
+    {
         Contact contact = new Contact();
         contact.name = GenerateRandomString(8);
 

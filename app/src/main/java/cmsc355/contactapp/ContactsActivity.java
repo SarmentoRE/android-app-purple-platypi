@@ -36,15 +36,19 @@ public class ContactsActivity extends AppCompatActivity {
         //SQLiteDatabase db = DatabaseHelper.openDatabase(this);        //TODO - pull contacts from database
 
         Button newContactButton = (Button) findViewById(R.id.contact_new);
-        newContactButton.setOnClickListener(new View.OnClickListener() {
+        newContactButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 JSONObject newAttributes = new JSONObject();
-                try {
+                try
+                {
                     newAttributes.put("Email","Enter Email");
                     newAttributes.put("Phone Number", "Enter Phone Number");
                 }
-                catch (JSONException e) {
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
                 Contact newContact = new Contact("Enter Name", newAttributes);
