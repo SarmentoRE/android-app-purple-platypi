@@ -11,9 +11,12 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import static cmsc355.contactapp.Contact.contactsMock;
 import static cmsc355.contactapp.ContactGroup.groupsMock;
 
 public class GroupsActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +27,14 @@ public class GroupsActivity extends AppCompatActivity {
         setSupportActionBar(groupsToolbar);
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.groups_list);
+        recyclerView = (RecyclerView) findViewById(R.id.groups_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<ArrayList<Contact>> contactsLists = new ArrayList<>();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<ArrayList<Contact>> contactsLists = new ArrayList<>();
         groupsMock = Utilities.SortGroupList(groupsMock);
         for (ContactGroup group : groupsMock) {
             group.setContacts(Utilities.SortContactList(group.getContacts()));

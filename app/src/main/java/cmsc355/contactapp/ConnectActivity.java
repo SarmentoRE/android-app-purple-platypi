@@ -14,11 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import static cmsc355.contactapp.App.context;
 import static cmsc355.contactapp.Contact.myInfoMock;
 
 public class ConnectActivity extends AppCompatActivity {
-    // This is a test comment
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,8 @@ public class ConnectActivity extends AppCompatActivity {
         setSupportActionBar(connectToolbar);
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.connect_list);
+        recyclerView = (RecyclerView) findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(myInfoMock.getAttributes());
-        recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
-
 
         nfcCheck(); // check for NFC connection
     /* Todo see what here isn't working and why
@@ -54,6 +54,7 @@ public class ConnectActivity extends AppCompatActivity {
         }
     */
     }
+
     public void nfcCheck (){
 
         NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE); // This gets the manager object instantiated, and sets it to the NFC service
@@ -72,6 +73,14 @@ public class ConnectActivity extends AppCompatActivity {
             startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS)); //open settings page for NFC
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(myInfoMock.getAttributes());
+        recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_default,menu);
@@ -88,7 +97,6 @@ public class ConnectActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
     /* todo figure out how to make the below methods correctly listen for and stop listening for the NDEF tag

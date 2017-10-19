@@ -22,6 +22,7 @@
     <!--Contact Info screen Strings-->
     <string name="info_edit">Edit Contact Info</string>
     <string name="info_submit">Submit Changes</string>
+    <string name="info_delete">Delete Contact</string>
 
     <!--Group Screen Strings-->
     <string name="groups_new">New Group</string>

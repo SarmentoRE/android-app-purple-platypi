@@ -17,6 +17,8 @@ import static cmsc355.contactapp.ContactGroup.groupsMock;
 
 public class FavoritesActivity extends AppCompatActivity {
 
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +28,15 @@ public class FavoritesActivity extends AppCompatActivity {
         setSupportActionBar(favoritesToolbar);
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
+        recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Contact> favoritesList = groupsMock.get(0).getContacts();   //TODO - replace this line with pulling favorite contacts from database
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<Contact> favoritesList = groupsMock.get(0).getContacts();   //TODO - replace this line with pulling favorite contacts from database
+        favoritesList = Utilities.SortContactList(favoritesList);
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }
 

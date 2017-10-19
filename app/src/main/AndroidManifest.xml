@@ -16,7 +16,6 @@
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,7 +31,8 @@
         <activity android:name=".GroupsActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ContactInfoActivity" />
+        <activity android:name=".ContactInfoActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

@@ -15,12 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import static cmsc355.contactapp.Contact.contactsMock;
 import static cmsc355.contactapp.Contact.myInfoMock;
+import static cmsc355.contactapp.ContactGroup.groupsMock;
 
 public class ContactInfoActivity extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class ContactInfoActivity extends AppCompatActivity {
 
         isEditDisabled = true;
         setupUI(findViewById(R.id.info_parent));
-        ((Button)findViewById(R.id.info_button)).setText(R.string.info_edit);
+        ((Button)findViewById(R.id.info_edit_button)).setText(R.string.info_edit);
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.info_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,11 +68,11 @@ public class ContactInfoActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(new InfoAdapter(contact, isEditDisabled));
 
-        Button submitButton = (Button) findViewById(R.id.info_button);
+        Button submitButton = (Button) findViewById(R.id.info_edit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Button sButton = (Button) findViewById(R.id.info_button);
+                Button sButton = (Button) findViewById(R.id.info_edit_button);
                 if (isEditDisabled) {
                     isEditDisabled = false;
                     txtName.setEnabled(true);
@@ -121,7 +125,8 @@ public class ContactInfoActivity extends AppCompatActivity {
                     else {
                         for (Contact c : contactsMock) {
                             if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
-                                contactsMock.set(contactsMock.indexOf(c),newContact);
+                                c.setName(newContact.getName());
+                                c.setAttributes(newContact.getAttributes());
                             }
                         }
                     }
@@ -129,6 +134,41 @@ public class ContactInfoActivity extends AppCompatActivity {
                     startActivity(i);
                 }
 
+            }
+        });
+
+        Button deleteButton = (Button) findViewById(R.id.info_delete_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                    Toast.makeText(ContactInfoActivity.this, "Not deletable", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Contact targetContact = new Contact();
+                    ContactGroup targetGroup = new ContactGroup();
+                    boolean targetFound = false;
+                    for (Contact c : contactsMock) {
+                        if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                            targetContact = c;
+                            for (ContactGroup g : groupsMock) {
+                                for (Contact groupContact : g.getContacts()) {
+                                    if (c.ContactToJSON().toString().equals(groupContact.ContactToJSON().toString())) {
+                                        targetGroup = g;
+                                        targetFound = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (targetFound) {
+                        contactsMock.remove(contactsMock.indexOf(targetContact));
+                        ArrayList<Contact> targetGroupContacts = targetGroup.getContacts();
+                        targetGroupContacts.remove(targetGroupContacts.indexOf(targetContact));
+                        Toast.makeText(ContactInfoActivity.this, "Contact deleted", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
             }
         });
     }
