@@ -11,8 +11,22 @@ import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
+    //holds all the contacts we want to display
     private ArrayList<Contact> contactArrayList;
 
+    //ViewHolder holds references to each view inside a generated item on the list, so we can access them later
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        public View layout;
+        TextView txtName;
+
+        ViewHolder(View v) {
+            super(v);
+            layout = v;
+            txtName = v.findViewById(R.id.contact_name);
+        }
+    }
+
+    //constructor method
     ContactsAdapter(ArrayList<Contact> cList) {
         contactArrayList = cList;
     }
@@ -27,6 +41,8 @@ class ContactsAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(position);
     }
 
+    //this is called to make a new item on the list - it adds the views to the activity then returns
+    //the viewholder to be able to reference these views later
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -34,6 +50,9 @@ class ContactsAdapter extends RecyclerView.Adapter {
         return new ViewHolder(v);
     }
 
+    //this is where we actually modify the contents of the views. In this case, we just set the contact's
+    //name and make the whole thing clickable. If you click it, it takes you to the Contact Info screen
+    //with all the fields disabled for editing initially
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Contact contact = contactArrayList.get(position);
@@ -45,22 +64,16 @@ class ContactsAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
                 i.putExtra("Contact", contact.ContactToJSON().toString());
+                i.putExtra("isEditable", false);
                 v.getContext().startActivity(i);
             }
         });
     }
 
+    //actually really important. this determines how many elements it's going to inflate, so
+    //this must return the desired number of elements after the constructor is called
     @Override
-    public int getItemCount() { return contactArrayList.size(); }
-
-    private class ViewHolder extends RecyclerView.ViewHolder {
-        public View layout;
-        TextView txtName;
-
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtName = v.findViewById(R.id.contact_name);
-        }
+    public int getItemCount() {
+        return contactArrayList.size();
     }
 }

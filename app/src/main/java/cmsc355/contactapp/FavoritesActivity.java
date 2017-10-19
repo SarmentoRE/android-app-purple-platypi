@@ -27,7 +27,6 @@ public class FavoritesActivity extends AppCompatActivity {
         Toolbar favoritesToolbar = (Toolbar) findViewById(R.id.favorites_toolbar);
         setSupportActionBar(favoritesToolbar);
 
-
         recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -35,17 +34,22 @@ public class FavoritesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //assumes the first group in the db mock is the favorites group
         ArrayList<Contact> favoritesList = groupsMock.get(0).getContacts();   //TODO - replace this line with pulling favorite contacts from database
+        //from here it works identical to the Contacts screen
         favoritesList = Utilities.SortContactList(favoritesList);
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }
 
+    //adds the home button to the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default,menu);
+        getMenuInflater().inflate(R.menu.menu_default, menu);
         return true;
     }
 
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

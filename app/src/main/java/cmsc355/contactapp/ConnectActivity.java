@@ -31,7 +31,6 @@ public class ConnectActivity extends AppCompatActivity {
         Toolbar connectToolbar = (Toolbar) findViewById(R.id.connect_toolbar);
         setSupportActionBar(connectToolbar);
 
-
         recyclerView = (RecyclerView) findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -55,8 +54,7 @@ public class ConnectActivity extends AppCompatActivity {
     */
     }
 
-    public void nfcCheck (){
-
+    public void nfcCheck() {
         NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE); // This gets the manager object instantiated, and sets it to the NFC service
         NfcAdapter adapter = manager.getDefaultAdapter(); // this instantiates the adapter and sets it to the default
 
@@ -67,7 +65,7 @@ public class ConnectActivity extends AppCompatActivity {
             */
             Toast.makeText(getApplicationContext(), "NFC is on, you're good to go!",
                     Toast.LENGTH_SHORT).show(); //Show toast that NFC is on
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "NFC must be turned on by User in Settings",
                     Toast.LENGTH_LONG).show(); //Show toast that NFC is off
             startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS)); //open settings page for NFC
@@ -75,18 +73,21 @@ public class ConnectActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
+        super.onResume();           //not just the first time
         ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(myInfoMock.getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
     }
 
+    //adds the home button to the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default,menu);
+        getMenuInflater().inflate(R.menu.menu_default, menu);
         return true;
     }
 
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

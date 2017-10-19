@@ -22,60 +22,53 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        setSupportActionBar(homeToolbar);
+        Toolbar homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);    //home doesn't have onCreateOptionsMenu, because
+        setSupportActionBar(homeToolbar);                                   //it doesn't display the Home action button
         ListView listView = (ListView) findViewById(R.id.home_list);
 
-        SetupListView(listView);
+        SetupButtonList(listView);
     }
 
-    private void SetupListView(ListView listView) {
+    private void SetupButtonList(ListView listView) {
         ArrayList<String> buttonNames = new ArrayList<>();
         buttonNames.addAll(Arrays.asList(getResources().getStringArray(R.array.home_button_names)));
 
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.item_home, R.id.firstLine, buttonNames);
-        listView.setAdapter(adapter);
+        listView.setAdapter(new ArrayAdapter<>(this, R.layout.item_home, R.id.home_item_name, buttonNames));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-//              Toast.makeText(getApplicationContext(),
-//                      "Click ListItem Number " + position, Toast.LENGTH_SHORT)
-//                      .show();
-                Intent i;
-                switch(position) {
+                                    int position, long id) {    //Set button destination based on location
+                Intent i = null;
+                switch (position) {
                     case 0:
                         i = new Intent(HomeActivity.this, ConnectActivity.class);
-                        startActivity(i);
                         break;
                     case 1:
                         i = new Intent(HomeActivity.this, ContactsActivity.class);
-                        startActivity(i);
                         break;
                     case 2:
                         i = new Intent(HomeActivity.this, FavoritesActivity.class);
-                        startActivity(i);
                         break;
                     case 3:
                         i = new Intent(HomeActivity.this, GroupsActivity.class);
-                        startActivity(i);
                         break;
                     case 4:
                         i = new Intent(HomeActivity.this, ContactInfoActivity.class);
-                        i.putExtra("Contact",Contact.myInfoMock.ContactToJSON().toString());       //TODO - retrieve "my info" contact info
-                        startActivity(i);
+                        i.putExtra("Contact", Contact.myInfoMock.ContactToJSON().toString());       //TODO - retrieve "my info" from db
+                        i.putExtra("isEditEnabled", true);
                         break;
                     case 5:
                         i = new Intent(HomeActivity.this, ScanActivity.class);
-                        startActivity(i);
                         break;
                     case 6:
                         i = new Intent(HomeActivity.this, SettingsActivity.class);
-                        startActivity(i);
                         break;
                     default:
                         break;
+                }
+                if (i != null) {
+                    startActivity(i);
                 }
             }
         });
