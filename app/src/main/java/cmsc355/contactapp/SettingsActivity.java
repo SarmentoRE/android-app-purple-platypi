@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+//This activity is empty and doesn't do anything yet
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -19,12 +20,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    //adds the home button to the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default,menu);
+        getMenuInflater().inflate(R.menu.menu_default, menu);
         return true;
     }
 
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

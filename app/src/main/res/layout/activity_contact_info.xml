@@ -28,19 +28,27 @@
         android:hint="@string/app_name"
         android:textSize="24sp" />
 
+    <Button
+        android:id="@+id/info_delete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/info_delete"/>
+
+    <Button
+        android:id="@+id/info_edit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/info_delete_button"
+        android:text="@string/app_name"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/info_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/info_name"
+        android:layout_above="@id/info_edit_button"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp" />
 
-    <Button
-        android:id="@+id/info_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/info_list"
-        android:layout_marginTop="16dp"
-        android:text="@string/app_name"/>
 </RelativeLayout>

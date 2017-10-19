@@ -4,13 +4,19 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
+//interface is for database
 class ContactGroup implements BaseColumns {
 
+    //database stuff
     public static final String TAG = ContactGroup.class.getSimpleName();
     public static final String TABLE_NAME = "ContactGroup";
     public static final String _ID = "GroupId";
     public static final String COLUMN_NAME = "Name";
+
+    //this mocks the groups column of the database; other mocking elements in Contact class
     static ArrayList<ContactGroup> groupsMock;
+
+
     private int groupID;
     private String name;
     private ArrayList<Contact> contacts;
@@ -20,15 +26,15 @@ class ContactGroup implements BaseColumns {
         contacts = new ArrayList<>();
     }
 
-    ContactGroup(String n, ArrayList<Contact> cList)
-    {
+    //note: addAll here adds the same contacts, not copies of the contacts; be careful of this
+    ContactGroup(String n, ArrayList<Contact> cList) {
         name = n;
         contacts = new ArrayList<>();
         contacts.addAll(cList);
     }
 
-    static ArrayList<ContactGroup> GenerateRandomGroups(int numGroups, int numContacts)
-    {
+    //Generates new groups, each containing the same amount of contacts
+    static ArrayList<ContactGroup> GenerateRandomGroups(int numGroups, int numContacts) {
         ArrayList<ContactGroup> groupList = new ArrayList<>();
         ArrayList<Contact> cList;
         for (int i = 0; i < numGroups; i++)
@@ -39,11 +45,14 @@ class ContactGroup implements BaseColumns {
         return groupList;
     }
 
+    //getters and setters
     public String getName() {
         return name;
     }
 
-    public void setName(String n) {this.name = n;}
+    public void setName(String n) {
+        this.name = n;
+    }
 
     public ArrayList<Contact> getContacts() {
         return contacts;

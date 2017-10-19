@@ -35,6 +35,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         //SQLiteDatabase db = DatabaseHelper.openDatabase(this);        //TODO - pull contacts from database
 
+        //This button generates a new contact, and takes you to the ContactInfo screen to edit it
         Button newContactButton = (Button) findViewById(R.id.contact_new);
         newContactButton.setOnClickListener(new View.OnClickListener()
         {
@@ -42,19 +43,17 @@ public class ContactsActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 JSONObject newAttributes = new JSONObject();
-                try
-                {
-                    newAttributes.put("Email","Enter Email");
+                try {
+                    newAttributes.put("Email", "Enter Email");
                     newAttributes.put("Phone Number", "Enter Phone Number");
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Contact newContact = new Contact("Enter Name", newAttributes);
                 contactsMock.add(newContact);
                 Intent i = new Intent(ContactsActivity.this, ContactInfoActivity.class);
-                i.putExtra("Contact",newContact.ContactToJSON().toString());
+                i.putExtra("Contact", newContact.ContactToJSON().toString());
+                i.putExtra("isEditEnabled", true);
                 startActivity(i);
             }
         });
@@ -63,16 +62,20 @@ public class ContactsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //Sorts the contact list, then displays it
         contactsMock = Utilities.SortContactList(contactsMock);
         recyclerView.setAdapter(new ContactsAdapter(contactsMock));
     }
 
+    //adds the home button to the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default,menu);
+        getMenuInflater().inflate(R.menu.menu_default, menu);
         return true;
     }
 
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cmsc355.contactapp">
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
 
     <application
         android:name=".App"
@@ -13,17 +16,23 @@
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConnectActivity" />
+        <activity android:name=".ConnectActivity" >
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ContactsActivity" />
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".GroupsActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ContactInfoActivity" />
+        <activity android:name=".ContactInfoActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

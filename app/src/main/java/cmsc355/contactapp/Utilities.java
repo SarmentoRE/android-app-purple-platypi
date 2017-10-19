@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 
 class Utilities {
+    //Returns a random string of lowercase letters
     static String GenerateRandomString(int length) {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(length);
@@ -32,6 +33,7 @@ class Utilities {
         return stringBuilder.toString();
     }
 
+    //Given a linked (ordered) map, returns the Object at a given position by using an iterator
     static String GetKeyAtPosition(LinkedHashMap<String, Object> map, int position) {
         Iterator<String> itr = map.keySet().iterator();
         String key = "";
@@ -47,6 +49,9 @@ class Utilities {
         return key;
     }
 
+    //Extracts the data from a JSONObject into an ArrayMap. The structure of the map will mimic the JSON,
+    //with JSONObjects represented by ArrayMaps, JSONArrays represented by ArrayLists, and any other
+    //object type simply stored into the map
     static ArrayMap<String, Object> JSONToMap(JSONObject json) {
         ArrayMap<String, Object> retMap = new ArrayMap<>();
 
@@ -56,6 +61,7 @@ class Utilities {
         return retMap;
     }
 
+    //Used in JSONToMap, recursively drills into JSON to extract data. Maps represent JSONObjects
     private static ArrayMap<String, Object> toMap(JSONObject object) {
         ArrayMap<String, Object> map = new ArrayMap<>();
 
@@ -81,6 +87,7 @@ class Utilities {
         return map;
     }
 
+    //Used in JSONToMap, recursively drills into JSON to extract data. Lists represent JSONArrays
     private static ArrayList<Object> toList(JSONArray array) {
         ArrayList<Object> list = new ArrayList<>();
         for(int i = 0; i < array.length(); i++) {
@@ -103,6 +110,7 @@ class Utilities {
         return list;
     }
 
+    //Hides the on-screen keyboard
     static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (activity.getCurrentFocus() != null) {
@@ -110,6 +118,9 @@ class Utilities {
         }
     }
 
+    //Given a list of Contacts, sorts them by name and returns the sorted list.
+    //IMPORTANT - this method modifies the input contactList. to keep your data in the same object,
+    //call like: 'someList = Utilities.SortContactList(someList);'
     static ArrayList<Contact> SortContactList(ArrayList<Contact> contactList) {
         ArrayList<Contact> newContactList = new ArrayList<>();
         int numContacts = contactList.size();
@@ -127,6 +138,9 @@ class Utilities {
         return newContactList;
     }
 
+    //Given a list of ContactGroups, sorts them by name and returns the sorted list.
+    //IMPORTANT - this method modifies the input groupList. to keep your data in the same object,
+    //call like: 'someList = Utilities.SortGroupList(someList);'
     static ArrayList<ContactGroup> SortGroupList(ArrayList<ContactGroup> groupList) {
         ArrayList<ContactGroup> newGroupList = new ArrayList<>();
         int numGroups = groupList.size();
