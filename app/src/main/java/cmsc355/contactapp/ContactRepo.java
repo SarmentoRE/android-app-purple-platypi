@@ -15,10 +15,7 @@ import java.util.ArrayList;
 
 public class ContactRepo {
 
-    private Contact contact;
-
     public ContactRepo() {
-        contact = new Contact();
     }
 
     public static int insertToDB(Contact contact) {
@@ -33,19 +30,19 @@ public class ContactRepo {
         return contactId;
     }
 
-    public void delete(int contact_Id) {
+    public static void delete(int contact_Id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, Contact._ID + "= ?", new String[]{String.valueOf(contact_Id)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void deleteAll() {
+    public static void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public void update(Contact contact) {
+    public static void update(Contact contact) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
@@ -56,10 +53,12 @@ public class ContactRepo {
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public ArrayList<Contact> searchContacts(String searchQuery) {
+    public static ArrayList<Contact> searchContacts(String searchQuery) {
         ArrayList<Contact> allContacts = new ArrayList<>();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact.COLUMN_NAME + " LIKE ?", new String[]{"%" + searchQuery + "%"});
+        String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact.COLUMN_NAME + " LIKE ?";
+        String args[] = new String[]{"%" + searchQuery + "%"};
+        Cursor cursor = db.rawQuery(query, args);
         Contact contact;
 
         if (cursor.moveToFirst()) {
@@ -75,5 +74,23 @@ public class ContactRepo {
 
         DatabaseManager.getInstance().closeDatabase();
         return allContacts;
+    }
+
+    public static Contact getContact(int id) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact._ID + " = ?";
+        String args[] = new String[]{"" + id};
+        Cursor cursor = db.rawQuery(query, args);
+        Contact contact = new Contact();
+        if (cursor.moveToFirst()) {
+            try {
+                contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
+                contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        contact.setContactId(id);
+        return contact;
     }
 }

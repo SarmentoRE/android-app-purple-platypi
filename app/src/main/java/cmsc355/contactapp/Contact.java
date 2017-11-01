@@ -18,7 +18,7 @@ class Contact implements BaseColumns {
     public static final String TAG = Contact.class.getSimpleName();
     public static final String TABLE_NAME = "Contact";
     public static final String _ID = "ContactId";
-    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_NAME = "ContactName";
     public static final String COLUMN_JSON = "JSON";
 
     //This is where two of the database-mocking objects are stored; other one is in ContactGroup
@@ -34,6 +34,7 @@ class Contact implements BaseColumns {
     public Contact() {
         name = "Enter Name";
         attributes = new JSONObject();
+        contactId = -1;
     }
 
     //note: in this constructor, we set attributes to be json, not a copy of json; need to be careful.

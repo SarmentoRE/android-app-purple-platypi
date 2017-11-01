@@ -11,19 +11,20 @@ class ContactGroup implements BaseColumns {
     public static final String TAG = ContactGroup.class.getSimpleName();
     public static final String TABLE_NAME = "ContactGroup";
     public static final String _ID = "GroupId";
-    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_NAME = "GroupName";
 
     //this mocks the groups column of the database; other mocking elements in Contact class
     static ArrayList<ContactGroup> groupsMock;
 
 
-    private int groupID;
+    private int groupId;
     private String name;
     private ArrayList<Contact> contacts;
 
     ContactGroup() {
         name = "Default";
         contacts = new ArrayList<>();
+        groupId = -1;
     }
 
     //note: addAll here adds the same contacts, not copies of the contacts; be careful of this
@@ -31,6 +32,7 @@ class ContactGroup implements BaseColumns {
         name = n;
         contacts = new ArrayList<>();
         contacts.addAll(cList);
+        groupId = -1;
     }
 
     //Generates new groups, each containing the same amount of contacts
@@ -62,11 +64,11 @@ class ContactGroup implements BaseColumns {
         this.contacts = cList;
     }
 
-    public int getGroupID() {
-        return groupID;
+    int getGroupId() {
+        return groupId;
     }
 
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
+    void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }
