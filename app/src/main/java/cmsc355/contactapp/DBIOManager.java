@@ -12,14 +12,14 @@ public class DBIOManager implements IOManager {
     @Override
     //puts a contact into the database, if the contact already exists it updates the existing one
     public int putContact(Contact contact) {
-        int contactId = contact.getContactId();
+        int contactId = contact.getID();
         if (contactId == -1) {
             contactId = ContactRepo.insertToDB(contact);
-            contact.setContactId(contactId);
+            contact.setID(contactId);
             return contactId;
         } else {
             ContactRepo.update(contact);
-            return contact.getContactId();
+            return contact.getID();
         }
     }
 
@@ -44,7 +44,7 @@ public class DBIOManager implements IOManager {
     @Override
     //removes a contact from the db
     public void deleteContact(Contact contact) {
-        ContactRepo.delete(contact.getContactId());
+        ContactRepo.delete(contact.getID());
     }
 
     @Override

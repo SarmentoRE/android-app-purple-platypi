@@ -107,7 +107,7 @@ public class RelationRepo {
 
         //add relations from group into db
         for (int i = 0; i < contacts.size(); i++) {
-            contactId = contacts.get(i).getContactId();
+            contactId = contacts.get(i).getID();
             Relation relation = new Relation(contactId, groupId);
             relation.setRelationId(RelationRepo.insertToDB(relation));
         }

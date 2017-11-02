@@ -1,6 +1,7 @@
 package cmsc355.contactapp;
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 import static cmsc355.contactapp.Contact.contactsMock;
@@ -30,9 +32,11 @@ public class ContactInfoActivity extends AppCompatActivity
 {
 
     //boolean toggles the ability to edit all the edittexts. keyListener is stored when edittexts are
-    //disabled, so they can be reenabled properly later
+    //disabled, so they can be reenabled properly later. callingActivity keeps the activity which called
+    //this activity, to go back to proper screen
     private boolean isEditEnabled;
     private KeyListener keyListener;
+    private long clickedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -63,7 +67,7 @@ public class ContactInfoActivity extends AppCompatActivity
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
 
-        //creating Contact from the info pulled out of JSONObject
+        //creating Contact from the info pulled out of JSONObject, stores initial contact values
         final Contact contact = new Contact(name, attributes);       //TODO - Pull correct contact from db
 
         //Disabling editing on the Name edittext; this happens here because it's independent of the recyclerview
@@ -101,10 +105,11 @@ public class ContactInfoActivity extends AppCompatActivity
                     thisButton.setText(R.string.info_submit);
                     isEditEnabled = true;
                     recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
+                    clickedTime = SystemClock.elapsedRealtime();
                 }
-                //Button clicked second time; read edittext inputs, decide if any of them have changes,
+                //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
                 //make the changes if needed, and update the correct contact in the mock db
-                else {
+                else if (SystemClock.elapsedRealtime() - clickedTime > 1000){
                     //newContact will hold all the updated values
                     Contact newContact = new Contact();
                     try {
@@ -147,15 +152,11 @@ public class ContactInfoActivity extends AppCompatActivity
                         }
                     }
                     newContact.setAttributes(newAttributes);
-
-                    Intent i = new Intent(ContactInfoActivity.this, ContactsActivity.class);
-
                     //now we use the original contact values to check which contact we were editing
                     //if we were editing My Info, set myInfoMock to newContact, otherwise find the
                     //contact we were editing inside contactsMock and set that contact to newContact
                     if (myInfoMock.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
                         myInfoMock = newContact;
-                        i = new Intent(ContactInfoActivity.this, HomeActivity.class);
                     } else {
                         for (Contact c : contactsMock) {
                             if (c.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
@@ -164,11 +165,8 @@ public class ContactInfoActivity extends AppCompatActivity
                             }
                         }
                     }
-                    //this makes it so that, when we get to the Contacts screen and press the back button,
-                    //it doesn't take us back here
-                    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
+                    // Returns to previous activity
+                    finish();
                 }
             }
         });
