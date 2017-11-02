@@ -47,9 +47,9 @@ public class GroupsActivity extends AppCompatActivity {
         //that way, it can generate the correct amount of items in its list, and also put them
         //in the correct order
         ArrayList<ArrayList<Contact>> contactsLists = new ArrayList<>();
-        groupsMock = Utilities.SortGroupList(groupsMock);
+        groupsMock = Utilities.sortGroupList(groupsMock);
         for (ContactGroup group : groupsMock) {
-            group.setContacts(Utilities.SortContactList(group.getContacts()));
+            group.setContacts(Utilities.sortContactList(group.getContacts()));
             contactsLists.add(group.getContacts());
         }
 

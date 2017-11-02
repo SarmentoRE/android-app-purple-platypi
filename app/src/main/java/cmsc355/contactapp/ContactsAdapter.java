@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 class ContactsAdapter extends RecyclerView.Adapter {
@@ -63,7 +65,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
-                i.putExtra("Contact", contact.ContactToJSON().toString());
+                i.putExtra("Contact", contact.addContactToJSON(new JSONObject()).toString());
                 i.putExtra("isEditable", false);
                 v.getContext().startActivity(i);
             }

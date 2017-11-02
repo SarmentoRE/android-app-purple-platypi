@@ -41,8 +41,8 @@ class ContactGroup implements BaseColumns {
         ArrayList<Contact> cList;
         for (int i = 0; i < numGroups; i++)
         {
-            cList = Contact.GenerateRandomContacts(numContacts);
-            groupList.add(new ContactGroup(Utilities.GenerateRandomString(8), cList));
+            cList = Contact.generateRandomContacts(numContacts);
+            groupList.add(new ContactGroup(Utilities.generateRandomString(8), cList));
         }
         return groupList;
     }

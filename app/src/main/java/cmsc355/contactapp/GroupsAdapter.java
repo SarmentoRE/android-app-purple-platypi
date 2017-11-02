@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -109,7 +111,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         //get the class of the item at this position
-        String itemClass = groupAndContactMap.get(Utilities.GetKeyAtPosition(groupAndContactMap, position)).getClass().toString();
+        String itemClass = groupAndContactMap.get(Utilities.getKeyAtPosition(groupAndContactMap, position)).getClass().toString();
         //check whether the item is a ContactGroup or a Contact
         if (itemClass.equals(ContactGroup.class.toString())) {
             return 0;
@@ -150,7 +152,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
         if (viewType == 0) {
             final GroupViewHolder vHolder = (GroupViewHolder) holder;
             //find the specific group from the map
-            ContactGroup group = (ContactGroup) groupAndContactMap.get(Utilities.GetKeyAtPosition(groupAndContactMap, position));
+            ContactGroup group = (ContactGroup) groupAndContactMap.get(Utilities.getKeyAtPosition(groupAndContactMap, position));
             final Context context = vHolder.layout.getContext();    //to be used in onClick method
             vHolder.groupName.setText(group.getName());
             vHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -166,14 +168,14 @@ class GroupsAdapter extends RecyclerView.Adapter {
             if (viewType == 1) {
                 final ContactViewHolder vHolder = (ContactViewHolder) holder;
                 //find the specific contact from the map
-                final Contact contact = (Contact) groupAndContactMap.get(Utilities.GetKeyAtPosition(groupAndContactMap, position));
+                final Contact contact = (Contact) groupAndContactMap.get(Utilities.getKeyAtPosition(groupAndContactMap, position));
                 vHolder.contactName.setText(contact.getName());
                 //when you click the contact, takes you to the Contact Info screen
                 vHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
-                        i.putExtra("Contact", contact.ContactToJSON().toString());
+                        i.putExtra("Contact", contact.addContactToJSON(new JSONObject()).toString());
                         i.putExtra("isEditable", false);
                         v.getContext().startActivity(i);
                     }

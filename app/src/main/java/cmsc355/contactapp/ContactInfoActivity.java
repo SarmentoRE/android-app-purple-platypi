@@ -95,11 +95,11 @@ public class ContactInfoActivity extends AppCompatActivity
                 //Button clicked for first time; enable editing on name, change button text, and
                 //reset adapter on recycerview to generate attributes again but with edittexts enabled
                 if (!isEditEnabled) {
-                    isEditEnabled = true;
                     editName.setEnabled(true);
                     editName.setClickable(true);
                     editName.setKeyListener(keyListener);
                     thisButton.setText(R.string.info_submit);
+                    isEditEnabled = true;
                     recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
                 }
                 //Button clicked second time; read edittext inputs, decide if any of them have changes,
@@ -117,7 +117,7 @@ public class ContactInfoActivity extends AppCompatActivity
                     String nameInput = editName.getText().toString();
                     //if there was no input, nameInput will be "" and we skip this; otherwise,
                     //we update newContact's name to whatever was in the edittext
-                    if (!nameInput.matches("")) {
+                    if (!nameInput.isEmpty()) {
                         newContact.setName(nameInput);
                         editName.setHint(nameInput);
                         editName.getText().clear();
@@ -133,7 +133,7 @@ public class ContactInfoActivity extends AppCompatActivity
                         EditText editText = vHolder.txtValue;
                         //if the value's edittext had some change input into it, write that change
                         //to the same attribute in newContact
-                        if (!editText.getText().toString().matches("")) {
+                        if (!editText.getText().toString().isEmpty()) {
                             String attrKey = textView.getText().toString();
                             attrKey = attrKey.substring(0, attrKey.length() - 1);
                             String newAttrValue = editText.getText().toString();
@@ -153,12 +153,12 @@ public class ContactInfoActivity extends AppCompatActivity
                     //now we use the original contact values to check which contact we were editing
                     //if we were editing My Info, set myInfoMock to newContact, otherwise find the
                     //contact we were editing inside contactsMock and set that contact to newContact
-                    if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                    if (myInfoMock.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
                         myInfoMock = newContact;
                         i = new Intent(ContactInfoActivity.this, HomeActivity.class);
                     } else {
                         for (Contact c : contactsMock) {
-                            if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                            if (c.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
                                 c.setName(newContact.getName());
                                 c.setAttributes(newContact.getAttributes());
                             }
@@ -170,7 +170,6 @@ public class ContactInfoActivity extends AppCompatActivity
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
-
             }
         });
 
@@ -179,7 +178,7 @@ public class ContactInfoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //Don't allow user to delete the My Info contact page
-                if (myInfoMock.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                if (myInfoMock.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
                     Toast.makeText(ContactInfoActivity.this, "Your info page is not deletable", Toast.LENGTH_SHORT).show();   //TODO - just remove button for MyInfo screen instead
                 } else {
                     //have to find the contact in both the contactsMock and the groupsMock, to make sure
@@ -190,14 +189,14 @@ public class ContactInfoActivity extends AppCompatActivity
                     boolean groupFound = false;
                     for (Contact c : contactsMock) {
                         //if we find a contact in the contactsMock list which perfectly matches this contact...
-                        if (c.ContactToJSON().toString().equals(contact.ContactToJSON().toString())) {
+                        if (c.addContactToJSON(new JSONObject()).toString().equals(contact.addContactToJSON(new JSONObject()).toString())) {
                             //remember this contact, then hunt for it in the groupsMock
                             targetContact = c;
                             targetFound = true;
                             for (ContactGroup g : groupsMock) {
                                 for (Contact groupContact : g.getContacts()) {
                                     //if we find the contact somewhere in the groupsMock...
-                                    if (c.ContactToJSON().toString().equals(groupContact.ContactToJSON().toString())) {
+                                    if (c.addContactToJSON(new JSONObject()).toString().equals(groupContact.addContactToJSON(new JSONObject()).toString())) {
                                         //remember which group it belongs to
                                         targetGroup = g;
                                         groupFound = true;
@@ -254,6 +253,7 @@ public class ContactInfoActivity extends AppCompatActivity
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
+                    v.performClick();
                     Utilities.hideSoftKeyboard(ContactInfoActivity.this);
                     return false;
                 }

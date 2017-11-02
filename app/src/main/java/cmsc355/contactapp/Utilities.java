@@ -24,7 +24,7 @@ import java.util.Random;
 
 class Utilities {
     //Returns a random string of lowercase letters
-    static String GenerateRandomString(int length) {
+    static String generateRandomString(int length) {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(length);
         for(int i =0; i<stringBuilder.capacity();i++) {
@@ -34,7 +34,7 @@ class Utilities {
     }
 
     //Given a linked (ordered) map, returns the Object at a given position by using an iterator
-    static String GetKeyAtPosition(LinkedHashMap<String, Object> map, int position) {
+    static String getKeyAtPosition(LinkedHashMap<String, Object> map, int position) {
         Iterator<String> itr = map.keySet().iterator();
         String key = "";
         if (position == 0) {
@@ -47,6 +47,13 @@ class Utilities {
             }
         }
         return key;
+    }
+
+    static void clearJSON(JSONObject json) {
+        Iterator keys = json.keys();
+        while(keys.hasNext()) {
+            json.remove(keys.next().toString());
+        }
     }
 
     //Extracts the data from a JSONObject into an ArrayMap. The structure of the map will mimic the JSON,
@@ -120,8 +127,8 @@ class Utilities {
 
     //Given a list of Contacts, sorts them by name and returns the sorted list.
     //IMPORTANT - this method modifies the input contactList. to keep your data in the same object,
-    //call like: 'someList = Utilities.SortContactList(someList);'
-    static ArrayList<Contact> SortContactList(ArrayList<Contact> contactList) {
+    //call like: 'someList = Utilities.sortContactList(someList);'
+    static ArrayList<Contact> sortContactList(ArrayList<Contact> contactList) {
         ArrayList<Contact> newContactList = new ArrayList<>();
         int numContacts = contactList.size();
         for (int i = 0; i < numContacts; i++) {
@@ -140,8 +147,8 @@ class Utilities {
 
     //Given a list of ContactGroups, sorts them by name and returns the sorted list.
     //IMPORTANT - this method modifies the input groupList. to keep your data in the same object,
-    //call like: 'someList = Utilities.SortGroupList(someList);'
-    static ArrayList<ContactGroup> SortGroupList(ArrayList<ContactGroup> groupList) {
+    //call like: 'someList = Utilities.sortGroupList(someList);'
+    static ArrayList<ContactGroup> sortGroupList(ArrayList<ContactGroup> groupList) {
         ArrayList<ContactGroup> newGroupList = new ArrayList<>();
         int numGroups = groupList.size();
         for (int i = 0; i < numGroups; i++) {

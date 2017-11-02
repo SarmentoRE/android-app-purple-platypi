@@ -52,7 +52,7 @@ public class ContactsActivity extends AppCompatActivity {
                 Contact newContact = new Contact("Enter Name", newAttributes);
                 contactsMock.add(newContact);
                 Intent i = new Intent(ContactsActivity.this, ContactInfoActivity.class);
-                i.putExtra("Contact", newContact.ContactToJSON().toString());
+                i.putExtra("Contact", newContact.addContactToJSON(new JSONObject()).toString());
                 i.putExtra("isEditEnabled", true);
                 startActivity(i);
             }
@@ -63,7 +63,7 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Sorts the contact list, then displays it
-        contactsMock = Utilities.SortContactList(contactsMock);
+        contactsMock = Utilities.sortContactList(contactsMock);
         recyclerView.setAdapter(new ContactsAdapter(contactsMock));
     }
 

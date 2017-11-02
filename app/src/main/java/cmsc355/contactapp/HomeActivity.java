@@ -26,10 +26,10 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(homeToolbar);                                   //it doesn't display the Home action button
         ListView listView = (ListView) findViewById(R.id.home_list);
 
-        SetupButtonList(listView);
+        setupButtonList(listView);
     }
 
-    private void SetupButtonList(ListView listView) {
+    private void setupButtonList(ListView listView) {
         ArrayList<String> buttonNames = new ArrayList<>();
         buttonNames.addAll(Arrays.asList(getResources().getStringArray(R.array.home_button_names)));
 
@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 4:
                         i = new Intent(HomeActivity.this, ContactInfoActivity.class);
-                        i.putExtra("Contact", Contact.myInfoMock.ContactToJSON().toString());       //TODO - retrieve "my info" from db
+                        i.putExtra("Contact", Contact.myInfoMock.addContactToJSON(new JSONObject()).toString());       //TODO - retrieve "my info" from db
                         i.putExtra("isEditEnabled", true);
                         break;
                     case 5:

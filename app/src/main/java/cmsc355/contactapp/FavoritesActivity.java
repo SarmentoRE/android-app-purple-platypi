@@ -9,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import static cmsc355.contactapp.ContactGroup.groupsMock;
@@ -37,7 +35,7 @@ public class FavoritesActivity extends AppCompatActivity {
         //assumes the first group in the db mock is the favorites group
         ArrayList<Contact> favoritesList = groupsMock.get(0).getContacts();   //TODO - replace this line with pulling favorite contacts from database
         //from here it works identical to the Contacts screen
-        favoritesList = Utilities.SortContactList(favoritesList);
+        favoritesList = Utilities.sortContactList(favoritesList);
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }
 

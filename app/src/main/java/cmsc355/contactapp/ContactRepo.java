@@ -9,10 +9,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by Austin on 10/16/2017.
- */
-
 public class ContactRepo {
 
     public ContactRepo() {
@@ -23,7 +19,7 @@ public class ContactRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(Contact.COLUMN_NAME, contact.getName());
-        values.put(Contact.COLUMN_JSON, contact.ContactToJSON().toString());
+        values.put(Contact.COLUMN_JSON, contact.addContactToJSON(new JSONObject()).toString());
 
         contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
@@ -47,9 +43,9 @@ public class ContactRepo {
         ContentValues values = new ContentValues();
 
         values.put(Contact.COLUMN_NAME, contact.getName());
-        values.put(Contact.COLUMN_JSON, contact.ContactToJSON().toString());
+        values.put(Contact.COLUMN_JSON, contact.addContactToJSON(new JSONObject()).toString());
 
-        db.update(Contact.TABLE_NAME, values, Contact._ID + "= ?", new String[]{String.valueOf(contact.getContactId())});
+        db.update(Contact.TABLE_NAME, values, Contact._ID + "= ?", new String[]{String.valueOf(contact.getID())});
         DatabaseManager.getInstance().closeDatabase();
     }
 
@@ -90,7 +86,7 @@ public class ContactRepo {
                 e.printStackTrace();
             }
         }
-        contact.setContactId(id);
+        contact.setID(id);
         return contact;
     }
 }
