@@ -53,32 +53,39 @@ public class EditContactTest/*Create and Store Contacts #14, Scenario 2*/
         to avoid possible timing errors*/
         Activity contactActivity = instrum.waitForMonitorWithTimeout(progress, 3000);
 
-        //clicks on the first available contact on the ContactActivity screen
-        Contact contactOne = contactsMock.get(0);
-        onView(withText(contactOne.getName())).perform(click());
+        //performs a click operation on the new contact button
+        onView(withId(R.id.contact_new)).perform(click());
 
-        /*confirms that the button associated with the previous click has a string associated with it
-        that reads "Edit Contact Info". This string is unique and only assigned to this button at this
-        point in the execution so it confirms we are in the correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_edit)));
+        //Confirms that we are on the edit contact page as it is the only page that has the delete contact button
+        onView(withId(R.id.info_delete_button)).check(matches(withText("Delete Contact")));
+
+        //types in some string to the contact name field in the edit contact activity
+        onView(withId(R.id.info_name)).perform(typeText("Enter Name"));
+
+        //performs a click operation on the SUBMIT CHANGES button
+        onView(withText("ContactApp")).perform(click());
+
+        //performs a click operation on the previously made contact
+        onView(withText(containsString("Enter Name"))).perform(click());
+
+        //Confirms that we are on the edit contact page as it is the only page that has the delete contact button
+        onView(withId(R.id.info_delete_button)).check(matches(withText("Delete Contact")));
 
         //performs a click operation on the EDIT CONTACT INFO button
-        onView(withId(R.id.info_edit_button)).perform(click());
+        //onView(withId(R.id.info_edit_button)).perform(click());
+        onView(withText("ContactApp")).perform(click());
 
         //types in the name Harry to the contact name field in the edit contact activity
         onView(withId(R.id.info_name)).perform(typeText("Austin"));
 
-        /*confirms that the button associated with the previous click has a string associated with it
-        that reads "Submit Changes". This string is unique and only assigned to this button at this
-        point in the execution so it confirms we are in teh correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_submit)));
-
         //performs a click operation on the SUBMIT CHANGES button
-        onView(withId(R.id.info_edit_button)).perform(click());
+        onView(withText("ContactApp")).perform(click());
 
-        /*Confirms that the Contact object was updated on the ContactActivity screen. Test is complete.*/
-        Contact variableContact = contactsMock.get(0);
-        onView(withText(variableContact.getName())).check(matches(withText("Austin")));
+        /*Contact changed successfully, test complete.*/
+        onView(withText("Austin")).check(matches(withText("Austin")));
+
+        /*Deletes contact created for this test to prepare for next test.*/
+        onView(withId(R.id.info_delete_button)).perform(click());
 
     }//TestEditNewContact method
 

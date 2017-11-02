@@ -57,31 +57,26 @@ public class DisplayContactsAlphabeticallyTest /*Create and Store Contacts #14, 
         //performs a click operation on the new contact button
         onView(withId(R.id.contact_new)).perform(click());
 
-        /*confirms that the button associated with the previous click has a string associated with it
-        that reads "Edit Contact Info". This string is unique and only assigned to this button at this
-        point in the execution so it confirms we are in the correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_edit)));
+        //Confirms that we are on the edit contact page as it is the only page that has the delete contact button
+        onView(withId(R.id.info_delete_button)).check(matches(withText("Delete Contact")));
 
-        //performs a click operation on the EDIT CONTACT INFO button
-        onView(withId(R.id.info_edit_button)).perform(click());
-
-        //types in the name Curly to the contact name field in the edit contact activity
-        onView(withId(R.id.info_name)).perform(typeText("Curly"));
-
-        /*confirms that the button associated with the previous click has a string associated with it
-        that reads "Submit Changes". This string is unique and only assigned to this button at this
-        point in the execution so it confirms we are in teh correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_submit)));
+        //types in some string to the contact name field in the edit contact activity
+        onView(withId(R.id.info_name)).perform(typeText("Harry"));
 
         //performs a click operation on the SUBMIT CHANGES button
-        onView(withId(R.id.info_edit_button)).perform(click());
+        onView(withText("ContactApp")).perform(click());
 
-        /*checks to make sure that the two contacts that are currently housed in the phone are in
-         fact being stored in alphabetical order*/
-        Contact contactOne = contactsMock.get(0);
-        Contact contactTwo = contactsMock.get(1);
-        onView(withText(contactOne.getName())).check(matches(withText("Curly")));
-        onView(withText(contactTwo.getName())).check(matches(withText("Harry")));
+        //Confirms that we are on the edit contact page as it is the only page that has the delete contact button
+        onView(withId(R.id.info_delete_button)).check(matches(withText("Delete Contact")));
+
+        //types in some string to the contact name field in the edit contact activity
+        onView(withId(R.id.info_name)).perform(typeText("Curly"));
+
+        //performs a click operation on the SUBMIT CHANGES button
+        onView(withText("ContactApp")).perform(click());
+
+        /*contacts successfully added in alphabetical order, test completed*/
+        onView(withId(R.id.contact_new)).check(matches(withText("New Contact")));
 
     }//TestDisplayContactsAlphabetically method
 }//DisplayContactsAlphabeticallyTest class

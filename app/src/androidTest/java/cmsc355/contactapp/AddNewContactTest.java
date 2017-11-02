@@ -22,6 +22,9 @@ import static org.hamcrest.Matcher.*;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
+import android.widget.Spinner;
+
+import org.hamcrest.Matchers.*;
 
 @RunWith(AndroidJUnit4.class)
 public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
@@ -53,35 +56,23 @@ public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
         to avoid possible timing errors*/
         Activity contactActivity = instrum.waitForMonitorWithTimeout(progress, 3000);
 
-        //TextView detailView = (TextView) contactActivity.findViewById(R.id.contact_toolbar);
-        //assertThat(detailView.getText().toString(), is("1"));
-
         //performs a click operation on the new contact button
         onView(withId(R.id.contact_new)).perform(click());
 
-        /*confirms that the button associated with the previous click has a string associated with it
-         that reads "Edit Contact Info". This string is unique and only assigned to this button at this
-         point in the execution so it confirms we are in the correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_edit)));
+        //Confirms that we are on the edit contact page as it is the only page that has the delete contact button
+        onView(withId(R.id.info_delete_button)).check(matches(withText("Delete Contact")));
 
-        //performs a click operation on the EDIT CONTACT INFO button
-        onView(withId(R.id.info_edit_button)).perform(click());
-
-        //types in the name Harry to the contact name field in the edit contact activity
+        //types in some string to the contact name field in the edit contact activity
         onView(withId(R.id.info_name)).perform(typeText("Harry"));
 
-        /*confirms that the button associated with the previous click has a string associated with it
-         that reads "Submit Changes". This string is unique and only assigned to this button at this
-         point in the execution so it confirms we are in teh correct activity at the correct time.*/
-        onView(withId(R.id.info_edit_button)).check(matches(withText(R.string.info_submit)));
-
         //performs a click operation on the SUBMIT CHANGES button
-        onView(withId(R.id.info_edit_button)).perform(click());
+        onView(withText("ContactApp")).perform(click());
 
-        /*confirms that the only contact currently in the ArrayList of Contact objects is the one that we just
-        added. Contact added successfully, test complete.*/
-        Contact varContact = contactsMock.get(0);
-        onView(withText(varContact.getName())).check(matches(withText("Harry")));
+        /*Contact added successfully, test complete.*/
+        onView(withId(R.id.info_name)).check(matches(withText("Harry")));
+
+        /*Deletes contact created for this test to prepare for next test.*/
+        onView(withId(R.id.info_delete_button)).perform(click());
 
     }//TestAddNewContact method
 
