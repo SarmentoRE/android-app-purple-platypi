@@ -20,11 +20,11 @@ class ConnectAdapter extends RecyclerView.Adapter {
         public View layout;
 
         //constructor method
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtCheck = v.findViewById(R.id.connect_check);
-            txtValue = v.findViewById(R.id.connect_value);
+        ViewHolder(View view) {
+            super(view);
+            layout = view;
+            txtCheck = view.findViewById(R.id.connect_check);
+            txtValue = view.findViewById(R.id.connect_value);
         }
     }
 
@@ -55,8 +55,8 @@ class ConnectAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_connect, parent, false);
-        return new ViewHolder(v);
+        View view = inflater.inflate(R.layout.item_connect, parent, false);
+        return new ViewHolder(view);
     }
 
     //this is where we actually modify the contents of the views. In this case, we take a value from
@@ -64,11 +64,11 @@ class ConnectAdapter extends RecyclerView.Adapter {
     //The checkbox already handles the animation & storing the boolean for whether it is checked or unchecked.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ViewHolder vHolder = (ViewHolder) holder;
+        ViewHolder viewHolder = (ViewHolder) holder;
         final String key = attributes.keyAt(position);
         final String value = attributes.valueAt(position);
-        vHolder.txtCheck.setText(key);
-        vHolder.txtValue.setText(value);
+        viewHolder.txtCheck.setText(key);
+        viewHolder.txtValue.setText(value);
     }
 
     //actually really important. this determines how many elements it's going to inflate, so

@@ -20,18 +20,18 @@ class InfoAdapter extends RecyclerView.Adapter {
         TextView txtKey;
         EditText txtValue;
 
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtKey = v.findViewById(R.id.info_key);
-            txtValue = v.findViewById(R.id.info_value);
+        ViewHolder(View view) {
+            super(view);
+            layout = view;
+            txtKey = view.findViewById(R.id.info_key);
+            txtValue = view.findViewById(R.id.info_value);
         }
     }
 
     //constructor method
-    InfoAdapter(Contact c, boolean iEE) {
-        attributes = Utilities.JSONToMap(c.getAttributes());
-        isEditEnabled = iEE;
+    InfoAdapter(Contact contact, boolean iee) {
+        attributes = Utilities.jsonToMap(contact.getAttributes());
+        isEditEnabled = iee;
     }
 
     public void add(String key, String value) {
@@ -49,8 +49,8 @@ class InfoAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_attribute, parent, false);
-        return new InfoAdapter.ViewHolder(v);
+        View view = inflater.inflate(R.layout.item_attribute, parent, false);
+        return new InfoAdapter.ViewHolder(view);
     }
 
     //this is where we actually modify the contents of the views. In this case, we determine the item type,
@@ -58,16 +58,16 @@ class InfoAdapter extends RecyclerView.Adapter {
     //item type
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        InfoAdapter.ViewHolder vHolder = (InfoAdapter.ViewHolder) holder;
+        InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) holder;
         String key = attributes.keyAt(position);
         String value = (String) attributes.get(key);        //TODO - need to make this generic for non-string value types
         key = key.concat(":");
-        vHolder.txtKey.setText(key);
-        vHolder.txtValue.setHint(value);
+        viewHolder.txtKey.setText(key);
+        viewHolder.txtValue.setHint(value);
         if (!isEditEnabled) {
-            vHolder.txtValue.setEnabled(false);
-            vHolder.txtValue.setClickable(false);
-            vHolder.txtValue.setKeyListener(null);
+            viewHolder.txtValue.setEnabled(false);
+            viewHolder.txtValue.setClickable(false);
+            viewHolder.txtValue.setKeyListener(null);
         }
     }
 

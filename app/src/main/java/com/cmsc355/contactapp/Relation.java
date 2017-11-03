@@ -2,7 +2,7 @@ package com.cmsc355.contactapp;
 
 import android.provider.BaseColumns;
 
-/**
+/*
  * Created by Austin on 10/18/2017.
  */
 

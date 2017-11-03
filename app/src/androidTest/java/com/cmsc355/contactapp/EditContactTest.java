@@ -23,17 +23,17 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
 
+/*Create and Store Contacts #14, Scenario 2*/
+
 @RunWith(AndroidJUnit4.class)
-public class EditContactTest/*Create and Store Contacts #14, Scenario 2*/
-{
+public class EditContactTest {
     //Rule that launches the app from the HomeActivity
     @Rule
     public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
 
     /*Code that will test Scenario 2: Edit a contact from User Story #14 (Create and Store Contacts) for correctness*/
     @Test
-    public void TestEditNewContact() throws Exception
-    {
+    public void TestEditNewContact() throws Exception {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
         final ListView homeLV = (ListView) main.getActivity().findViewById(R.id.home_list);
 
@@ -80,6 +80,8 @@ public class EditContactTest/*Create and Store Contacts #14, Scenario 2*/
         Contact variableContact = contactsMock.get(0);
         onView(withText(variableContact.getName())).check(matches(withText("Austin")));
 
-    }//TestEditNewContact method
+    }
+    //TestEditNewContact method
 
-}//EditContactTest class
+}
+//EditContactTest class

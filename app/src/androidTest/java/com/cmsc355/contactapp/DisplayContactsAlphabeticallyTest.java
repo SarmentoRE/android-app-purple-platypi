@@ -23,9 +23,10 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
 
+/*Create and Store Contacts #14, Scenario 3*/
+
 @RunWith(AndroidJUnit4.class)
-public class DisplayContactsAlphabeticallyTest /*Create and Store Contacts #14, Scenario 3*/
-{
+public class DisplayContactsAlphabeticallyTest {
     //Rule that launches the app from the HomeActivity
     @Rule
     public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
@@ -33,8 +34,7 @@ public class DisplayContactsAlphabeticallyTest /*Create and Store Contacts #14, 
     /*Code that will test Scenario 3: Display contacts in alphabetical order from User Story #14
     (Create and Store Contacts) for correctness*/
     @Test
-    public void TestDisplayContactsAlphabetically() throws Exception
-    {
+    public void TestDisplayContactsAlphabetically() throws Exception {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
         final ListView homeLV = (ListView) main.getActivity().findViewById(R.id.home_list);
 
@@ -83,5 +83,8 @@ public class DisplayContactsAlphabeticallyTest /*Create and Store Contacts #14, 
         onView(withText(contactOne.getName())).check(matches(withText("Curly")));
         onView(withText(contactTwo.getName())).check(matches(withText("Harry")));
 
-    }//TestDisplayContactsAlphabetically method
-}//DisplayContactsAlphabeticallyTest class
+    }
+    //TestDisplayContactsAlphabetically method
+
+}
+//DisplayContactsAlphabeticallyTest class

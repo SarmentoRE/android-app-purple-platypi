@@ -42,6 +42,7 @@ public class UtilitiesTest {
         LinkedHashMap<String, Object> testMap = new LinkedHashMap<>();
         int elements = 5;
         String[] keyArray = new String[elements];
+        
         for (int i = 0; i < elements; i++) {
             String key = "Key" + i;
             testMap.put(key, null);
@@ -99,7 +100,7 @@ public class UtilitiesTest {
         when(jsonArrayLower.get(0)).thenReturn("Value2");
         when(jsonArrayLower.length()).thenReturn(1);
 
-        ArrayMap<String, Object> testMap = Utilities.JSONToMap(jsonUpper);
+        ArrayMap<String, Object> testMap = Utilities.jsonToMap(jsonUpper);
 
         assertEquals("Map value does not match first level JSONObject value",
                 ((JSONObject) jsonUpper.get("JSONObject")).get("Key1"),
@@ -113,7 +114,7 @@ public class UtilitiesTest {
                 ((JSONArray)((JSONArray) jsonUpper.get("JSONArray")).get(1)).get(0),
                 ((ArrayList<String>)((ArrayList<Object>) testMap.get("JSONArray")).get(1)).get(0));
 
-        testMap = Utilities.JSONToMap(null);
+        testMap = Utilities.jsonToMap(null);
         assertTrue(testMap.isEmpty());
     }
 

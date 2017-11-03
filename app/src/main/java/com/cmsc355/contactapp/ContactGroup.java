@@ -28,21 +28,20 @@ class ContactGroup implements BaseColumns {
     }
 
     //note: addAll here adds the same contacts, not copies of the contacts; be careful of this
-    ContactGroup(String n, ArrayList<Contact> cList) {
-        name = n;
+    ContactGroup(String newName, ArrayList<Contact> contactList) {
+        name = newName;
         contacts = new ArrayList<>();
-        contacts.addAll(cList);
+        contacts.addAll(contactList);
         groupId = -1;
     }
 
     //Generates new groups, each containing the same amount of contacts
-    static ArrayList<ContactGroup> GenerateRandomGroups(int numGroups, int numContacts) {
+    static ArrayList<ContactGroup> generateRandomGroups(int numGroups, int numContacts) {
         ArrayList<ContactGroup> groupList = new ArrayList<>();
-        ArrayList<Contact> cList;
-        for (int i = 0; i < numGroups; i++)
-        {
-            cList = Contact.generateRandomContacts(numContacts);
-            groupList.add(new ContactGroup(Utilities.generateRandomString(8), cList));
+        ArrayList<Contact> contactList;
+        for (int i = 0; i < numGroups; i++) {
+            contactList = Contact.generateRandomContacts(numContacts);
+            groupList.add(new ContactGroup(Utilities.generateRandomString(8), contactList));
         }
         return groupList;
     }
@@ -52,16 +51,16 @@ class ContactGroup implements BaseColumns {
         return name;
     }
 
-    public void setName(String n) {
-        this.name = n;
+    public void setName(String newName) {
+        this.name = newName;
     }
 
     public ArrayList<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<Contact> cList) {
-        this.contacts = cList;
+    public void setContacts(ArrayList<Contact> contactList) {
+        this.contacts = contactList;
     }
 
     int getGroupId() {

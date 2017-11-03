@@ -34,7 +34,7 @@ public class GroupsActivity extends AppCompatActivity {
         Button newGroupButton = (Button) findViewById(R.id.group_new);
         newGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Toast.makeText(GroupsActivity.this, "Create New Group", Toast.LENGTH_SHORT).show();
             }
         });
@@ -68,13 +68,13 @@ public class GroupsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_home:
-                Intent i = new Intent(GroupsActivity.this, HomeActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+          case R.id.action_home:
+              Intent intent = new Intent(GroupsActivity.this, HomeActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              startActivity(intent);
+              return true;
+          default:
+              return super.onOptionsItemSelected(item);
 
         }
     }

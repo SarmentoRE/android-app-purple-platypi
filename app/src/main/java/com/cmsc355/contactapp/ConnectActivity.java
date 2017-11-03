@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import static com.cmsc355.contactapp.App.context;
 import static com.cmsc355.contactapp.Contact.myInfoMock;
 
@@ -35,7 +33,7 @@ public class ConnectActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         nfcCheck(); // check for NFC connection
-    /* Todo see what here isn't working and why
+        /* TODO - see what here isn't working and why
         Intent nfcIntent = new Intent(this, getClass()); // Instantiate the intent to NFC connect
         nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP); // add flag, pops the activity to the forefront
 
@@ -51,12 +49,14 @@ public class ConnectActivity extends AppCompatActivity {
         catch (Throwable t) {
             t.printStackTrace();
         }
-    */
+        */
     }
 
     public void nfcCheck() {
-        NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE); // This gets the manager object instantiated, and sets it to the NFC service
-        NfcAdapter adapter = manager.getDefaultAdapter(); // this instantiates the adapter and sets it to the default
+        // This gets the manager object instantiated, and sets it to the NFC service
+        NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
+        // This instantiates the adapter and sets it to the default
+        NfcAdapter adapter = manager.getDefaultAdapter();
 
         if (adapter != null && adapter.isEnabled()) {
             /* If adapter is null or adapter is enabled
@@ -75,7 +75,7 @@ public class ConnectActivity extends AppCompatActivity {
     @Override
     protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
         super.onResume();           //not just the first time
-        ArrayMap<String, Object> myInfoAttributes = Utilities.JSONToMap(myInfoMock.getAttributes());
+        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(myInfoMock.getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
     }
 
@@ -91,13 +91,13 @@ public class ConnectActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_home:
-                Intent i = new Intent(ConnectActivity.this, HomeActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+          case R.id.action_home:
+              Intent intent = new Intent(ConnectActivity.this, HomeActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              startActivity(intent);
+              return true;
+          default:
+              return super.onOptionsItemSelected(item);
         }
     }
     /* todo figure out how to make the below methods correctly listen for and stop listening for the NDEF tag

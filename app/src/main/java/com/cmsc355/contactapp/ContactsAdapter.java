@@ -21,16 +21,16 @@ class ContactsAdapter extends RecyclerView.Adapter {
         public View layout;
         TextView txtName;
 
-        ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtName = v.findViewById(R.id.contact_name);
+        ViewHolder(View view) {
+            super(view);
+            layout = view;
+            txtName = view.findViewById(R.id.contact_name);
         }
     }
 
     //constructor method
-    ContactsAdapter(ArrayList<Contact> cList) {
-        contactArrayList = cList;
+    ContactsAdapter(ArrayList<Contact> contactList) {
+        this.contactArrayList = contactList;
     }
 
     public void add(int position, Contact item) {
@@ -48,8 +48,8 @@ class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_contact, parent, false);
-        return new ViewHolder(v);
+        View view = inflater.inflate(R.layout.item_contact, parent, false);
+        return new ViewHolder(view);
     }
 
     //this is where we actually modify the contents of the views. In this case, we just set the contact's
@@ -58,16 +58,16 @@ class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Contact contact = contactArrayList.get(position);
-        ViewHolder vHolder = (ViewHolder) holder;
+        ViewHolder viewHolder = (ViewHolder) holder;
         String name = contact.getName();
-        vHolder.txtName.setText(name);
-        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.txtName.setText(name);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
-                i.putExtra("Contact", contact.addContactToJSON(new JSONObject()).toString());
-                i.putExtra("isEditable", false);
-                v.getContext().startActivity(i);
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ContactInfoActivity.class);
+                intent.putExtra("Contact", contact.addContactToJson(new JSONObject()).toString());
+                intent.putExtra("isEditable", false);
+                view.getContext().startActivity(intent);
             }
         });
     }

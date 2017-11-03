@@ -24,8 +24,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
 
-public class ContactPassedToContactInfoActivityTest /*Contact and Group Persistence #15, Scenario 1*/
-{
+/*Contact and Group Persistence #15, Scenario 1*/
+
+public class ContactPassedToContactInfoActivityTest {
     //Rule that launches the app from the HomeActivity
     @Rule
     public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
@@ -33,8 +34,7 @@ public class ContactPassedToContactInfoActivityTest /*Contact and Group Persiste
     /*Code that will test Scenario 1: Contact passed to ContactInfoActivity from User Story #15
      (Contact and Group Persistence) for correctness*/
     @Test
-    public void TestContactPassedToContactInfoActivity() throws Exception
-    {
+    public void TestContactPassedToContactInfoActivity() throws Exception {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
         final ListView homeLV = (ListView) main.getActivity().findViewById(R.id.home_list);
 
@@ -68,6 +68,8 @@ public class ContactPassedToContactInfoActivityTest /*Contact and Group Persiste
         onView(withId(R.id.info_name)).check(matches(withText("Harry")));
 
 
-    }//TestContactPassedToContactInfoActivity method
+    }
+    //TestContactPassedToContactInfoActivity method
 
-}//ContactPassedToContactInfoActivityTest
+}
+//ContactPassedToContactInfoActivityTest

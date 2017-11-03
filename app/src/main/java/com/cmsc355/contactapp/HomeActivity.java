@@ -39,36 +39,37 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {    //Set button destination based on location
-                Intent i = null;
+                Intent intent = null;
                 switch (position) {
-                    case 0:
-                        i = new Intent(HomeActivity.this, ConnectActivity.class);
-                        break;
-                    case 1:
-                        i = new Intent(HomeActivity.this, ContactsActivity.class);
-                        break;
-                    case 2:
-                        i = new Intent(HomeActivity.this, FavoritesActivity.class);
-                        break;
-                    case 3:
-                        i = new Intent(HomeActivity.this, GroupsActivity.class);
-                        break;
-                    case 4:
-                        i = new Intent(HomeActivity.this, ContactInfoActivity.class);
-                        i.putExtra("Contact", Contact.myInfoMock.addContactToJSON(new JSONObject()).toString());       //TODO - retrieve "my info" from db
-                        i.putExtra("isEditEnabled", true);
-                        break;
-                    case 5:
-                        i = new Intent(HomeActivity.this, ScanActivity.class);
-                        break;
-                    case 6:
-                        i = new Intent(HomeActivity.this, SettingsActivity.class);
-                        break;
-                    default:
-                        break;
+                  case 0:
+                      intent = new Intent(HomeActivity.this, ConnectActivity.class);
+                      break;
+                  case 1:
+                      intent = new Intent(HomeActivity.this, ContactsActivity.class);
+                      break;
+                  case 2:
+                      intent = new Intent(HomeActivity.this, FavoritesActivity.class);
+                      break;
+                  case 3:
+                      intent = new Intent(HomeActivity.this, GroupsActivity.class);
+                      break;
+                  case 4:
+                      intent = new Intent(HomeActivity.this, ContactInfoActivity.class);
+                      //TODO - retrieve "my info" from db
+                      intent.putExtra("Contact", Contact.myInfoMock.addContactToJson(new JSONObject()).toString());
+                      intent.putExtra("isEditEnabled", true);
+                      break;
+                  case 5:
+                      intent = new Intent(HomeActivity.this, ScanActivity.class);
+                      break;
+                  case 6:
+                      intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                      break;
+                  default:
+                      break;
                 }
-                if (i != null) {
-                    startActivity(i);
+                if (intent != null) {
+                    startActivity(intent);
                 }
             }
         });
@@ -84,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         relationRepo.deleteAll();
 
         Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
-        contactRepo.insertToDB(contact);
+        contactRepo.insertToDatabase(contact);
 
     }
 }

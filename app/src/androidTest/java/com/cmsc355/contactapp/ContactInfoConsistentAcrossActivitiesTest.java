@@ -1,5 +1,6 @@
 package com.cmsc355.contactapp;
 
+import android.view.*;
 import android.support.test.InstrumentationRegistry;
 import static android.support.test.espresso.action.ViewActions.*;
 import android.support.test.runner.AndroidJUnit4;
@@ -24,12 +25,6 @@ import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
 
 @RunWith(AndroidJUnit4.class)
-public class ContactInfoConsistentAcrossActivitiesTest
-{
-
-
-
-
-
+public class ContactInfoConsistentAcrossActivitiesTest {
 
 }

@@ -14,8 +14,6 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import static com.cmsc355.contactapp.Contact.contactsMock;
 
 public class ContactsActivity extends AppCompatActivity {
@@ -37,24 +35,22 @@ public class ContactsActivity extends AppCompatActivity {
 
         //This button generates a new contact, and takes you to the ContactInfo screen to edit it
         Button newContactButton = (Button) findViewById(R.id.contact_new);
-        newContactButton.setOnClickListener(new View.OnClickListener()
-        {
+        newContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 JSONObject newAttributes = new JSONObject();
                 try {
                     newAttributes.put("Email", "Enter Email");
                     newAttributes.put("Phone Number", "Enter Phone Number");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
                 }
                 Contact newContact = new Contact("Enter Name", newAttributes);
                 contactsMock.add(newContact);
-                Intent i = new Intent(ContactsActivity.this, ContactInfoActivity.class);
-                i.putExtra("Contact", newContact.addContactToJSON(new JSONObject()).toString());
-                i.putExtra("isEditEnabled", true);
-                startActivity(i);
+                Intent intent = new Intent(ContactsActivity.this, ContactInfoActivity.class);
+                intent.putExtra("Contact", newContact.addContactToJson(new JSONObject()).toString());
+                intent.putExtra("isEditEnabled", true);
+                startActivity(intent);
             }
         });
     }
@@ -79,13 +75,13 @@ public class ContactsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_home:
-                Intent i = new Intent(ContactsActivity.this, HomeActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+          case R.id.action_home:
+              Intent intent = new Intent(ContactsActivity.this, HomeActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              startActivity(intent);
+              return true;
+          default:
+              return super.onOptionsItemSelected(item);
 
         }
     }

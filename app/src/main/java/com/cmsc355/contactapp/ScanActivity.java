@@ -32,13 +32,13 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_home:
-                Intent i = new Intent(ScanActivity.this, HomeActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+          case R.id.action_home:
+              Intent intent = new Intent(ScanActivity.this, HomeActivity.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              startActivity(intent);
+              return true;
+          default:
+              return super.onOptionsItemSelected(item);
 
         }
     }

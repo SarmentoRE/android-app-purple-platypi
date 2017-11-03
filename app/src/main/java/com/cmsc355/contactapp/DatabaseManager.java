@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseManager {
     private static DatabaseManager instance;
     private static SQLiteOpenHelper mDatabaseHelper;
-    private Integer mOpenCounter = 0;
-    private SQLiteDatabase mDatabase;
+    private Integer openCounter = 0;
+    private SQLiteDatabase database;
 
     public static synchronized void initializeInstance(SQLiteOpenHelper helper) {
         if (instance == null) {
@@ -18,27 +18,27 @@ public class DatabaseManager {
 
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
-            throw new IllegalStateException(DatabaseManager.class.getSimpleName() +
-                    " is not initialized, call initializeInstance(..) method first.");
+            throw new IllegalStateException(DatabaseManager.class.getSimpleName()
+                    + " is not initialized, call initializeInstance(..) method first.");
         }
 
         return instance;
     }
 
     public synchronized SQLiteDatabase openDatabase() {
-        mOpenCounter += 1;
-        if (mOpenCounter == 1) {
+        openCounter += 1;
+        if (openCounter == 1) {
             // Opening new database
-            mDatabase = mDatabaseHelper.getWritableDatabase();
+            database = mDatabaseHelper.getWritableDatabase();
         }
-        return mDatabase;
+        return database;
     }
 
     public synchronized void closeDatabase() {
-        mOpenCounter -= 1;
-        if (mOpenCounter == 0) {
+        openCounter -= 1;
+        if (openCounter == 0) {
             // Closing database
-            mDatabase.close();
+            database.close();
 
         }
     }

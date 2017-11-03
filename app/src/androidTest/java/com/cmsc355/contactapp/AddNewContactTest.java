@@ -1,5 +1,6 @@
 package com.cmsc355.contactapp;
 
+import android.view.*;
 import android.support.test.InstrumentationRegistry;
 import static android.support.test.espresso.action.ViewActions.*;
 import android.support.test.runner.AndroidJUnit4;
@@ -23,17 +24,17 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import android.support.test.espresso.matcher.ViewMatchers.*;
 
+/*Create and Store Contacts #14, Scenario 1*/
+
 @RunWith(AndroidJUnit4.class)
-public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
-{
+public class AddNewContactTest {
     //Rule that launches the app from the HomeActivity
     @Rule
     public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
 
     //Code that will test Scenario 1: Add a new contact from User Story # 14 (Create and Store Contacts) for correctness
     @Test
-    public void TestAddNewContact() throws Exception
-    {
+    public void TestAddNewContact() throws Exception {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
         final ListView homeLV = (ListView) main.getActivity().findViewById(R.id.home_list);
 
@@ -83,6 +84,8 @@ public class AddNewContactTest /*Create and Store Contacts #14, Scenario 1*/
         Contact varContact = contactsMock.get(0);
         onView(withText(varContact.getName())).check(matches(withText("Harry")));
 
-    }//TestAddNewContact method
+    }
+    //TestAddNewContact method
 
-}//AddNewContactTest class
+}
+//AddNewContactTest class

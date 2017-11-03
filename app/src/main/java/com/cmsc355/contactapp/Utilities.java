@@ -2,24 +2,15 @@ package com.cmsc355.contactapp;
 
 import android.app.Activity;
 import android.support.v4.util.ArrayMap;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 class Utilities {
@@ -27,7 +18,7 @@ class Utilities {
     static String generateRandomString(int length) {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(length);
-        for(int i =0; i<stringBuilder.capacity();i++) {
+        for (int i = 0; i < stringBuilder.capacity(); i++) {
             stringBuilder.append((char) ('a' + random.nextInt(26)));
         }
         return stringBuilder.toString();
@@ -39,19 +30,18 @@ class Utilities {
         String key = "";
         if (position == 0) {
             key = itr.next();
-        }
-        else {
-            int i = 0;
-            while (itr.hasNext() && i++ <= position) {
+        } else {
+            int index = 0;
+            while (itr.hasNext() && index++ <= position) {
                 key = itr.next();
             }
         }
         return key;
     }
 
-    static void clearJSON(JSONObject json) {
+    static void clearJson(JSONObject json) {
         Iterator keys = json.keys();
-        while(keys.hasNext()) {
+        while (keys.hasNext()) {
             json.remove(keys.next().toString());
         }
     }
@@ -59,34 +49,32 @@ class Utilities {
     //Extracts the data from a JSONObject into an ArrayMap. The structure of the map will mimic the JSON,
     //with JSONObjects represented by ArrayMaps, JSONArrays represented by ArrayLists, and any other
     //object type simply stored into the map
-    static ArrayMap<String, Object> JSONToMap(JSONObject json) {
+    static ArrayMap<String, Object> jsonToMap(JSONObject json) {
         ArrayMap<String, Object> retMap = new ArrayMap<>();
 
-        if(json != JSONObject.NULL) {
+        if (json != JSONObject.NULL) {
             retMap = toMap(json);
         }
         return retMap;
     }
 
-    //Used in JSONToMap, recursively drills into JSON to extract data. Maps represent JSONObjects
+    //Used in jsonToMap, recursively drills into JSON to extract data. Maps represent JSONObjects
     private static ArrayMap<String, Object> toMap(JSONObject object) {
         ArrayMap<String, Object> map = new ArrayMap<>();
 
         Iterator<String> keysItr = object.keys();
-        while(keysItr.hasNext()) {
+        while (keysItr.hasNext()) {
             String key = keysItr.next();
             Object value = new Object();
             try {
                 value = object.get(key);
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException exception) {
+                exception.printStackTrace();
             }
 
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             map.put(key, value);
@@ -94,22 +82,20 @@ class Utilities {
         return map;
     }
 
-    //Used in JSONToMap, recursively drills into JSON to extract data. Lists represent JSONArrays
+    //Used in jsonToMap, recursively drills into JSON to extract data. Lists represent JSONArrays
     private static ArrayList<Object> toList(JSONArray array) {
         ArrayList<Object> list = new ArrayList<>();
-        for(int i = 0; i < array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
             Object value = new Object();
             try {
                 value = array.get(i);
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException exception) {
+                exception.printStackTrace();
             }
 
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             list.add(value);

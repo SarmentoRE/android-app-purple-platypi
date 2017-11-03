@@ -2,24 +2,19 @@ package com.cmsc355.contactapp;
 
 import java.util.ArrayList;
 
-/**
- * Created by Austin on 10/27/2017.
- * This is the class the rest of the app uses to interact with the DB
- */
-
-public class DBIOManager implements IOManager {
+public class DatabaseIoManager implements IoManager {
 
     @Override
     //puts a contact into the database, if the contact already exists it updates the existing one
     public int putContact(Contact contact) {
-        int contactId = contact.getID();
+        int contactId = contact.getId();
         if (contactId == -1) {
-            contactId = ContactRepo.insertToDB(contact);
-            contact.setID(contactId);
+            contactId = ContactRepo.insertToDatabase(contact);
+            contact.setId(contactId);
             return contactId;
         } else {
             ContactRepo.update(contact);
-            return contact.getID();
+            return contact.getId();
         }
     }
 
@@ -44,7 +39,7 @@ public class DBIOManager implements IOManager {
     @Override
     //removes a contact from the db
     public void deleteContact(Contact contact) {
-        ContactRepo.delete(contact.getID());
+        ContactRepo.delete(contact.getId());
     }
 
     @Override
@@ -53,9 +48,9 @@ public class DBIOManager implements IOManager {
         int groupId;
 
         if (group.getGroupId() == -1) { //new group
-            groupId = GroupRepo.insertToDB(group);
-        } else //old group
-        {
+            groupId = GroupRepo.insertToDatabase(group);
+        } else {
+            //old group
             GroupRepo.update(group);
 
             return group.getGroupId();

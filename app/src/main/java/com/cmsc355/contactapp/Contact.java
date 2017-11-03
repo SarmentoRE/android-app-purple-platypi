@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 
@@ -49,11 +48,11 @@ class Contact implements BaseColumns {
     //generates a given number of contacts with random name, address, and phone number
     static ArrayList<Contact> generateRandomContacts(int numContacts) {
         ArrayList<Contact> contactList = new ArrayList<>();
-//        ArrayList<Contact> contactListDummy = new ArrayList<>(); //BAD CODE, DELETE AFTER TESTING
+        //ArrayList<Contact> contactListDummy = new ArrayList<>(); //BAD CODE, DELETE AFTER TESTING
         for (int i = 0; i < numContacts; i++) {
             Contact contact = generateRandomContact();
             contactList.add(contact);
-//            ContactRepo.insertToDB(contact);
+            //ContactRepo.insertToDatabase(contact);
         }
         return contactList;
     }
@@ -67,9 +66,12 @@ class Contact implements BaseColumns {
         JSONObject jsonAttributes = new JSONObject();
         try {
             jsonAttributes.put("Email", contact.name + "@gmail.com");
-            jsonAttributes.put("Phone Number", String.format(Locale.getDefault(), "(%03d)", random.nextInt(999)) + String.format(Locale.getDefault(), "%03d", random.nextInt(999)) + "-" + String.format(Locale.getDefault(), "%04d", random.nextInt(9999)));
-        } catch (JSONException e) {
-            e.printStackTrace();
+            jsonAttributes.put("Phone Number",
+                String.format(Locale.getDefault(),"(%03d)", random.nextInt(999))
+                        + String.format(Locale.getDefault(), "%03d", random.nextInt(999)) + "-"
+                        + String.format(Locale.getDefault(), "%04d", random.nextInt(9999)));
+        } catch (JSONException exception) {
+            exception.printStackTrace();
         }
         contact.attributes = jsonAttributes;
         return contact;
@@ -80,21 +82,21 @@ class Contact implements BaseColumns {
     static void addAttribute(Contact contact, String key, String value) {
         try {
             contact.attributes.put(key, value);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException exception) {
+            exception.printStackTrace();
         }
     }
 
     //packages the contact into a JSONObject, mostly used to then turn the json into a string
     //for easy transportation or comparison. Pass blank json as argument (for TDD)
-    JSONObject addContactToJSON(JSONObject jsonContact) {
-        Utilities.clearJSON(jsonContact);
+    JSONObject addContactToJson(JSONObject jsonContact) {
+        Utilities.clearJson(jsonContact);
         //add contact details
         try {
             jsonContact.put("Name", this.getName());
             jsonContact.put("Attributes", this.getAttributes());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException exception) {
+            exception.printStackTrace();
         }
         return jsonContact;
     }
@@ -116,11 +118,11 @@ class Contact implements BaseColumns {
         this.attributes = attributes;
     }
 
-    int getID() {
+    int getId() {
         return contactId;
     }
 
-    void setID(int contactId) {
+    void setId(int contactId) {
         this.contactId = contactId;
     }
 }

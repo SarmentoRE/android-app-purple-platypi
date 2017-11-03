@@ -45,7 +45,7 @@ public class ContactTest {
         when(keysItrMock.next()).thenReturn("Garbage");
 
         Contact contactTest = new Contact("Mock",attributesMock);
-        JSONObject jsonTest = contactTest.addContactToJSON(blankJSONMock);
+        JSONObject jsonTest = contactTest.addContactToJson(blankJSONMock);
 
         assertEquals("JSON email does not match contact email",
                 contactTest.getAttributes().get("Email"), ((JSONObject)jsonTest.get("Attributes")).get("Email"));

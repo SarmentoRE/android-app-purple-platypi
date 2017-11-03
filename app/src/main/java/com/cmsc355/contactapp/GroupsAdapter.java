@@ -16,89 +16,89 @@ import java.util.LinkedHashMap;
 
 class GroupsAdapter extends RecyclerView.Adapter {
 
-    //groupAndContactMap is the important one
+    // groupAndContactMap is the important one
     private ArrayList<ContactGroup> groupArrayList;
     private ArrayList<ArrayList<Contact>> contactLists;
     private LinkedHashMap<String, Object> groupAndContactMap;
 
-    //ViewHolder holds references to each view inside a generated item on the list, so we can access them later.
-    //this one holds a ContactGroup item
+    // ViewHolder holds references to each view inside a generated item on the list, so we can access them later.
+    // this one holds a ContactGroup item
     private class GroupViewHolder extends RecyclerView.ViewHolder {
         public View layout;
         TextView groupName;
 
-        GroupViewHolder(View v) {
-            super(v);
-            layout = v;
-            groupName = v.findViewById(R.id.group_name);
+        GroupViewHolder(View view) {
+            super(view);
+            layout = view;
+            groupName = view.findViewById(R.id.group_name);
         }
     }
 
-    //ViewHolder holds references to each view inside a generated item on the list, so we can access them later.
-    //this one holds a Contact item
+    // ViewHolder holds references to each view inside a generated item on the list, so we can access them later.
+    // this one holds a Contact item
     private class ContactViewHolder extends RecyclerView.ViewHolder {
         public View layout;
         TextView contactName;
 
-        ContactViewHolder(View v) {
-            super(v);
-            layout = v;
-            contactName = v.findViewById(R.id.contact_name);
+        ContactViewHolder(View view) {
+            super(view);
+            layout = view;
+            contactName = view.findViewById(R.id.contact_name);
         }
     }
 
-    //constructor: read the inputs, then build the map out of them
-    GroupsAdapter(ArrayList<ContactGroup> gList, ArrayList<ArrayList<Contact>> cLists) {
-        groupArrayList = gList;
-        contactLists = cLists;
-        groupAndContactMap = BuildMap();
+    // constructor: read the inputs, then build the map out of them
+    GroupsAdapter(ArrayList<ContactGroup> groupList, ArrayList<ArrayList<Contact>> contactLists) {
+        groupArrayList = groupList;
+        this.contactLists = contactLists;
+        groupAndContactMap = buildMap();
     }
 
-    //takes all groups and contacts and builds a linked (ordered) map, where
-    //the groups are in alphabetical order, and each group is followed by the contacts
-    //contained in that group, also in alphabetical order
-    private LinkedHashMap<String, Object> BuildMap() {
-        //numGroups tracks the number of groups, numContacts tracks the number of contacts per group
+    // takes all groups and contacts and builds a linked (ordered) map, where
+    // the groups are in alphabetical order, and each group is followed by the contacts
+    // contained in that group, also in alphabetical order
+    private LinkedHashMap<String, Object> buildMap() {
+        // numGroups tracks the number of groups, numContacts tracks the number of contacts per group
         int numGroups = groupArrayList.size();
         int[] numContacts = new int[numGroups];
         for (int i = 0; i < numGroups; i++) {
             numContacts[i] = groupArrayList.get(i).getContacts().size();
         }
-        //numElements tracks the sum of all groups and all contacts, or how many elements will be
-        //in the map at the end
+        // numElements tracks the sum of all groups and all contacts, or how many elements will be
+        // in the map at the end
         int numElements = numGroups;
         for (int numC : numContacts) {
             numElements += numC;
         }
 
-        //gcMap is where we build our linked map
+        // gcMap is where we build our linked map
         LinkedHashMap<String, Object> gcMap = new LinkedHashMap<>();
-        //list to hold all the contacts of a particular group
+        // list to hold all the contacts of a particular group
         ArrayList<Contact> groupContacts;
-        //indexes, used when traversing our while loops
-        int idx = 0, gIdx = 0;
-        //tracks whether a given element is a group or a contact
+        // indexes, used when traversing our while loops
+        int mainIndex = 0;
+        int groupIndex = 0;
+        // tracks whether a given element is a group or a contact
         boolean isGroup = true;
 
-        //going to add to the map a total of numElements times
-        while (idx < numElements) {
-            //if this element is a group:
+        // going to add to the map a total of numElements times
+        while (mainIndex < numElements) {
+            // if this element is a group:
             if (isGroup) {
-                //get the next group in the list, then start adding that group's contacts after it
-                gcMap.put("ContactGroup" + gIdx, groupArrayList.get(gIdx));
-                idx++;
+                // get the next group in the list, then start adding that group's contacts after it
+                gcMap.put("ContactGroup" + groupIndex, groupArrayList.get(groupIndex));
+                mainIndex++;
                 isGroup = false;
-            }
-            //if this element is not a group (must be element right after a group):
-            else {
-                //put every contact from that group into the map, in order
-                groupContacts = contactLists.get(gIdx);
-                int cIdx = 0;
-                while (cIdx < groupContacts.size()) {
-                    gcMap.put("ContactGroup" + gIdx + "Contact" + cIdx, groupContacts.get(cIdx++));
-                    idx++;
+            } else {
+                // if this element is not a group (must be element right after a group),
+                // put every contact from that group into the map, in order
+                groupContacts = contactLists.get(groupIndex);
+                int contactIndex = 0;
+                while (contactIndex < groupContacts.size()) {
+                    gcMap.put("ContactGroup" + groupIndex + "Contact" + contactIndex, groupContacts.get(contactIndex++));
+                    mainIndex++;
                 }
-                gIdx++;
+                groupIndex++;
                 //after we get every contact from this group, the next element is going to be a group again
                 isGroup = true;
             }
@@ -111,16 +111,16 @@ class GroupsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         //get the class of the item at this position
-        String itemClass = groupAndContactMap.get(Utilities.getKeyAtPosition(groupAndContactMap, position)).getClass().toString();
+        String itemClass = groupAndContactMap.get(
+                Utilities.getKeyAtPosition(groupAndContactMap, position)).getClass().toString();
         //check whether the item is a ContactGroup or a Contact
         if (itemClass.equals(ContactGroup.class.toString())) {
             return 0;
         } else {
             if (itemClass.equals(Contact.class.toString())) {
                 return 1;
-            }
-            //if it's not a ContactGroup or a Contact, set viewType as 2 (aka do nothing with this item)
-            else {
+            } else {
+                //if it's not a ContactGroup or a Contact, set viewType as 2 (aka do nothing with this item)
                 return 2;
             }
         }
@@ -132,13 +132,13 @@ class GroupsAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View v;
+        View view;
         if (viewType == 1) {
-            v = inflater.inflate(R.layout.item_contact, parent, false);
-            return new ContactViewHolder(v);
+            view = inflater.inflate(R.layout.item_contact, parent, false);
+            return new ContactViewHolder(view);
         } else {
-            v = inflater.inflate(R.layout.item_group, parent, false);
-            return new GroupViewHolder(v);
+            view = inflater.inflate(R.layout.item_group, parent, false);
+            return new GroupViewHolder(view);
         }
     }
 
@@ -157,14 +157,13 @@ class GroupsAdapter extends RecyclerView.Adapter {
             vHolder.groupName.setText(group.getName());
             vHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     //TODO - on click, expand/collapse contacts below this element
                     Toast.makeText(context, "Group clicked", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-        //1 = Contact
-        else {
+        } else {
+            //1 = Contact
             if (viewType == 1) {
                 final ContactViewHolder vHolder = (ContactViewHolder) holder;
                 //find the specific contact from the map
@@ -173,11 +172,11 @@ class GroupsAdapter extends RecyclerView.Adapter {
                 //when you click the contact, takes you to the Contact Info screen
                 vHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(v.getContext(), ContactInfoActivity.class);
-                        i.putExtra("Contact", contact.addContactToJSON(new JSONObject()).toString());
-                        i.putExtra("isEditable", false);
-                        v.getContext().startActivity(i);
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), ContactInfoActivity.class);
+                        intent.putExtra("Contact", contact.addContactToJson(new JSONObject()).toString());
+                        intent.putExtra("isEditable", false);
+                        view.getContext().startActivity(intent);
                     }
                 });
             }

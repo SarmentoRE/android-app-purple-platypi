@@ -2,11 +2,11 @@ package com.cmsc355.contactapp;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by Austin on 10/27/2017.
  */
 
-public interface IOManager {
+public interface IoManager {
     int putContact(Contact contact);
 
     Contact getContact(int contactId);
