@@ -15,11 +15,11 @@ import static com.cmsc355.contactapp.Utilities.generateRandomString;
 class Contact implements BaseColumns {
 
     //this is database stuff
-    public static final String TAG = Contact.class.getSimpleName();
-    public static final String TABLE_NAME = "Contact";
-    public static final String _ID = "ContactId";
-    public static final String COLUMN_NAME = "ContactName";
-    public static final String COLUMN_JSON = "JSON";
+    static final String TAG = Contact.class.getSimpleName();
+    static final String TABLE_NAME = "Contact";
+    static final String _ID = "ContactId";
+    static final String COLUMN_NAME = "ContactName";
+    static final String COLUMN_JSON = "JSON";
 
     //This is where two of the database-mocking objects are stored; other one is in ContactGroup
     static ArrayList<Contact> contactsMock;
@@ -42,6 +42,13 @@ class Contact implements BaseColumns {
     public Contact(String name, JSONObject json) {
         this.name = name;
         this.attributes = json;
+    }
+
+    //This constructor should be used when puling from the db to make sure we keep id consistent between app and db
+    public Contact(String name, JSONObject json, int Id){
+        this.name = name;
+        this.attributes = json;
+        this. contactId = Id;
     }
 
     //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT BACK IN

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 /*
  * Created by Austin on 10/16/2017.
  */
-
 public class RelationRepo {
 
     public static int insertToDatabase(Relation relation) {

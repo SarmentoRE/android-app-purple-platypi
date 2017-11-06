@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * Collection of methods to help interaction with db pertaining to groups
  * should not be used by front end!!!!!!!!
  */
-
 class GroupRepo {
     //deconstruct group obj into usable fields and store in db
     static int insertToDatabase(ContactGroup contactGroup) {

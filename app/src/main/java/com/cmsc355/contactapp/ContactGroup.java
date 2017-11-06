@@ -8,10 +8,10 @@ import java.util.ArrayList;
 class ContactGroup implements BaseColumns {
 
     //database stuff
-    public static final String TAG = ContactGroup.class.getSimpleName();
-    public static final String TABLE_NAME = "ContactGroup";
-    public static final String _ID = "GroupId";
-    public static final String COLUMN_NAME = "GroupName";
+    static final String TAG = ContactGroup.class.getSimpleName();
+    static final String TABLE_NAME = "ContactGroup";
+    static final String _ID = "GroupId";
+    static final String COLUMN_NAME = "GroupName";
 
     //this mocks the groups column of the database; other mocking elements in Contact class
     static ArrayList<ContactGroup> groupsMock;

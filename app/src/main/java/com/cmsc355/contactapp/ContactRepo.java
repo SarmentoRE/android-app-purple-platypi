@@ -61,7 +61,7 @@ public class ContactRepo {
             do {
                 try {
                     contact = new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
-                            new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
+                            new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))),cursor.getInt(cursor.getColumnIndex(Contact._ID)));
                     allContacts.add(contact);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
@@ -84,11 +84,11 @@ public class ContactRepo {
             try {
                 contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
                 contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
+                contact.setId(id);
             } catch (JSONException exception) {
                 exception.printStackTrace();
             }
         }
-        contact.setId(id);
         return contact;
     }
 }
