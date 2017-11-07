@@ -1,5 +1,7 @@
 package com.cmsc355.contactapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class DatabaseIoManager implements IoManager {
@@ -11,6 +13,7 @@ public class DatabaseIoManager implements IoManager {
         if (contactId == -1) {
             contactId = ContactRepo.insertToDatabase(contact);
             contact.setId(contactId);
+            Log.d("DBIO"," CONTACT ID IS: "+contactId);
             return contactId;
         } else {
             ContactRepo.update(contact);
