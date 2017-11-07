@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
                   case 4:
                       intent = new Intent(HomeActivity.this, ContactInfoActivity.class);
                       //TODO - retrieve "my info" from db
-                      intent.putExtra("ContactID", 0);
+                      intent.putExtra("ContactId", 0);
                       intent.putExtra("isEditEnabled", true);
                       break;
                   case 5:
