@@ -22,8 +22,8 @@ class Contact implements BaseColumns {
     static final String COLUMN_JSON = "JSON";
 
     //This is where two of the database-mocking objects are stored; other one is in ContactGroup
-    static ArrayList<Contact> contactsMock;
-    static Contact myInfoMock;
+    //static ArrayList<Contact> contactsMock;
+    //static Contact myInfoMock;
 
     //the attributes are a JSONObject to be easily extensible and make it very easy to package the
     //contact into a JSONObject itself
@@ -44,11 +44,22 @@ class Contact implements BaseColumns {
         this.attributes = json;
     }
 
+    //This constructor copies a contact identically, used in ContactInfoActivity
+    public Contact(Contact contactToCopy) {
+        this.name = contactToCopy.getName();
+        try {
+            this.attributes = new JSONObject(contactToCopy.getAttributes().toString());
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        this.contactId = contactToCopy.getId();
+    }
+
     //This constructor should be used when puling from the db to make sure we keep id consistent between app and db
-    public Contact(String name, JSONObject json, int Id){
+    public Contact(String name, JSONObject json, int newId) {
         this.name = name;
         this.attributes = json;
-        this. contactId = Id;
+        this. contactId = newId;
     }
 
     //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT BACK IN

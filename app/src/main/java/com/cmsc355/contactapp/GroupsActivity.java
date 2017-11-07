@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.cmsc355.contactapp.ContactGroup.groupsMock;
-
 public class GroupsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -46,14 +44,9 @@ public class GroupsActivity extends AppCompatActivity {
         //want to pass the adapter all the groups and all the contacts related to each group
         //that way, it can generate the correct amount of items in its list, and also put them
         //in the correct order
-        ArrayList<ArrayList<Contact>> contactsLists = new ArrayList<>();
-        groupsMock = Utilities.sortGroupList(groupsMock);
-        for (ContactGroup group : groupsMock) {
-            group.setContacts(Utilities.sortContactList(group.getContacts()));
-            contactsLists.add(group.getContacts());
-        }
+        ArrayList<ContactGroup> groupsList = Utilities.sortGroupList(App.databaseIoManager.getAllGroups());
 
-        recyclerView.setAdapter(new GroupsAdapter(groupsMock, contactsLists));
+        recyclerView.setAdapter(new GroupsAdapter(groupsList));
     }
 
     //adds the home button to the toolbar

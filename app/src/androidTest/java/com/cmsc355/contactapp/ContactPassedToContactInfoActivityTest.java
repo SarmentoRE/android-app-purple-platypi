@@ -16,7 +16,6 @@ import android.app.Activity;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import static com.cmsc355.contactapp.Contact.contactsMock;
 import org.hamcrest.core.StringStartsWith.*;
 import org.hamcrest.core.StringEndsWith.*;
 import static org.hamcrest.Matcher.*;
@@ -29,7 +28,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*;
 public class ContactPassedToContactInfoActivityTest {
     //Rule that launches the app from the HomeActivity
     @Rule
-    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
+    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<>(HomeActivity.class);
 
     /*Code that will test Scenario 1: Contact passed to ContactInfoActivity from User Story #15
      (Contact and Group Persistence) for correctness*/
@@ -54,7 +53,7 @@ public class ContactPassedToContactInfoActivityTest {
         to avoid possible timing errors*/
         Activity contactActivity = instrum.waitForMonitorWithTimeout(progress, 3000);
 
-        Contact contactOne = contactsMock.get(0);
+        Contact contactOne = App.databaseIoManager.getContact(0);
         onView(withText(contactOne.getName())).perform(click());
 
         //onView(withText(containsString(contactOne.getName()))).check(matches(withText("Harry")));

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import static com.cmsc355.contactapp.App.context;
-import static com.cmsc355.contactapp.Contact.myInfoMock;
 
 public class ConnectActivity extends AppCompatActivity {
 
@@ -75,7 +74,7 @@ public class ConnectActivity extends AppCompatActivity {
     @Override
     protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
         super.onResume();           //not just the first time
-        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(myInfoMock.getAttributes());
+        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
     }
 

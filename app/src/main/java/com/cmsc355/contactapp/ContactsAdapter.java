@@ -65,7 +65,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ContactInfoActivity.class);
-                intent.putExtra("Contact", contact.addContactToJson(new JSONObject()).toString());
+                intent.putExtra("ContactID", contact.getId());
                 intent.putExtra("isEditable", false);
                 view.getContext().startActivity(intent);
             }

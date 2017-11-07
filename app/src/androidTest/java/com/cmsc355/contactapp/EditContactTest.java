@@ -15,7 +15,6 @@ import android.app.Activity;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import static com.cmsc355.contactapp.Contact.contactsMock;
 import org.hamcrest.core.StringStartsWith.*;
 import org.hamcrest.core.StringEndsWith.*;
 import static org.hamcrest.Matcher.*;
@@ -29,7 +28,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*;
 public class EditContactTest {
     //Rule that launches the app from the HomeActivity
     @Rule
-    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
+    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<>(HomeActivity.class);
 
     /*Code that will test Scenario 2: Edit a contact from User Story #14 (Create and Store Contacts) for correctness*/
     @Test
@@ -54,7 +53,7 @@ public class EditContactTest {
         Activity contactActivity = instrum.waitForMonitorWithTimeout(progress, 3000);
 
         //clicks on the first available contact on the ContactActivity screen
-        Contact contactOne = contactsMock.get(0);
+        Contact contactOne = App.databaseIoManager.getContact(0);
         onView(withText(contactOne.getName())).perform(click());
 
         /*confirms that the button associated with the previous click has a string associated with it
@@ -77,7 +76,7 @@ public class EditContactTest {
         onView(withId(R.id.info_edit_button)).perform(click());
 
         /*Confirms that the Contact object was updated on the ContactActivity screen. Test is complete.*/
-        Contact variableContact = contactsMock.get(0);
+        Contact variableContact = App.databaseIoManager.getContact(0);
         onView(withText(variableContact.getName())).check(matches(withText("Austin")));
 
     }

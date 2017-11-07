@@ -3,21 +3,13 @@ package com.cmsc355.contactapp;
 import android.app.Application;
 import android.content.Context;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import static com.cmsc355.contactapp.Contact.contactsMock;
-import static com.cmsc355.contactapp.Contact.myInfoMock;
-import static com.cmsc355.contactapp.ContactGroup.generateRandomGroups;
-import static com.cmsc355.contactapp.ContactGroup.groupsMock;
-
 public class App extends Application {
     // TODO - figure out why android wants me to not use a static Context.
     // The app works with this currently but gives a warning which I would like to research.
     public static Context context;
     private static DatabaseHelper dbHelper;
+
+    public static DatabaseIoManager databaseIoManager;
 
     public static Context getContext() {
         return context;
@@ -30,12 +22,13 @@ public class App extends Application {
         context = this.getApplicationContext();
         dbHelper = new DatabaseHelper();
         DatabaseManager.initializeInstance(dbHelper);
+        databaseIoManager = new DatabaseIoManager();
 
-        setupMocks();
+        //setupMocks();
     }
 
     //sets up the variables where we are mocking database functionality
-    private void setupMocks() {
+    /*private void setupMocks() {
         //contactsMock holds all contacts, groupsMock holds groups which each hold their own list of contacts
         //currently no way to add contacts into a group
         contactsMock = new ArrayList<>();
@@ -55,5 +48,5 @@ public class App extends Application {
         }
         myInfoMock.setName("Enter Name");
         myInfoMock.setAttributes(attributes);
-    }
+    }*/
 }

@@ -61,7 +61,8 @@ public class ContactRepo {
             do {
                 try {
                     contact = new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
-                            new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))),cursor.getInt(cursor.getColumnIndex(Contact._ID)));
+                            new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))),
+                            cursor.getInt(cursor.getColumnIndex(Contact._ID)));
                     allContacts.add(contact);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
