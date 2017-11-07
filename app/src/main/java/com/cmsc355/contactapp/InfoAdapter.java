@@ -60,7 +60,7 @@ class InfoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) holder;
         String key = attributes.keyAt(position);
-        String value = (String) attributes.get(key);        //TODO - need to make this generic for non-string value types
+        String value = attributes.get(key).toString();        //TODO - need to make this generic for non-string value types
         key = key.concat(":");
         viewHolder.txtKey.setText(key);
         viewHolder.txtValue.setHint(value);
