@@ -16,7 +16,6 @@ import android.app.Activity;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import static com.cmsc355.contactapp.Contact.contactsMock;
 import org.hamcrest.core.StringStartsWith.*;
 import org.hamcrest.core.StringEndsWith.*;
 import static org.hamcrest.Matcher.*;
@@ -30,7 +29,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*;
 public class AddNewContactTest {
     //Rule that launches the app from the HomeActivity
     @Rule
-    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
+    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<>(HomeActivity.class);
 
     //Code that will test Scenario 1: Add a new contact from User Story # 14 (Create and Store Contacts) for correctness
     @Test
@@ -81,7 +80,7 @@ public class AddNewContactTest {
 
         /*confirms that the only contact currently in the ArrayList of Contact objects is the one that we just
         added. Contact added successfully, test complete.*/
-        Contact varContact = contactsMock.get(0);
+        Contact varContact = App.databaseIoManager.getContact(0);
         onView(withText(varContact.getName())).check(matches(withText("Harry")));
 
     }

@@ -18,7 +18,6 @@ class GroupsAdapter extends RecyclerView.Adapter {
 
     // groupAndContactMap is the important one
     private ArrayList<ContactGroup> groupArrayList;
-    private ArrayList<ArrayList<Contact>> contactLists;
     private LinkedHashMap<String, Object> groupAndContactMap;
 
     // ViewHolder holds references to each view inside a generated item on the list, so we can access them later.
@@ -48,9 +47,8 @@ class GroupsAdapter extends RecyclerView.Adapter {
     }
 
     // constructor: read the inputs, then build the map out of them
-    GroupsAdapter(ArrayList<ContactGroup> groupList, ArrayList<ArrayList<Contact>> contactLists) {
-        groupArrayList = groupList;
-        this.contactLists = contactLists;
+    GroupsAdapter(ArrayList<ContactGroup> groupsList) {
+        groupArrayList = groupsList;
         groupAndContactMap = buildMap();
     }
 
@@ -92,7 +90,7 @@ class GroupsAdapter extends RecyclerView.Adapter {
             } else {
                 // if this element is not a group (must be element right after a group),
                 // put every contact from that group into the map, in order
-                groupContacts = contactLists.get(groupIndex);
+                groupContacts = groupArrayList.get(groupIndex).getContacts();
                 int contactIndex = 0;
                 while (contactIndex < groupContacts.size()) {
                     gcMap.put("ContactGroup" + groupIndex + "Contact" + contactIndex, groupContacts.get(contactIndex++));

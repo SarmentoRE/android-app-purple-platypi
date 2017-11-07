@@ -14,7 +14,7 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.cmsc355.contactapp.Contact.contactsMock;
+import java.util.ArrayList;
 
 public class ContactsActivity extends AppCompatActivity {
 
@@ -46,9 +46,10 @@ public class ContactsActivity extends AppCompatActivity {
                     exception.printStackTrace();
                 }
                 Contact newContact = new Contact("Enter Name", newAttributes);
-                contactsMock.add(newContact);
+                App.databaseIoManager.putContact(newContact);
+
                 Intent intent = new Intent(ContactsActivity.this, ContactInfoActivity.class);
-                intent.putExtra("Contact", newContact.addContactToJson(new JSONObject()).toString());
+                intent.putExtra("ContactID", newContact.getId());
                 intent.putExtra("isEditEnabled", true);
                 startActivity(intent);
             }
@@ -59,8 +60,8 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Sorts the contact list, then displays it
-        contactsMock = Utilities.sortContactList(contactsMock);
-        recyclerView.setAdapter(new ContactsAdapter(contactsMock));
+        ArrayList<Contact> sortedList = Utilities.sortContactList(App.databaseIoManager.getAllContacts());
+        recyclerView.setAdapter(new ContactsAdapter(sortedList));
     }
 
     //adds the home button to the toolbar

@@ -14,7 +14,7 @@ class ContactGroup implements BaseColumns {
     static final String COLUMN_NAME = "GroupName";
 
     //this mocks the groups column of the database; other mocking elements in Contact class
-    static ArrayList<ContactGroup> groupsMock;
+    //static ArrayList<ContactGroup> groupsMock;
 
 
     private int groupId;

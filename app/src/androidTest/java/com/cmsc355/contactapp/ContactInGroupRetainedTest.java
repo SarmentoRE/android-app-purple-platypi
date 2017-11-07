@@ -16,7 +16,6 @@ import android.app.Activity;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import static com.cmsc355.contactapp.Contact.contactsMock;
 import org.hamcrest.core.StringStartsWith.*;
 import org.hamcrest.core.StringEndsWith.*;
 import static org.hamcrest.Matcher.*;

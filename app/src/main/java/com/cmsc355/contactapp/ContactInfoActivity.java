@@ -23,10 +23,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.cmsc355.contactapp.Contact.contactsMock;
-import static com.cmsc355.contactapp.Contact.myInfoMock;
-import static com.cmsc355.contactapp.ContactGroup.groupsMock;
-
 public class ContactInfoActivity extends AppCompatActivity {
 
     //boolean toggles the ability to edit all the edittexts. keyListener is stored when edittexts are
@@ -51,26 +47,17 @@ public class ContactInfoActivity extends AppCompatActivity {
 
         //pulling info out of the incoming intent
         Intent intent = getIntent();
-        String name = null;
-        JSONObject attributes = new JSONObject();
-        try {
-            //using JSONObject constructor from string to "inflate" object again
-            JSONObject json = new JSONObject(intent.getStringExtra("Contact"));
-            name = json.getString("Name");
-            attributes = json.getJSONObject("Attributes");
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
+        final int contactId = intent.getIntExtra("ContactId", -1);
 
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
 
         //creating Contact from the info pulled out of JSONObject, stores initial contact values
-        final Contact contact = new Contact(name, attributes);       //TODO - Pull correct contact from db
+        final Contact contact = App.databaseIoManager.getContact(contactId);
 
         //Disabling editing on the Name edittext; this happens here because it's independent of the recyclerview
         final EditText editName = (EditText) findViewById(R.id.info_name);
-        editName.setHint(name);
+        editName.setHint(contact.getName());
         if (!isEditEnabled) {
             keyListener = editName.getKeyListener();
             editName.setHint(contact.getName());
@@ -102,19 +89,14 @@ public class ContactInfoActivity extends AppCompatActivity {
                     editName.setKeyListener(keyListener);
                     thisButton.setText(R.string.info_submit);
                     isEditEnabled = true;
-                    recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
+                    recyclerView.setAdapter(new InfoAdapter(contact, true));
                     clickedTime = SystemClock.elapsedRealtime();
                 //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
                 //make the changes if needed, and update the correct contact in the mock db
                 } else if (SystemClock.elapsedRealtime() - clickedTime > 1000) {
                     //newContact will hold all the updated values
-                    Contact newContact = new Contact();
-                    try {
-                        //start by copying values from contact to newContact
-                        newContact = new Contact(contact.getName(), new JSONObject(contact.getAttributes().toString()));
-                    } catch (JSONException exception) {
-                        exception.printStackTrace();
-                    }
+                    Contact newContact = new Contact(contact);
+
                     //read the updated value from the Name edittext
                     String nameInput = editName.getText().toString();
                     //if there was no input, nameInput will be "" and we skip this; otherwise,
@@ -149,19 +131,9 @@ public class ContactInfoActivity extends AppCompatActivity {
                         }
                     }
                     newContact.setAttributes(newAttributes);
-                    //now we use the original contact values to check which contact we were editing
-                    //if we were editing My Info, set myInfoMock to newContact, otherwise find the
-                    //contact we were editing inside contactsMock and set that contact to newContact
-                    if (myInfoMock.addContactToJson(new JSONObject()).toString().equals(contact.addContactToJson(new JSONObject()).toString())) {
-                        myInfoMock = newContact;
-                    } else {
-                        for (Contact c : contactsMock) {
-                            if (c.addContactToJson(new JSONObject()).toString().equals(contact.addContactToJson(new JSONObject()).toString())) {
-                                c.setName(newContact.getName());
-                                c.setAttributes(newContact.getAttributes());
-                            }
-                        }
-                    }
+
+                    //Still has id from original contact, will update regardless of whether changes are made
+                    App.databaseIoManager.putContact(newContact);
                     // Returns to previous activity
                     finish();
                 }
@@ -173,47 +145,11 @@ public class ContactInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Don't allow user to delete the My Info contact page
-                if (myInfoMock.addContactToJson(new JSONObject()).toString().equals(contact.addContactToJson(new JSONObject()).toString())) {
+                if (contact.getId() == 0) {
                     //TODO - just remove delete button from Contact Info screen instead
                     Toast.makeText(ContactInfoActivity.this, "Your info page is not deletable", Toast.LENGTH_SHORT).show();
                 } else {
-                    //have to find the contact in both the contactsMock and the groupsMock, to make sure
-                    //it is removed form the entire app and both lists are synced
-                    Contact targetContact = new Contact();
-                    ContactGroup targetGroup = new ContactGroup();
-                    boolean targetFound = false;
-                    boolean groupFound = false;
-                    for (Contact c : contactsMock) {
-                        //if we find a contact in the contactsMock list which perfectly matches this contact...
-                        if (c.addContactToJson(new JSONObject()).toString().equals(contact.addContactToJson(new JSONObject()).toString())) {
-                            //remember this contact, then hunt for it in the groupsMock
-                            targetContact = c;
-                            targetFound = true;
-                            for (ContactGroup g : groupsMock) {
-                                for (Contact groupContact : g.getContacts()) {
-                                    //if we find the contact somewhere in the groupsMock...
-                                    if (c.addContactToJson(new JSONObject()).toString().equals(
-                                            groupContact.addContactToJson(new JSONObject()).toString())) {
-                                        //remember which group it belongs to
-                                        targetGroup = g;
-                                        groupFound = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //delete from contactsMock and groupsMock, as appropriate
-                    if (targetFound) {
-                        contactsMock.remove(contactsMock.indexOf(targetContact));
-                        if (groupFound) {
-                            ArrayList<Contact> targetGroupContacts = targetGroup.getContacts();
-                            targetGroupContacts.remove(targetGroupContacts.indexOf(targetContact));
-                        }
-                        Toast.makeText(ContactInfoActivity.this, "Contact deleted", Toast.LENGTH_SHORT).show();
-                    //if we couldn't find it in contactsMock...
-                    } else {
-                        Toast.makeText(ContactInfoActivity.this, "This contact doesn't exist!", Toast.LENGTH_SHORT).show();
-                    }
+                    App.databaseIoManager.deleteContact(contact);
                     finish();
                 }
             }

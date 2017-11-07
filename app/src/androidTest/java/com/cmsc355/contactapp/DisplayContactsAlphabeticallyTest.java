@@ -15,7 +15,6 @@ import android.app.Activity;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
-import static com.cmsc355.contactapp.Contact.contactsMock;
 import org.hamcrest.core.StringStartsWith.*;
 import org.hamcrest.core.StringEndsWith.*;
 import static org.hamcrest.Matcher.*;
@@ -29,7 +28,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*;
 public class DisplayContactsAlphabeticallyTest {
     //Rule that launches the app from the HomeActivity
     @Rule
-    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<HomeActivity>(HomeActivity.class);
+    public ActivityTestRule<HomeActivity> main = new ActivityTestRule<>(HomeActivity.class);
 
     /*Code that will test Scenario 3: Display contacts in alphabetical order from User Story #14
     (Create and Store Contacts) for correctness*/
@@ -78,8 +77,8 @@ public class DisplayContactsAlphabeticallyTest {
 
         /*checks to make sure that the two contacts that are currently housed in the phone are in
          fact being stored in alphabetical order*/
-        Contact contactOne = contactsMock.get(0);
-        Contact contactTwo = contactsMock.get(1);
+        Contact contactOne = App.databaseIoManager.getContact(0);
+        Contact contactTwo = App.databaseIoManager.getContact(1);
         onView(withText(contactOne.getName())).check(matches(withText("Curly")));
         onView(withText(contactTwo.getName())).check(matches(withText("Harry")));
 

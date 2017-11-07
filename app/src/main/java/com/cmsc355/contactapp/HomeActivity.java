@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
                   case 4:
                       intent = new Intent(HomeActivity.this, ContactInfoActivity.class);
                       //TODO - retrieve "my info" from db
-                      intent.putExtra("Contact", Contact.myInfoMock.addContactToJson(new JSONObject()).toString());
+                      intent.putExtra("ContactID", 0);
                       intent.putExtra("isEditEnabled", true);
                       break;
                   case 5:
@@ -76,16 +76,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void insertSampleData() throws JSONException {
-        ContactRepo contactRepo = new ContactRepo();
-        GroupRepo groupRepo = new GroupRepo();
-        RelationRepo relationRepo = new RelationRepo();
-
-        contactRepo.deleteAll();
-        groupRepo.deleteAll();
-        relationRepo.deleteAll();
+        ContactRepo.deleteAll();
+        GroupRepo.deleteAll();
+        RelationRepo.deleteAll();
 
         Contact contact = new Contact("Austin", new JSONObject("{\"Name\":\"Austin\"}"));
-        contactRepo.insertToDatabase(contact);
+        ContactRepo.insertToDatabase(contact);
 
     }
 }
