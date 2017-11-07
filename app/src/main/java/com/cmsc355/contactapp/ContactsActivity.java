@@ -38,14 +38,7 @@ public class ContactsActivity extends AppCompatActivity {
         newContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JSONObject newAttributes = new JSONObject();
-                try {
-                    newAttributes.put("Email", "Enter Email");
-                    newAttributes.put("Phone Number", "Enter Phone Number");
-                } catch (JSONException exception) {
-                    exception.printStackTrace();
-                }
-                Contact newContact = new Contact("Enter Name", newAttributes);
+                Contact newContact = new Contact();
                 App.databaseIoManager.putContact(newContact);
 
                 Intent intent = new Intent(ContactsActivity.this, ContactInfoActivity.class);

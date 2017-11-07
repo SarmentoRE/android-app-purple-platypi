@@ -33,7 +33,14 @@ class Contact implements BaseColumns {
 
     public Contact() {
         name = "Enter Name";
-        attributes = new JSONObject();
+        JSONObject attrs = new JSONObject();
+        try {
+            attrs.put("Email", "Enter Email");
+            attrs.put("Phone Number", "Enter Phone Number");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        attributes = attrs;
         contactId = -1;
     }
 
