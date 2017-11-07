@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.method.KeyListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class ContactInfoActivity extends AppCompatActivity {
     private boolean isEditEnabled;
     private KeyListener keyListener;
     private long clickedTime;
+    private String TAG = "ContactInfoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -47,7 +49,8 @@ public class ContactInfoActivity extends AppCompatActivity {
 
         //pulling info out of the incoming intent
         Intent intent = getIntent();
-        final int contactId = intent.getIntExtra("ContactId", -1);
+        final int contactId = intent.getIntExtra("ContactID",-1);
+        Log.d(TAG,"CONTACT ID IS: "+contactId);
 
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,9 +41,11 @@ public class ContactsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Contact newContact = new Contact();
                 App.databaseIoManager.putContact(newContact);
+                int contactId = newContact.getId();
 
                 Intent intent = new Intent(ContactsActivity.this, ContactInfoActivity.class);
-                intent.putExtra("ContactID", newContact.getId());
+                intent.putExtra("ContactID", contactId);
+                Log.d("CONTACTS ACTIVITY","CONTACT ID IS: "+contactId);
                 intent.putExtra("isEditEnabled", true);
                 startActivity(intent);
             }
