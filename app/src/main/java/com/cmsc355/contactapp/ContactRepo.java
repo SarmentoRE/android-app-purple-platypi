@@ -3,6 +3,7 @@ package com.cmsc355.contactapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +20,9 @@ public class ContactRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(Contact.COLUMN_NAME, contact.getName());
-        values.put(Contact.COLUMN_JSON, contact.addContactToJson(new JSONObject()).toString());
+        String s = contact.addContactToJson(new JSONObject()).toString();
+        Log.d("ContactRepo insertToDB","Insert to db: "+s);
+        values.put(Contact.COLUMN_JSON, s);
 
         contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
@@ -84,6 +87,7 @@ public class ContactRepo {
         if (cursor.moveToFirst()) {
             try {
                 contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
+                Log.d("Contact Repo getContact","setAttributes to: "+cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
                 contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
                 contact.setId(id);
             } catch (JSONException exception) {

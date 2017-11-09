@@ -1,6 +1,7 @@
 package com.cmsc355.contactapp;
 
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,11 +137,13 @@ class Contact implements BaseColumns {
     }
 
     JSONObject getAttributes() {
+        Log.d("Contact getAttrbutes","Called, returning: "+attributes);
         return attributes;
     }
 
     void setAttributes(JSONObject attributes) {
         this.attributes = attributes;
+        Log.d("Contact setAttributes","Attributes: "+attributes);
     }
 
     int getId() {
