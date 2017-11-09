@@ -70,8 +70,7 @@ public class ContactRepo {
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
-            }
-            while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         DatabaseManager.getInstance().closeDatabase();
@@ -87,7 +86,7 @@ public class ContactRepo {
         if (cursor.moveToFirst()) {
             try {
                 contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
-                Log.d("Contact Repo getContact","setAttributes to: "+cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
+                Log.d("ContactRepo getContact","setAttributes to: "+cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
                 contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
                 contact.setId(id);
             } catch (JSONException exception) {
