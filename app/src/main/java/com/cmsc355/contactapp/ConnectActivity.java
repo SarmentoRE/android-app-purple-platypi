@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import static com.cmsc355.contactapp.App.context;
 
-public class ConnectActivity extends AppCompatActivity {
+public class ConnectActivity extends NonHomeActivity {
 
     private RecyclerView recyclerView;
 
@@ -51,6 +51,26 @@ public class ConnectActivity extends AppCompatActivity {
         */
     }
 
+    @Override
+    protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
+        super.onResume();           //not just the first time
+        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
+        recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
+    }
+
+    //adds the home button to the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
     public void nfcCheck() {
         // This gets the manager object instantiated, and sets it to the NFC service
         NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
@@ -71,34 +91,6 @@ public class ConnectActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
-        super.onResume();           //not just the first time
-        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
-        recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
-    }
-
-    //adds the home button to the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default, menu);
-        return true;
-    }
-
-    //home button takes you straight home, resets the list of activities for the back button
-    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-          case R.id.action_home:
-              Intent intent = new Intent(ConnectActivity.this, HomeActivity.class);
-              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-              startActivity(intent);
-              return true;
-          default:
-              return super.onOptionsItemSelected(item);
-        }
-    }
     /* todo figure out how to make the below methods correctly listen for and stop listening for the NDEF tag
     @Override
     protected void onResume() {

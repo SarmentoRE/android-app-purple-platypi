@@ -22,8 +22,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class ContactInfoActivity extends AppCompatActivity {
 
     //boolean toggles the ability to edit all the edittexts. keyListener is stored when edittexts are
@@ -32,7 +30,7 @@ public class ContactInfoActivity extends AppCompatActivity {
     private boolean isEditEnabled;
     private KeyListener keyListener;
     private long clickedTime;
-    private String TAG = "ContactInfoActivity";
+    private String tag = "ContactInfoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -50,7 +48,7 @@ public class ContactInfoActivity extends AppCompatActivity {
         //pulling info out of the incoming intent
         Intent intent = getIntent();
         final int contactId = intent.getIntExtra("ContactID",-1);
-        Log.d(TAG,"CONTACT ID IS: "+contactId);
+        Log.d(tag,"CONTACT ID IS: " + contactId);
 
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
@@ -106,8 +104,8 @@ public class ContactInfoActivity extends AppCompatActivity {
                     //we update newContact's name to whatever was in the edittext
                     if (!nameInput.isEmpty()) {
                         newContact.setName(nameInput);
-                        editName.setHint(nameInput);
-                        editName.getText().clear();
+                        //editName.setHint(nameInput);
+                        //editName.getText().clear();
                     }
 
                     //now we do a similar process, but for each attribute
@@ -116,27 +114,31 @@ public class ContactInfoActivity extends AppCompatActivity {
                     for (int i = 0; i < numAttributes; i++) {
                         InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                         //read attribute key and value
-                        TextView textView = viewHolder.txtKey;
-                        EditText editText = viewHolder.txtValue;
+                        TextView textKey = viewHolder.txtKey;
+                        EditText editValue = viewHolder.txtValue;
                         //if the value's edittext had some change input into it, write that change
                         //to the same attribute in newContact
-                        if (!editText.getText().toString().isEmpty()) {
-                            String attrKey = textView.getText().toString();
+                        String attrInput = editValue.getText().toString();
+                        if (!attrInput.isEmpty()) {
+                            String attrKey = textKey.getText().toString();
                             attrKey = attrKey.substring(0, attrKey.length() - 1);
-                            String newAttrValue = editText.getText().toString();
                             try {
-                                newAttributes.put(attrKey, newAttrValue);
+                                newAttributes.put(attrKey, attrInput);
                             } catch (JSONException exception) {
                                 exception.printStackTrace();
                             }
-                            editText.setHint(newAttrValue);
-                            editText.getText().clear();
+                            //editValue.setHint(attrInput);
+                            //editValue.getText().clear();
                         }
                     }
                     newContact.setAttributes(newAttributes);
 
                     //Still has id from original contact, will update regardless of whether changes are made
                     App.databaseIoManager.putContact(newContact);
+
+                    //debouncing this button
+                    clickedTime = SystemClock.elapsedRealtime();
+
                     // Returns to previous activity
                     finish();
                 }
@@ -159,29 +161,6 @@ public class ContactInfoActivity extends AppCompatActivity {
         });
     }
 
-    //adds the home button to the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_default, menu);
-        return true;
-    }
-
-    //home button takes you straight home, resets the list of activities for the back button
-    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-          case R.id.action_home:
-              Intent intent = new Intent(ContactInfoActivity.this, HomeActivity.class);
-              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-              startActivity(intent);
-              return true;
-          default:
-              return super.onOptionsItemSelected(item);
-
-        }
-    }
-
     public void setupUi(View view) {
 
         //Make it so that, if we touch a view that isn't edittext, it hides the keyboard
@@ -202,5 +181,18 @@ public class ContactInfoActivity extends AppCompatActivity {
                 setupUi(innerView);
             }
         }
+    }
+
+    //adds the home button to the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //home button takes you straight home, resets the list of activities for the back button
+    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
