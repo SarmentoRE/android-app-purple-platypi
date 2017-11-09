@@ -3,6 +3,9 @@ package com.cmsc355.contactapp;
 import android.app.Application;
 import android.content.Context;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class App extends Application {
     // TODO - figure out why android wants me to not use a static Context.
     // The app works with this currently but gives a warning which I would like to research.
@@ -23,6 +26,18 @@ public class App extends Application {
         dbHelper = new DatabaseHelper();
         DatabaseManager.initializeInstance(dbHelper);
         databaseIoManager = new DatabaseIoManager();
+
+        JSONObject testAttributes = new JSONObject();
+        try {
+            testAttributes.put("Email","test@example.com");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        Contact testContact = new Contact("Test",testAttributes);
+        databaseIoManager.putContact(testContact);
+
+        Contact testCopy = new Contact(testContact);
+        databaseIoManager.putContact(testCopy);
 
         //setupMocks();
     }

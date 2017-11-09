@@ -20,7 +20,7 @@ public class ContactRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(Contact.COLUMN_NAME, contact.getName());
-        String s = contact.addContactToJson(new JSONObject()).toString();
+        String s = contact.getAttributes().toString();
         Log.d("ContactRepo insertToDB","Insert to db: "+s);
         values.put(Contact.COLUMN_JSON, s);
 
@@ -46,7 +46,7 @@ public class ContactRepo {
         ContentValues values = new ContentValues();
 
         values.put(Contact.COLUMN_NAME, contact.getName());
-        values.put(Contact.COLUMN_JSON, contact.addContactToJson(new JSONObject()).toString());
+        values.put(Contact.COLUMN_JSON, contact.getAttributes().toString());
 
         db.update(Contact.TABLE_NAME, values, Contact._ID + "= ?", new String[]{String.valueOf(contact.getId())});
         DatabaseManager.getInstance().closeDatabase();

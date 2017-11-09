@@ -32,7 +32,7 @@ class InfoAdapter extends RecyclerView.Adapter {
     //constructor method
     InfoAdapter(Contact contact, boolean iee) {
         attributes = Utilities.jsonToMap(contact.getAttributes());
-        Log.d("InfoAdapter constructor","Attributes: "+attributes);
+        Log.d("InfoAdapter constructor","Attributes: " + attributes);
         isEditEnabled = iee;
     }
 
