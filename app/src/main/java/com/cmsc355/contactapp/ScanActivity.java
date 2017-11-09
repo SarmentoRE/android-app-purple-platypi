@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 //This activity is empty and doesn't do anything yet
-public class ScanActivity extends AppCompatActivity {
+public class ScanActivity extends NonHomeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

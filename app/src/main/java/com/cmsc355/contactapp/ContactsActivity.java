@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ContactsActivity extends AppCompatActivity {
+public class ContactsActivity extends NonHomeActivity {
 
     private RecyclerView recyclerView;
 
@@ -45,7 +45,7 @@ public class ContactsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ContactsActivity.this, ContactInfoActivity.class);
                 intent.putExtra("ContactID", contactId);
-                Log.d("CONTACTS ACTIVITY","CONTACT ID IS: "+contactId);
+                Log.d("CONTACTS ACTIVITY","CONTACT ID IS: " + contactId);
                 intent.putExtra("isEditEnabled", true);
                 startActivity(intent);
             }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class GroupsActivity extends AppCompatActivity {
+public class GroupsActivity extends NonHomeActivity {
 
     private RecyclerView recyclerView;
 

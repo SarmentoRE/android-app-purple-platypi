@@ -22,7 +22,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ContactInfoActivity extends AppCompatActivity {
+public class ContactInfoActivity extends NonHomeActivity {
 
     //boolean toggles the ability to edit all the edittexts. keyListener is stored when edittexts are
     //disabled, so they can be reenabled properly later. callingActivity keeps the activity which called
@@ -150,7 +150,7 @@ public class ContactInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Don't allow user to delete the My Info contact page
-                if (contact.getId() == 0) {
+                if (contact.getId() == 1) {
                     //TODO - just remove delete button from Contact Info screen instead
                     Toast.makeText(ContactInfoActivity.this, "Your info page is not deletable", Toast.LENGTH_SHORT).show();
                 } else {
