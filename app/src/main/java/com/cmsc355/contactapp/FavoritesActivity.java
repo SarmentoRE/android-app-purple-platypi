@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-public class FavoritesActivity extends AppCompatActivity {
+public class FavoritesActivity extends NonHomeActivity {
 
     RecyclerView recyclerView;
 
