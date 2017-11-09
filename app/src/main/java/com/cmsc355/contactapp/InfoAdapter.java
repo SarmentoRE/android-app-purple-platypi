@@ -2,6 +2,7 @@ package com.cmsc355.contactapp;
 
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ class InfoAdapter extends RecyclerView.Adapter {
     //constructor method
     InfoAdapter(Contact contact, boolean iee) {
         attributes = Utilities.jsonToMap(contact.getAttributes());
+        Log.d("InfoAdapter constructor","Attributes: "+attributes);
         isEditEnabled = iee;
     }
 
@@ -60,7 +62,8 @@ class InfoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) holder;
         String key = attributes.keyAt(position);
-        String value = attributes.get(key).toString();        //TODO - need to make this generic for non-string value types
+        String value = attributes.get(key).toString();//TODO - need to make this generic for non-string value types
+        Log.d("InfoAdapter ViewHolder","Value: "+value +" Key "+key);
         key = key.concat(":");
         viewHolder.txtKey.setText(key);
         viewHolder.txtValue.setHint(value);
