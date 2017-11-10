@@ -1,8 +1,6 @@
 package com.cmsc355.contactapp;
-
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +28,7 @@ public class ContactInfoActivity extends NonHomeActivity {
     private KeyListener keyListener;
     private long clickedTime;
     private String tag = "ContactInfoActivity";
+    private String attributeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -52,7 +50,6 @@ public class ContactInfoActivity extends NonHomeActivity {
 
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
-
         //creating Contact from the info pulled out of JSONObject, stores initial contact values
         final Contact contact = App.databaseIoManager.getContact(contactId);
 
@@ -81,10 +78,12 @@ public class ContactInfoActivity extends NonHomeActivity {
             @Override
             public void onClick(View view) {
                 Button thisButton = (Button) view;
+                final Button addAttribute = (Button) findViewById(R.id.add_attribute);
 
                 //Button clicked for first time; enable editing on name, change button text, and
                 //reset adapter on recycerview to generate attributes again but with edittexts enabled
                 if (!isEditEnabled) {
+                    addAttribute.setVisibility(View.VISIBLE);
                     editName.setEnabled(true);
                     editName.setClickable(true);
                     editName.setKeyListener(keyListener);
@@ -92,9 +91,18 @@ public class ContactInfoActivity extends NonHomeActivity {
                     isEditEnabled = true;
                     recyclerView.setAdapter(new InfoAdapter(contact, true));
                     clickedTime = SystemClock.elapsedRealtime();
+                    addAttribute.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent1 = new Intent(ContactInfoActivity.this,AddAttribute.class);
+                            intent1.putExtra("ContactID", contactId);
+                            startActivity(intent1);
+                        }
+                    });
                 //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
                 //make the changes if needed, and update the correct contact in the mock db
                 } else if (SystemClock.elapsedRealtime() - clickedTime > 1000) {
+                    addAttribute.setVisibility(View.GONE);
                     //newContact will hold all the updated values
                     Contact newContact = new Contact(contact);
 

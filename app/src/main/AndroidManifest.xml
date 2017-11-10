@@ -32,7 +32,10 @@
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ContactInfoActivity"
-            android:windowSoftInputMode="adjustPan" />
+            />
+        <activity android:name=".AddAttribute"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Alert"/>
     </application>
 
 </manifest>
