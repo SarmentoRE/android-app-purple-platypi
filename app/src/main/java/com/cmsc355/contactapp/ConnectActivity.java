@@ -91,6 +91,7 @@ public class ConnectActivity extends NonHomeActivity {
         }
     }
 
+
     /* todo figure out how to make the below methods correctly listen for and stop listening for the NDEF tag
     @Override
     protected void onResume() {
