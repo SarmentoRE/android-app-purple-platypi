@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cmsc355.contactapp.FavoritesActivity">
+    tools:context="com.cmsc355.contactapp.FavoritesActivity">
 
     <include layout="@layout/toolbar_default"
         android:id="@+id/favorites_toolbar" />
@@ -13,5 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/favorites_toolbar" />
+    <Button
+        android:text="Add favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/favorites_list"/>
 
 </RelativeLayout>

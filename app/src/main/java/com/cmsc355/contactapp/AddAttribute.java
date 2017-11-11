@@ -21,6 +21,9 @@ public class AddAttribute extends NonHomeActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        final int contactId = intent.getIntExtra("ContactID",-1);
+        final Contact contact = App.databaseIoManager.getContact(contactId);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Attribute Name");
         // Set up the input
@@ -33,23 +36,28 @@ public class AddAttribute extends NonHomeActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 attributeName = input.getText().toString();
+
+                JSONObject attributes = contact.getAttributes();
+                try {
+                    attributes.put(attributeName,"");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                App.databaseIoManager.putContact(contact);
+                Intent intent1 = new Intent(AddAttribute.this,ContactInfoActivity.class);
+                intent1.putExtra("ContactID",contact.getId());
+                startActivity(intent1);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                Intent intent1 = new Intent(AddAttribute.this,ContactInfoActivity.class);
+                intent1.putExtra("ContactID",contact.getId());
+                startActivity(intent1);
             }
         });
         builder.show();
-        Intent intent = getIntent();
-        final int contactId = intent.getIntExtra("ContactID",-1);
-        final Contact contact = App.databaseIoManager.getContact(contactId);
-        JSONObject attributes = contact.getAttributes();
-        try {
-            attributes.put(attributeName,"");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }
