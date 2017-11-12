@@ -94,9 +94,12 @@ public class ContactInfoActivity extends NonHomeActivity {
                     addAttribute.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent1 = new Intent(ContactInfoActivity.this,AddAttribute.class);
-                            intent1.putExtra("ContactID", contactId);
-                            startActivity(intent1);
+                            try {
+                                contact.getAttributes().put("Enter Attribute Name","Enter Attribute Value");
+                                recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
+                            } catch (JSONException exception) {
+                                exception.printStackTrace();
+                            }
                         }
                     });
                 //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
@@ -118,25 +121,32 @@ public class ContactInfoActivity extends NonHomeActivity {
 
                     //now we do a similar process, but for each attribute
                     int numAttributes = recyclerView.getAdapter().getItemCount();
-                    JSONObject newAttributes = newContact.getAttributes();
+                    JSONObject newAttributes = new JSONObject();
                     for (int i = 0; i < numAttributes; i++) {
                         InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                         //read attribute key and value
-                        TextView textKey = viewHolder.txtKey;
-                        EditText editValue = viewHolder.txtValue;
+                        EditText editKey = viewHolder.editKey;
+                        EditText editValue = viewHolder.editValue;
                         //if the value's edittext had some change input into it, write that change
                         //to the same attribute in newContact
-                        String attrInput = editValue.getText().toString();
-                        if (!attrInput.isEmpty()) {
-                            String attrKey = textKey.getText().toString();
-                            attrKey = attrKey.substring(0, attrKey.length() - 1);
-                            try {
-                                newAttributes.put(attrKey, attrInput);
-                            } catch (JSONException exception) {
-                                exception.printStackTrace();
+                        String keyInput = editKey.getText().toString();
+                        String valueInput = editValue.getText().toString();
+
+                        String newKey = editKey.getHint().toString();
+                        String newValue = editValue.getHint().toString();
+                        if (!keyInput.isEmpty()) {
+                            if (keyInput.endsWith(":")) {
+                                keyInput = keyInput.substring(0, keyInput.length() - 1);
                             }
-                            //editValue.setHint(attrInput);
-                            //editValue.getText().clear();
+                            newKey = keyInput;
+                        }
+                        if (!valueInput.isEmpty()) {
+                            newValue = valueInput;
+                        }
+                        try {
+                            newAttributes.put(newKey, newValue);
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
                         }
                     }
                     newContact.setAttributes(newAttributes);
