@@ -33,9 +33,6 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ContactInfoActivity"
             />
-        <activity android:name=".AddAttribute"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Alert"/>
     </application>
 
 </manifest>

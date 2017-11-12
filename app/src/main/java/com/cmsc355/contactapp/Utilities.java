@@ -118,7 +118,7 @@ class Utilities {
         ArrayList<Contact> newContactList = new ArrayList<>();
         int numContacts = contactList.size();
         for (int i = 0; i < numContacts; i++) {
-            Contact nextContact = new Contact();
+            Contact nextContact = new Contact("Name", new JSONObject());
             nextContact.setName("ZZZZZZZZZZZZZZZZZZZZZ");
             for (int j = 0; j < contactList.size(); j++) {
                 if (contactList.get(j).getName().compareToIgnoreCase(nextContact.getName()) < 0) {

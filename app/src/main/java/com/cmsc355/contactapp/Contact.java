@@ -135,7 +135,7 @@ class Contact implements BaseColumns {
     }
 
     JSONObject getAttributes() {
-        Log.d("Contact getAttrbutes","Called, returning: "+attributes);
+        //Log.d("Contact getAttrbutes","Called, returning: "+attributes);
         return attributes;
     }
 

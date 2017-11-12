@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 class InfoAdapter extends RecyclerView.Adapter {
 
@@ -18,14 +17,14 @@ class InfoAdapter extends RecyclerView.Adapter {
     //ViewHolder holds references to each view inside a generated item on the list, so we can access them later
     class ViewHolder extends RecyclerView.ViewHolder {
         public View layout;
-        TextView txtKey;
-        EditText txtValue;
+        EditText editKey;
+        EditText editValue;
 
         ViewHolder(View view) {
             super(view);
             layout = view;
-            txtKey = view.findViewById(R.id.info_key);
-            txtValue = view.findViewById(R.id.info_value);
+            editKey = view.findViewById(R.id.info_key);
+            editValue = view.findViewById(R.id.info_value);
         }
     }
 
@@ -64,13 +63,21 @@ class InfoAdapter extends RecyclerView.Adapter {
         String key = attributes.keyAt(position);
         String value = attributes.get(key).toString();//TODO - need to make this generic for non-string value types
         Log.d("InfoAdapter ViewHolder","Value: "+value +" Key "+key);
-        key = key.concat(":");
-        viewHolder.txtKey.setText(key);
-        viewHolder.txtValue.setHint(value);
+        if (!key.endsWith(":")) {
+            key = key.concat(":");
+        }
+        viewHolder.editKey.setHint(key);
+        viewHolder.editValue.setHint(value);
         if (!isEditEnabled) {
-            viewHolder.txtValue.setEnabled(false);
-            viewHolder.txtValue.setClickable(false);
-            viewHolder.txtValue.setKeyListener(null);
+            viewHolder.editKey.setHint(key);
+            viewHolder.editKey.setEnabled(false);
+            viewHolder.editKey.setClickable(false);
+            viewHolder.editKey.setKeyListener(null);
+
+            viewHolder.editValue.setHint(value);
+            viewHolder.editValue.setEnabled(false);
+            viewHolder.editValue.setClickable(false);
+            viewHolder.editValue.setKeyListener(null);
         }
     }
 
