@@ -70,20 +70,18 @@ class Contact implements BaseColumns {
         this. contactId = newId;
     }
 
-    //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT BACK IN
     //generates a given number of contacts with random name, address, and phone number
     static ArrayList<Contact> generateRandomContacts(int numContacts) {
         ArrayList<Contact> contactList = new ArrayList<>();
-        //ArrayList<Contact> contactListDummy = new ArrayList<>(); //BAD CODE, DELETE AFTER TESTING
+        ArrayList<Contact> contactListDummy = new ArrayList<>();
         for (int i = 0; i < numContacts; i++) {
             Contact contact = generateRandomContact();
             contactList.add(contact);
-            //ContactRepo.insertToDatabase(contact);
+            ContactRepo.insertToDatabase(contact);
         }
         return contactList;
     }
 
-    //COMMENTED OUT FOR TESTING IN ITERATION 1, PUT ALL CODE BACK IN
     private static Contact generateRandomContact() {
         Contact contact = new Contact();
         contact.name = generateRandomString(8);

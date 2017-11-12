@@ -28,4 +28,7 @@
     <!--Group Screen Strings-->
     <string name="groups_new">New Group</string>
 
+    <!--Favorites Screen Strings-->
+    <string name="favorite_new">Add Favorite</string>
+
 </resources>

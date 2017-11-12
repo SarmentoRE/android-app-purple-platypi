@@ -14,9 +14,10 @@
         android:layout_height="match_parent"
         android:layout_below="@id/favorites_toolbar" />
     <Button
-        android:text="Add favorite"
+        android:id="@+id/favorites_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/favorites_list"/>
+        android:layout_alignBottom="@id/favorites_list"
+        android:text="@string/favorite_new" />
 
 </RelativeLayout>
