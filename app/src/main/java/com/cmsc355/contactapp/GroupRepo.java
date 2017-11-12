@@ -61,8 +61,8 @@ class GroupRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ArrayList<Contact> contacts = new ArrayList<>();
         String[] args = new String[]{"%" + searchQuery + "%"};
-        String query = "SELECT * FROM (" + ContactGroup.TABLE_NAME
-                + " JOIN " + Relation.TABLE_NAME + ")" + " ON " + ContactGroup._ID + " = " + Relation.COLUMN_GROUP_ID
+        String query = "SELECT * FROM " + ContactGroup.TABLE_NAME
+                + " JOIN " + Relation.TABLE_NAME + " ON " + ContactGroup._ID + " = " + Relation.COLUMN_GROUP_ID
                 + " JOIN " + Contact.TABLE_NAME + " ON " + Contact._ID + " = " + Relation.COLUMN_CONTACT_ID
                 + " WHERE " + ContactGroup.COLUMN_NAME + " LIKE ? ORDER BY " + ContactGroup.COLUMN_NAME + " DESC";
         Cursor cursor = db.rawQuery(query, args); //grabs all groups that have the search string in the name and their associated contacts
