@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cmsc355.contactapp.ConnectActivity">
+    tools:context="com.cmsc355.contactapp.ConnectActivity">
 
     <include layout="@layout/toolbar_default"
         android:id="@+id/connect_toolbar" />
@@ -13,5 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/connect_toolbar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/connect_list"
+        android:layout_centerHorizontal="true"
+        android:onClick="sendFile"
+        android:padding="8dp"
+        android:text="Send File" />
 
 </RelativeLayout>
