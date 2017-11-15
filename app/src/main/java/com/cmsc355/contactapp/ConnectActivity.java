@@ -53,7 +53,7 @@ public class ConnectActivity extends NonHomeActivity {
         recyclerView = (RecyclerView) findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        nfcCheck(); // check for NFC connection
+        nfcCheck(); // check for NFC settings
 
         handleIntent(getIntent());
 
@@ -75,19 +75,19 @@ public class ConnectActivity extends NonHomeActivity {
         }
         */
     }
-
+    // Handles the incoming Intent
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) { // If the intent filter discovers an NDEF Message
 
             String type = intent.getType();
-            if (MIME_TEXT_PLAIN.equals(type)) {
+            if (MIME_TEXT_PLAIN.equals(type)) { // If the intent type matches MIME_TEXT_PLAIN
 
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                new NdefReaderTask().execute(tag);
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG); // set tag to NFC extra tag
+                new NdefReaderTask().execute(tag); // Runds NdefReaderTask to see if the tag is an NDEF message, Returns null if not the right tag
 
             } else {
-                Log.d(TAG, "Wrong mime type: " + type);
+                Log.d(TAG, "Wrong mime type: " + type); //Show in the log the type
             }
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
@@ -111,7 +111,7 @@ public class ConnectActivity extends NonHomeActivity {
             super.onResume();           //not just the first time
             ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
             recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
-            setupForegroundDispatch(this, nfcAdapter);
+            setupForegroundDispatch(this, nfcAdapter); // Start the foreground dispatch so that the intent can be caught
         }
 
         //adds the home button to the toolbar
@@ -121,7 +121,6 @@ public class ConnectActivity extends NonHomeActivity {
         }
 
         //home button takes you straight home, resets the list of activities for the back button
-        //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
         @Override
         public boolean onOptionsItemSelected (MenuItem item){
             return super.onOptionsItemSelected(item);
@@ -148,20 +147,18 @@ public class ConnectActivity extends NonHomeActivity {
     }
 
     public void sendFile(View view) {
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this); //Get the NFC adapter
 
         // Check whether NFC is enabled on device
         if(!nfcAdapter.isEnabled()){
-            // NFC is disabled, show the settings UI
-            // to enable NFC
+            // NFC is disabled, show the settings UI to enable NFC
             Toast.makeText(this, "Please enable NFC.",
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
         }
         // Check whether Android Beam feature is enabled on device
         else if(!nfcAdapter.isNdefPushEnabled()) {
-            // Android Beam is disabled, show the settings UI
-            // to enable Android Beam
+            // Android Beam is disabled, show the settings UI to enable Android Beam
             Toast.makeText(this, "Please enable Android Beam.",
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFCSHARING_SETTINGS));
@@ -171,10 +168,8 @@ public class ConnectActivity extends NonHomeActivity {
 
             nfcAdapter.setNdefPushMessageCallback(new NfcAdapter.CreateNdefMessageCallback()
             {
-                /*
-                 * (non-Javadoc)
-                 * @see android.nfc.NfcAdapter.CreateNdefMessageCallback#createNdefMessage(android.nfc.NfcEvent)
-                 */
+
+                //Creates an NdefMessage object to send to the other device, and waits for the device to appear
                 @Override
                 public NdefMessage createNdefMessage(NfcEvent event)
                 {
@@ -188,7 +183,7 @@ public class ConnectActivity extends NonHomeActivity {
 
     @Override
     protected void onPause() {
-        stopForegroundDispatch(this, nfcAdapter);
+        stopForegroundDispatch(this, nfcAdapter); //stop the task of waiting for the intent
         super.onPause();
     }
 
@@ -197,7 +192,6 @@ public class ConnectActivity extends NonHomeActivity {
         /*
          * This method gets called, when a new Intent gets associated with the current activity instance.
          * Instead of creating a new activity, onNewIntent will be called.
-         *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
         handleIntent(intent);
@@ -237,6 +231,7 @@ public class ConnectActivity extends NonHomeActivity {
         adapter.disableForegroundDispatch(activity);
     }
 }
+    // NdefReaderTask is the task that takes the tag and ensures it is in fact and Ndef Message, and if so, pulles out the Ndef Record and passes that to the reader
     class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
     @Override
@@ -251,7 +246,7 @@ public class ConnectActivity extends NonHomeActivity {
 
         NdefMessage ndefMessage = ndef.getCachedNdefMessage();
 
-        NdefRecord[] records = ndefMessage.getRecords();
+        NdefRecord[] records = ndefMessage.getRecords(); //this allows more than one record per message, though our app does not need this.
         for (NdefRecord ndefRecord : records) {
             if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
                 try {
@@ -264,7 +259,7 @@ public class ConnectActivity extends NonHomeActivity {
 
         return null;
     }
-
+    // Read Text reads the string within the Ndef Record and returns it as a string
     private String readText(NdefRecord record) throws UnsupportedEncodingException {
 
 
