@@ -1,24 +1,45 @@
 package com.cmsc355.contactapp;
 
+
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
 import static com.cmsc355.contactapp.App.context;
+import static com.cmsc355.contactapp.ConnectActivity.TAG;
 
 public class ConnectActivity extends NonHomeActivity {
 
     private RecyclerView recyclerView;
+    public static final String MIME_TEXT_PLAIN = "text/plain";
+    public static final String TAG = "NfcDemo";
+    private TextView textView1;
+    private NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +51,12 @@ public class ConnectActivity extends NonHomeActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcCheck(); // check for NFC connection
-        /* TODO - see what here isn't working and why
+
+        handleIntent(getIntent());
+
+        /*
         Intent nfcIntent = new Intent(this, getClass()); // Instantiate the intent to NFC connect
         nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP); // add flag, pops the activity to the forefront
 
@@ -51,25 +75,56 @@ public class ConnectActivity extends NonHomeActivity {
         */
     }
 
-    @Override
-    protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
-        super.onResume();           //not just the first time
-        ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
-        recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
+    private void handleIntent(Intent intent) {
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+
+            String type = intent.getType();
+            if (MIME_TEXT_PLAIN.equals(type)) {
+
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                new NdefReaderTask().execute(tag);
+
+            } else {
+                Log.d(TAG, "Wrong mime type: " + type);
+            }
+        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+
+            // In case we would still use the Tech Discovered Intent
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String[] techList = tag.getTechList();
+            String searchedTech = Ndef.class.getName();
+
+            for (String tech : techList) {
+                if (searchedTech.equals(tech)) {
+                    new NdefReaderTask().execute(tag);
+                    break;
+                }
+            }
+        }
     }
 
-    //adds the home button to the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
+        @Override
+        protected void onResume()
+        {     //Set adapter onResume, so that our list updates every time we come to the screen,
+            super.onResume();           //not just the first time
+            ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
+            recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
+            setupForegroundDispatch(this, nfcAdapter);
+        }
 
-    //home button takes you straight home, resets the list of activities for the back button
-    //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
+        //adds the home button to the toolbar
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        //home button takes you straight home, resets the list of activities for the back button
+        //(see https://developer.android.com/guide/components/activities/tasks-and-back-stack.html)
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            return super.onOptionsItemSelected(item);
+        }
 
     public void nfcCheck() {
         // This gets the manager object instantiated, and sets it to the NFC service
@@ -91,23 +146,144 @@ public class ConnectActivity extends NonHomeActivity {
         }
     }
 
-    /* todo figure out how to make the below methods correctly listen for and stop listening for the NDEF tag
-    @Override
-    protected void onResume() {
-        super.onResume();
-        nfcAdpt.enableForegroundDispatch(
-        this,
-        nfcPendingIntent,
-        intentFiltersArray,
-        null);
-        handleIntent(getIntent());
+    public void sendFile(View view) {
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        // Check whether NFC is enabled on device
+        if(!nfcAdapter.isEnabled()){
+            // NFC is disabled, show the settings UI
+            // to enable NFC
+            Toast.makeText(this, "Please enable NFC.",
+                    Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+        }
+        // Check whether Android Beam feature is enabled on device
+        else if(!nfcAdapter.isNdefPushEnabled()) {
+            // Android Beam is disabled, show the settings UI
+            // to enable Android Beam
+            Toast.makeText(this, "Please enable Android Beam.",
+                    Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Settings.ACTION_NFCSHARING_SETTINGS));
+        }
+        else {
+            // NFC and Android Beam both are enabled
+
+
+            Toast.makeText(this, "Else block reached",
+                    Toast.LENGTH_SHORT).show();
+
+            Uri myUri = Uri.parse("This is a test String");
+
+            Toast.makeText(this,myUri.toString(),
+                    Toast.LENGTH_SHORT).show();
+
+            nfcAdapter.setBeamPushUris(
+                    new Uri[]{myUri}, this);
+        }
     }
 
     @Override
     protected void onPause() {
+        stopForegroundDispatch(this, nfcAdapter);
         super.onPause();
-        nfcAdpt.disableForegroundDispatch(this);
     }
-    */
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        /**
+         * This method gets called, when a new Intent gets associated with the current activity instance.
+         * Instead of creating a new activity, onNewIntent will be called. For more information have a look
+         * at the documentation.
+         *
+         * In our case this method gets called, when the user attaches a Tag to the device.
+         */
+        handleIntent(intent);
+    }
+
+    /**
+     * @param activity The corresponding {@link Activity} requesting the foreground dispatch.
+     * @param adapter  The {@link NfcAdapter} used for the foreground dispatch.
+     */
+    public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
+
+        IntentFilter[] filters = new IntentFilter[1];
+        String[][] techList = new String[][]{};
+
+
+        filters[0] = new IntentFilter();
+        filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        filters[0].addCategory(Intent.CATEGORY_DEFAULT);
+        try {
+            filters[0].addDataType(MIME_TEXT_PLAIN);
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException("Check your mime type.");
+        }
+
+        adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
+    }
+
+    /**
+     * @param activity The corresponding {@link HomeActivity} requesting to stop the foreground dispatch.
+     * @param adapter  The {@link NfcAdapter} used for the foreground dispatch.
+     */
+    public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        adapter.disableForegroundDispatch(activity);
+    }
+}
+    class NdefReaderTask extends AsyncTask<Tag, Void, String> {
+
+    @Override
+    protected String doInBackground(Tag... params) {
+        Tag tag = params[0];
+
+        Ndef ndef = Ndef.get(tag);
+        if (ndef == null) {
+            // NDEF is not supported by this Tag.
+            return null;
+        }
+
+        NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+
+        NdefRecord[] records = ndefMessage.getRecords();
+        for (NdefRecord ndefRecord : records) {
+            if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
+                try {
+                    return readText(ndefRecord);
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, "Unsupported Encoding", e);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private String readText(NdefRecord record) throws UnsupportedEncodingException {
+
+
+        byte[] payload = record.getPayload();
+
+        // Get the Text Encoding
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+
+        // Get the Language Code
+        int languageCodeLength = payload[0] & 0063;
+
+        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+        // e.g. "en"
+
+        // Get the Text
+        return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        if (result != null) {
+
+        }
+    }
 }
