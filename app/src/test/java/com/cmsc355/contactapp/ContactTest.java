@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.api.mockito.PowerMockito;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Contact.class)
+@PrepareForTest({Contact.class, ContactRepo.class})
 public class ContactTest {
 
     @Rule
@@ -56,8 +57,10 @@ public class ContactTest {
         // NOTE - PowerMockito having trouble returning different values from the
         // static, private inner method generateRandomContact - which is why I only test list size 1
         Contact contactMock = mock(Contact.class);
-
         PowerMockito.stub(PowerMockito.method(Contact.class,"generateRandomContact")).toReturn(contactMock);
+
+        PowerMockito.mockStatic(ContactRepo.class);
+        when(ContactRepo.insertToDatabase(Mockito.any(Contact.class))).thenReturn(1);
 
         ArrayList<Contact> contactListTest = Contact.generateRandomContacts(1);
 
