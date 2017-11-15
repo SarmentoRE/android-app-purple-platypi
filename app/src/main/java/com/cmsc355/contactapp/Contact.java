@@ -76,7 +76,7 @@ class Contact implements BaseColumns {
         for (int i = 0; i < numContacts; i++) {
             Contact contact = generateRandomContact();
             contactList.add(contact);
-            ContactRepo.insertToDatabase(contact);
+            //ContactRepo.insertToDatabase(contact);
         }
         return contactList;
     }
