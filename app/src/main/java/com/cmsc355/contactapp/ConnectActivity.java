@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
@@ -142,7 +143,7 @@ public class ConnectActivity extends NonHomeActivity {
         } else {
             Toast.makeText(getApplicationContext(), "NFC must be turned on by User in Settings",
                     Toast.LENGTH_LONG).show(); //Show toast that NFC is off
-            startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS)); //open settings page for NFC
+            startActivityForResult(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS), 23); //open settings page for NFC
         }
     }
 
@@ -168,17 +169,20 @@ public class ConnectActivity extends NonHomeActivity {
         else {
             // NFC and Android Beam both are enabled
 
+            nfcAdapter.setNdefPushMessageCallback(new NfcAdapter.CreateNdefMessageCallback()
+            {
+                /*
+                 * (non-Javadoc)
+                 * @see android.nfc.NfcAdapter.CreateNdefMessageCallback#createNdefMessage(android.nfc.NfcEvent)
+                 */
+                @Override
+                public NdefMessage createNdefMessage(NfcEvent event)
+                {
+                    NdefRecord uriRecord = NdefRecord.createUri(Uri.encode("http://www.google.com/"));
+                    return new NdefMessage(new NdefRecord[] { uriRecord });
+                }
 
-            Toast.makeText(this, "Else block reached",
-                    Toast.LENGTH_SHORT).show();
-
-            Uri myUri = Uri.parse("This is a test String");
-
-            Toast.makeText(this,myUri.toString(),
-                    Toast.LENGTH_SHORT).show();
-
-            nfcAdapter.setBeamPushUris(
-                    new Uri[]{myUri}, this);
+            }, this, this);
         }
     }
 
@@ -190,10 +194,9 @@ public class ConnectActivity extends NonHomeActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        /**
+        /*
          * This method gets called, when a new Intent gets associated with the current activity instance.
-         * Instead of creating a new activity, onNewIntent will be called. For more information have a look
-         * at the documentation.
+         * Instead of creating a new activity, onNewIntent will be called.
          *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
@@ -283,7 +286,7 @@ public class ConnectActivity extends NonHomeActivity {
     @Override
     protected void onPostExecute(String result) {
         if (result != null) {
-
+            //unclear at this time what needs to go in here
         }
     }
 }
