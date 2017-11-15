@@ -24,6 +24,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    // Android runner and rules support
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude module: 'support-annotations'
 
@@ -32,16 +33,17 @@ dependencies {
         exclude module: 'support-annotations'
 
     }
-
+    // Espresso support
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude module: 'support-annotations'
 
     }
+    // add this for intent mocking support
     androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2') {
         exclude module: 'support-annotations'
 
     }
-
+    // add this for webview testing support
     androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
         exclude module: 'support-annotations'
 
@@ -51,8 +53,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.7.22'
     androidTestCompile 'org.mockito:mockito-android:2.7.22'
+    androidTestCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.4'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
