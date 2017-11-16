@@ -13,7 +13,7 @@ public class DatabaseIoManager implements IoManager {
         if (contactId == -1) {
             contactId = ContactRepo.insertToDatabase(contact);
             contact.setId(contactId);
-            Log.d("DBIO"," CONTACT ID IS: "+contactId);
+            Log.d("DBIO"," CONTACT ID IS: " + contactId);
             return contactId;
         } else {
             ContactRepo.update(contact);
@@ -84,4 +84,5 @@ public class DatabaseIoManager implements IoManager {
     public void deleteGroup(ContactGroup group) {
         GroupRepo.delete(group.getGroupId());
     }
+
 }

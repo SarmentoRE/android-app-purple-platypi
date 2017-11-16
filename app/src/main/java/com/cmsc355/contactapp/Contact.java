@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -102,9 +103,9 @@ class Contact implements BaseColumns {
 
     //so far, we don't have to add attributes after the contact has been made, but we will need this
     //function once we allow the user to add/remove attributes from a contact
-    static void addAttribute(Contact contact, String key, String value) {
+    public void addAttribute(String key, String value) {
         try {
-            contact.attributes.put(key, value);
+            attributes.put(key, value);
         } catch (JSONException exception) {
             exception.printStackTrace();
         }
@@ -140,7 +141,7 @@ class Contact implements BaseColumns {
 
     void setAttributes(JSONObject attributes) {
         this.attributes = attributes;
-        Log.d("Contact setAttributes","Attributes: "+attributes);
+        Log.d("Contact setAttributes","Attributes: " + attributes);
     }
 
     int getId() {

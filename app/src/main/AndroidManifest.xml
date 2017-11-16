@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmsc355.contactapp">
+
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
-
 
     <application
         android:name=".App"
@@ -39,8 +42,7 @@
         <activity android:name=".GroupsActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ContactInfoActivity"
-            />
+        <activity android:name=".ContactInfoActivity" />
     </application>
 
 </manifest>

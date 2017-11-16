@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONException;
@@ -29,6 +30,7 @@ public class ContactInfoActivity extends NonHomeActivity {
     private long clickedTime;
     private String tag = "ContactInfoActivity";
     private String attributeName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {        //TODO - ability to add new attributes
@@ -47,7 +49,7 @@ public class ContactInfoActivity extends NonHomeActivity {
         Intent intent = getIntent();
         final int contactId = intent.getIntExtra("ContactID",-1);
         Log.d(tag,"CONTACT ID IS: " + contactId);
-
+        final ImageView img = (ImageView) findViewById(R.id.info_pic);
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
         //creating Contact from the info pulled out of JSONObject, stores initial contact values
@@ -84,6 +86,7 @@ public class ContactInfoActivity extends NonHomeActivity {
                 //reset adapter on recycerview to generate attributes again but with edittexts enabled
                 if (!isEditEnabled) {
                     addAttribute.setVisibility(View.VISIBLE);
+                    img.setClickable(true);
                     editName.setEnabled(true);
                     editName.setClickable(true);
                     editName.setKeyListener(keyListener);
@@ -102,10 +105,19 @@ public class ContactInfoActivity extends NonHomeActivity {
                             }
                         }
                     });
+                    //Update contact picture
+                    img.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FileHandler fileHandler = new FileHandler(ContactInfoActivity.this);
+                            fileHandler.choosePicture();
+                        }
+                    });
                 //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
                 //make the changes if needed, and update the correct contact in the mock db
                 } else if (SystemClock.elapsedRealtime() - clickedTime > 1000) {
                     addAttribute.setVisibility(View.GONE);
+                    img.setClickable(false);
                     //newContact will hold all the updated values
                     Contact newContact = new Contact(contact);
 

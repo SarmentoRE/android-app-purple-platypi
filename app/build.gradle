@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions{exclude 'LICENSE.txt'}
+    packagingOptions { exclude 'LICENSE.txt' }
 
     buildTypes {
         release {
@@ -60,4 +60,12 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.4'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.4'
+    implementation 'yogesh.firzen:FilesLister:1.0.1.g'
+    implementation 'yogesh.firzen:MukkiyaSevaigal:1.0.6'
+    compile 'commons-io:commons-io:2.6'
+}
+
+repositories {
+    maven {url "https://dl.bintray.com/firzenyogesh/maven"}
+    google()
 }

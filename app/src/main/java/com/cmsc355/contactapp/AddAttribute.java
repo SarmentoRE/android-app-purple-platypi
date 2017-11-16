@@ -15,11 +15,11 @@ import org.json.JSONObject;
  * Created by Austin on 11/10/2017.
  */
 
-public class AddAttribute extends NonHomeActivity{
+public class AddAttribute extends NonHomeActivity {
     String attributeName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         final int contactId = intent.getIntExtra("ContactID",-1);
@@ -28,7 +28,6 @@ public class AddAttribute extends NonHomeActivity{
         builder.setTitle("Attribute Name");
         // Set up the input
         final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
         // Set up the buttons
@@ -39,9 +38,9 @@ public class AddAttribute extends NonHomeActivity{
 
                 JSONObject attributes = contact.getAttributes();
                 try {
-                    attributes.put(attributeName,"");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    attributes.put(attributeName," ");
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
                 }
                 App.databaseIoManager.putContact(contact);
                 Intent intent1 = new Intent(AddAttribute.this,ContactInfoActivity.class);
