@@ -11,7 +11,6 @@ public class App extends Application {
     // The app works with this currently but gives a warning which I would like to research.
     public static Context context;
     private static DatabaseHelper dbHelper;
-
     public static DatabaseIoManager databaseIoManager;
 
     public static Context getContext() {
@@ -27,6 +26,15 @@ public class App extends Application {
         DatabaseManager.initializeInstance(dbHelper);
         databaseIoManager = new DatabaseIoManager();
 
+        //set to true to clear data on app start, useful for testing
+        if (false) {
+            DatabaseHelper.deleteDatabaseData(DatabaseManager.getInstance().openDatabase());
+            DatabaseManager.getInstance().closeDatabase();
+            dbHelper = new DatabaseHelper();
+            DatabaseManager.initializeInstance(dbHelper);
+            databaseIoManager = new DatabaseIoManager();
+        }
+
         JSONObject testAttributes = new JSONObject();
         try {
             testAttributes.put("Email","test@example.com");
@@ -38,8 +46,6 @@ public class App extends Application {
 
         Contact testCopy = new Contact(testContact);
         databaseIoManager.putContact(testCopy);
-
-        //setupMocks();
     }
 
     //sets up the variables where we are mocking database functionality

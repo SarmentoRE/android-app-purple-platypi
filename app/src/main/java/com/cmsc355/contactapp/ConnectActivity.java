@@ -27,8 +27,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.widget.Toast.makeText;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
 import static com.cmsc355.contactapp.App.context;
+import static com.cmsc355.contactapp.ConnectActivity.TAG;
 
 public class ConnectActivity extends NonHomeActivity {
 
@@ -43,10 +46,10 @@ public class ConnectActivity extends NonHomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
-        Toolbar connectToolbar = (Toolbar) findViewById(R.id.connect_toolbar);
+        Toolbar connectToolbar = findViewById(R.id.connect_toolbar);
         setSupportActionBar(connectToolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.connect_list);
+        recyclerView = findViewById(R.id.connect_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcCheck(); // check for NFC settings
@@ -103,7 +106,8 @@ public class ConnectActivity extends NonHomeActivity {
     }
 
     @Override
-    protected void onResume() {     //Set adapter onResume, so that our list updates every time we come to the screen,
+    protected void onResume() {
+        //Set adapter onResume, so that our list updates every time we come to the screen,
         super.onResume();           //not just the first time
         ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
@@ -126,19 +130,21 @@ public class ConnectActivity extends NonHomeActivity {
         // This gets the manager object instantiated, and sets it to the NFC service
         NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
         // This instantiates the adapter and sets it to the default
-        NfcAdapter adapter = manager.getDefaultAdapter();
-
-        if (adapter != null && adapter.isEnabled()) {
-            /* If adapter is null or adapter is enabled
-            *  if adapter is null, then the device does not support NFC, however I felt that it was unnecessary to make it a separate elseif statement
-            *  since it is included in the android manifest "uses Feature"
-            */
-            makeText(getApplicationContext(), "NFC is on, you're good to go!",
-                    Toast.LENGTH_SHORT).show(); //Show toast that NFC is on
-        } else {
-            makeText(getApplicationContext(), "NFC must be turned on by User in Settings",
-                    Toast.LENGTH_LONG).show(); //Show toast that NFC is off
-            startActivityForResult(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS), 23); //open settings page for NFC
+        if (manager != null) {
+            NfcAdapter adapter = manager.getDefaultAdapter();
+            if (adapter != null && adapter.isEnabled()) {
+                /* If adapter is null or adapter is enabled
+                *  if adapter is null, then the device does not support NFC,
+                *  however I felt that it was unnecessary to make it a separate elseif statement
+                *  since it is included in the android manifest "uses Feature"
+                */
+                Toast.makeText(getApplicationContext(), "NFC is on, you're good to go!",
+                        Toast.LENGTH_SHORT).show(); //Show toast that NFC is on
+            } else {
+                Toast.makeText(getApplicationContext(), "NFC must be turned on by User in Settings",
+                        Toast.LENGTH_LONG).show(); //Show toast that NFC is off
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS), 23); //open settings page for NFC
+            }
         }
     }
 
@@ -148,25 +154,24 @@ public class ConnectActivity extends NonHomeActivity {
         // Check whether NFC is enabled on device
         if (!nfcAdapter.isEnabled()) {
             // NFC is disabled, show the settings UI to enable NFC
-            makeText(this, "Please enable NFC.",
+            Toast.makeText(this, "Please enable NFC.",
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+            // Check whether Android Beam feature is enabled on device
         } else if (!nfcAdapter.isNdefPushEnabled()) {
-            // check if nfc adapter is enabled
             // Android Beam is disabled, show the settings UI to enable Android Beam
-            makeText(this, "Please enable Android Beam.",
+            Toast.makeText(this, "Please enable Android Beam.",
                     Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Settings.ACTION_NFCSHARING_SETTINGS));
         } else {
             // NFC and Android Beam both are enabled
 
             nfcAdapter.setNdefPushMessageCallback(new NfcAdapter.CreateNdefMessageCallback() {
-
                 //Creates an NdefMessage object to send to the other device, and waits for the device to appear
                 @Override
                 public NdefMessage createNdefMessage(NfcEvent event) {
                     NdefRecord uriRecord = NdefRecord.createUri(Uri.encode("http://www.google.com/"));
-                    return new NdefMessage(new NdefRecord[]{uriRecord});
+                    return new NdefMessage(new NdefRecord[] { uriRecord });
                 }
 
             }, this, this);
@@ -200,16 +205,17 @@ public class ConnectActivity extends NonHomeActivity {
         final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
 
         IntentFilter[] filters = new IntentFilter[1];
+
         filters[0] = new IntentFilter();
         filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
         filters[0].addCategory(Intent.CATEGORY_DEFAULT);
-        String[][] techList = new String[][]{};
         try {
             filters[0].addDataType(MIME_TEXT_PLAIN);
         } catch (IntentFilter.MalformedMimeTypeException exception) {
             throw new RuntimeException("Check your mime type.");
         }
 
+        String[][] techList = new String[][]{};
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 

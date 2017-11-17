@@ -77,7 +77,7 @@ class Contact implements BaseColumns {
         for (int i = 0; i < numContacts; i++) {
             Contact contact = generateRandomContact();
             contactList.add(contact);
-            //ContactRepo.insertToDatabase(contact);
+            ContactRepo.insertToDatabase(contact);
         }
         return contactList;
     }
@@ -103,7 +103,7 @@ class Contact implements BaseColumns {
 
     //so far, we don't have to add attributes after the contact has been made, but we will need this
     //function once we allow the user to add/remove attributes from a contact
-    public void addAttribute(String key, String value) {
+    void addAttribute(String key, String value) {
         try {
             attributes.put(key, value);
         } catch (JSONException exception) {

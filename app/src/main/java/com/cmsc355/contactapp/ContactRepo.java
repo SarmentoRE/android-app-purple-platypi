@@ -15,33 +15,33 @@ public class ContactRepo {
     public ContactRepo() {
     }
 
-    public static int insertToDatabase(Contact contact) {
-        int contactId;
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+    static int insertToDatabase(Contact contact) {
         ContentValues values = new ContentValues();
         values.put(Contact.COLUMN_NAME, contact.getName());
-        String s = contact.getAttributes().toString();
-        Log.d("ContactRepo insertToDB","Insert to db: "+s);
-        values.put(Contact.COLUMN_JSON, s);
+        String attrString = contact.getAttributes().toString();
+        Log.d("ContactRepo insertToDB","Insert to db: " + attrString);
+        values.put(Contact.COLUMN_JSON, attrString);
 
+        int contactId;
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
         return contactId;
     }
 
-    public static void delete(int contactId) {
+    static void delete(int contactId) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, Contact._ID + "= ?", new String[]{String.valueOf(contactId)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static void deleteAll() {
+    static void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static void update(Contact contact) {
+    static void update(Contact contact) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
@@ -52,7 +52,7 @@ public class ContactRepo {
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static ArrayList<Contact> searchContacts(String searchQuery) {
+    static ArrayList<Contact> searchContacts(String searchQuery) {
         ArrayList<Contact> allContacts = new ArrayList<>();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact.COLUMN_NAME + " LIKE ?";
@@ -70,14 +70,15 @@ public class ContactRepo {
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
-            } while (cursor.moveToNext());
+            }
+            while (cursor.moveToNext());
         }
 
         DatabaseManager.getInstance().closeDatabase();
         return allContacts;
     }
 
-    public static Contact getContact(int id) {
+    static Contact getContact(int id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact._ID + " = ?";
         String[] args = new String[]{"" + id};
@@ -86,7 +87,7 @@ public class ContactRepo {
         if (cursor.moveToFirst()) {
             try {
                 contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
-                Log.d("ContactRepo getContact","setAttributes to: "+cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
+                Log.d("ContactRepo getContact","setAttributes to: " + cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
                 contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
                 contact.setId(id);
             } catch (JSONException exception) {

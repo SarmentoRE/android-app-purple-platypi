@@ -10,6 +10,9 @@
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
+    <uses-feature
+        android:name="android.permission.CAMERA"
+        android:required="true" />
 
     <application
         android:name=".App"
@@ -42,7 +45,9 @@
         <activity android:name=".GroupsActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ContactInfoActivity" />
+        <activity android:name=".ContactInfoActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
     </application>
 
 </manifest>
