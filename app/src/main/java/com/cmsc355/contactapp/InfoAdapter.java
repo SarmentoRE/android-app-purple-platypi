@@ -62,7 +62,7 @@ class InfoAdapter extends RecyclerView.Adapter {
         InfoAdapter.ViewHolder viewHolder = (InfoAdapter.ViewHolder) holder;
         String key = attributes.keyAt(position);
         String value = attributes.get(key).toString();//TODO - need to make this generic for non-string value types
-        Log.d("InfoAdapter ViewHolder","Value: "+value +" Key "+key);
+        Log.d("InfoAdapter ViewHolder","Value: " + value + " Key " + key);
         if (!key.endsWith(":")) {
             key = key.concat(":");
         }

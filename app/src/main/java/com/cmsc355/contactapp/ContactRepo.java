@@ -16,14 +16,14 @@ public class ContactRepo {
     }
 
     static int insertToDatabase(Contact contact) {
-        int contactId;
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(Contact.COLUMN_NAME, contact.getName());
-        String s = contact.getAttributes().toString();
-        Log.d("ContactRepo insertToDB","Insert to db: "+s);
-        values.put(Contact.COLUMN_JSON, s);
+        String attrString = contact.getAttributes().toString();
+        Log.d("ContactRepo insertToDB","Insert to db: " + attrString);
+        values.put(Contact.COLUMN_JSON, attrString);
 
+        int contactId;
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         contactId = (int) db.insert(Contact.TABLE_NAME, null, values);
         DatabaseManager.getInstance().closeDatabase();
         return contactId;
@@ -70,7 +70,8 @@ public class ContactRepo {
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
-            } while (cursor.moveToNext());
+            }
+            while (cursor.moveToNext());
         }
 
         DatabaseManager.getInstance().closeDatabase();
@@ -86,7 +87,7 @@ public class ContactRepo {
         if (cursor.moveToFirst()) {
             try {
                 contact.setName(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)));
-                Log.d("ContactRepo getContact","setAttributes to: "+cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
+                Log.d("ContactRepo getContact","setAttributes to: " + cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)));
                 contact.setAttributes(new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON))));
                 contact.setId(id);
             } catch (JSONException exception) {

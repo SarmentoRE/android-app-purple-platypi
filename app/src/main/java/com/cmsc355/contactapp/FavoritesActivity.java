@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -20,11 +22,20 @@ public class FavoritesActivity extends NonHomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-        Toolbar favoritesToolbar = (Toolbar) findViewById(R.id.favorites_toolbar);
+        Toolbar favoritesToolbar = findViewById(R.id.favorites_toolbar);
         setSupportActionBar(favoritesToolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.favorites_list);
+        recyclerView = findViewById(R.id.favorites_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        Button editFavoritesButton = findViewById(R.id.favorites_new);
+        editFavoritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FavoritesActivity.this, ContactsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

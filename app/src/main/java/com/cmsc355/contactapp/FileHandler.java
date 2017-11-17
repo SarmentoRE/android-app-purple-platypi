@@ -26,20 +26,16 @@ import yogesh.firzen.filelister.OnFileSelectedListener;
 
 import static com.cmsc355.contactapp.App.context;
 
-/**
- * Created by Austin on 11/11/2017.
- */
-
-public class FileHandler extends Activity{
+public class FileHandler extends Activity {
     private String fileAsString;
     private File file;
     private byte[] byteRepresentation;
     private FileListerDialog fileListerDialog = FileListerDialog.createFileListerDialog(context);
     Activity activity;
-    private int REQUEST_CAMERA = 0;
-    private int REQUEST_GALLERY = 1;
+    private static final int REQUEST_CAMERA = 0;
+    private static final int REQUEST_GALLERY = 1;
 
-    public FileHandler(Activity activity){
+    public FileHandler(Activity activity) {
         this.activity = activity;
     }
 
@@ -80,18 +76,20 @@ public class FileHandler extends Activity{
             @Override
             public void onClick(DialogInterface dialog, int selected) {
                 switch (options[selected]) {
-                    case "Take Photo":
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        activity.startActivityForResult(intent,REQUEST_CAMERA);
-                        break;
-                    case "Choose From Library":
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-                        galleryIntent.setType("image/*");
-                        activity.startActivityForResult(galleryIntent, REQUEST_GALLERY);
-                        break;
-                    case "Cancel":
-                        dialog.dismiss();
-                        break;
+                      case "Take Photo":
+                          Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                          activity.startActivityForResult(intent,REQUEST_CAMERA);
+                          break;
+                      case "Choose From Library":
+                          Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+                          galleryIntent.setType("image/*");
+                          activity.startActivityForResult(galleryIntent, REQUEST_GALLERY);
+                          break;
+                      case "Cancel":
+                          dialog.dismiss();
+                          break;
+                      default:
+                          break;
                 }
             }
         });
@@ -108,18 +106,21 @@ public class FileHandler extends Activity{
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
-            }
-            else if (requestCode == REQUEST_GALLERY) {
+            } else if (requestCode == REQUEST_GALLERY) {
                 onSelectFromGalleryResult(data);
             }
         }
     }
 
     private void onCaptureImageResult(Intent data) {
-        ImageView img = activity.findViewById(R.id.info_pic);
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        Bitmap thumbnail = null;
+        if (data.getExtras() != null) {
+            thumbnail = (Bitmap) data.getExtras().get("data");
+        }
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        if (thumbnail != null) {
+            thumbnail.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        }
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".png");
         FileOutputStream fo;
@@ -128,11 +129,12 @@ public class FileHandler extends Activity{
             fo = new FileOutputStream(destination);
             fo.write(bytes.toByteArray());
             fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
+        ImageView img = findViewById(R.id.info_pic);
         img.setImageBitmap(thumbnail);
     }
 

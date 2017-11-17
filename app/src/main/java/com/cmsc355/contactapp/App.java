@@ -46,8 +46,6 @@ public class App extends Application {
 
         Contact testCopy = new Contact(testContact);
         databaseIoManager.putContact(testCopy);
-
-        //setupMocks();
     }
 
     //sets up the variables where we are mocking database functionality

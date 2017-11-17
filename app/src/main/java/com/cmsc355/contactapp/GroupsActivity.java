@@ -23,17 +23,18 @@ public class GroupsActivity extends NonHomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        Toolbar groupsToolbar = (Toolbar) findViewById(R.id.group_toolbar);
+        Toolbar groupsToolbar = findViewById(R.id.group_toolbar);
         setSupportActionBar(groupsToolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.group_list);
+        recyclerView = findViewById(R.id.group_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Button newGroupButton = (Button) findViewById(R.id.group_new);
+        Button newGroupButton = findViewById(R.id.group_new);
         newGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(GroupsActivity.this, "Create New Group", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(GroupsActivity.this, ContactsActivity.class);
+                startActivity(intent);
             }
         });
     }
