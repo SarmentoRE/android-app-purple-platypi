@@ -14,6 +14,7 @@ public class DatabaseManager {
             instance = new DatabaseManager();
             mDatabaseHelper = helper;
         }
+        mDatabaseHelper.onCreate(instance.openDatabase());
     }
 
     public static synchronized DatabaseManager getInstance() {
@@ -21,7 +22,6 @@ public class DatabaseManager {
             throw new IllegalStateException(DatabaseManager.class.getSimpleName()
                     + " is not initialized, call initializeInstance(..) method first.");
         }
-
         return instance;
     }
 
@@ -39,7 +39,6 @@ public class DatabaseManager {
         if (openCounter == 0) {
             // Closing database
             database.close();
-
         }
     }
 }

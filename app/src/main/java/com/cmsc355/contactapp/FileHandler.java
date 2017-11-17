@@ -5,25 +5,26 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
 
-import com.sun.mail.imap.Utility;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import yogesh.firzen.filelister.FileListerDialog;
 import yogesh.firzen.filelister.OnFileSelectedListener;
 
 import static com.cmsc355.contactapp.App.context;
-import static com.cmsc355.contactapp.App.getContext;
 
 /**
  * Created by Austin on 11/11/2017.
@@ -79,34 +80,43 @@ public class FileHandler extends Activity{
             @Override
             public void onClick(DialogInterface dialog, int selected) {
                 switch (options[selected]) {
-                    case "TakePhoto":
+                    case "Take Photo":
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         activity.startActivityForResult(intent,REQUEST_CAMERA);
                         break;
                     case "Choose From Library":
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+                        galleryIntent.setType("image/*");
+                        activity.startActivityForResult(galleryIntent, REQUEST_GALLERY);
                         break;
                     case "Cancel":
+                        dialog.dismiss();
                         break;
                 }
             }
         });
         builder.show();
     }
+
+    //What to do when startActivityForResult returns
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ImageView img = activity.findViewById(R.id.info_pic);
+
+        //Check if
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
             }
             else if (requestCode == REQUEST_GALLERY) {
-                //onSelectFromGalleryResult(data);
+                onSelectFromGalleryResult(data);
             }
         }
     }
 
     private void onCaptureImageResult(Intent data) {
-        ImageView img = findViewById(R.id.info_pic);
+        ImageView img = activity.findViewById(R.id.info_pic);
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.PNG, 100, bytes);
@@ -124,5 +134,17 @@ public class FileHandler extends Activity{
             e.printStackTrace();
         }
         img.setImageBitmap(thumbnail);
+    }
+
+    private void onSelectFromGalleryResult(Intent data) {
+        ImageView img = activity.findViewById(R.id.info_pic);
+        try {
+            final Uri imageUri = data.getData();
+            final InputStream imageStream = activity.getContentResolver().openInputStream(imageUri);
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            img.setImageBitmap(selectedImage);
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
     }
 }

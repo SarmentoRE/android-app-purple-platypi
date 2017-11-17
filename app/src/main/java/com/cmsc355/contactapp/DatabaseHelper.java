@@ -8,6 +8,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "Contacts.db";
     private static final int DATABASE_VERSION = 1;
+    private static final String sqlDeleteContactTable =
+            "DROP TABLE IF EXISTS " + Contact.TABLE_NAME;
+
+    private static final String sqlDeleteGroupsTable =
+            "DROP TABLE IF EXISTS " + ContactGroup.TABLE_NAME;
+
+    private static final String sqlDeleteRelationTable =
+            "DROP TABLE IF EXISTS " + Relation.TABLE_NAME;
 
 
 
@@ -37,15 +45,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Relation.COLUMN_GROUP_ID + " INTEGER NOT NULL );";
         db.execSQL(sqlCreateRelationTable);
         Log.d(TAG, "Relation table created successfully");
+    }
 
-        final String sqlDeleteContactTable =
-                "DROP TABLE IF EXISTS" + Contact.TABLE_NAME;
-
-        final String sqlDeleteGroupsTable =
-                "DROP TABLE IF EXISTS" + ContactGroup.TABLE_NAME;
-
-        final String sqlDeleteRelationTable =
-                "DROP TABLE IF EXISTS" + Relation.TABLE_NAME;
+    public static void deleteDatabaseData(SQLiteDatabase db) {
+        db.execSQL(sqlDeleteContactTable);
+        db.execSQL(sqlDeleteGroupsTable);
+        db.execSQL(sqlDeleteRelationTable);
+        Log.d(TAG,"Dropped all tables");
     }
 
     @Override

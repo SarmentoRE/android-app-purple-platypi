@@ -15,7 +15,7 @@ public class ContactRepo {
     public ContactRepo() {
     }
 
-    public static int insertToDatabase(Contact contact) {
+    static int insertToDatabase(Contact contact) {
         int contactId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
@@ -29,19 +29,19 @@ public class ContactRepo {
         return contactId;
     }
 
-    public static void delete(int contactId) {
+    static void delete(int contactId) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, Contact._ID + "= ?", new String[]{String.valueOf(contactId)});
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static void deleteAll() {
+    static void deleteAll() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Contact.TABLE_NAME, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static void update(Contact contact) {
+    static void update(Contact contact) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
@@ -52,7 +52,7 @@ public class ContactRepo {
         DatabaseManager.getInstance().closeDatabase();
     }
 
-    public static ArrayList<Contact> searchContacts(String searchQuery) {
+    static ArrayList<Contact> searchContacts(String searchQuery) {
         ArrayList<Contact> allContacts = new ArrayList<>();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact.COLUMN_NAME + " LIKE ?";
@@ -77,7 +77,7 @@ public class ContactRepo {
         return allContacts;
     }
 
-    public static Contact getContact(int id) {
+    static Contact getContact(int id) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         String query = "SELECT * FROM " + Contact.TABLE_NAME + " WHERE " + Contact._ID + " = ?";
         String[] args = new String[]{"" + id};
