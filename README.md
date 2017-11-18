@@ -1,8 +1,32 @@
-# INSERT APP NAME
+# CONTACT APP
 
-This documentation tracks the progress of our app "INSERT APP NAME".
+This documentation tracks the progress of our app "Contact App".
 
-### Iteration 1
+## Iteration 2
+Iteration 2 Goals Accomplished:
+- Full functionality for SQLite database
+- Implement test suite for work completed
+- Additional functionality for implemented UI
+  - Ability to add new contacts
+  - Ability to add new attributes to a contact
+  - Associate a photo with a contact
+- Basic NFC functionality
+
+Iteration 2 Unfinished Extra Functionality (not part of implemented user stories):
+- Ability to associate generic files with a Contact
+- Search through Contacts screen using Search bar
+- Send contact over NFC
+
+**Comments:**
+We reached all our goals for Iteration 2. In particular, this included implementing a more complete and robust testing suite. Our Unit Tests focused on testing functionality required in our implemented Scenarios, to reinforce the Instrumentation Tests. Given the nature of our app, we had to adjust the types of tests we ran for submission.
+Our app only includes one new Espresso test for this iteration. This is due to the nature of our app, which is primarily a backend-heavy app which does not have many changing UI elements to check against. Additionally, the Android Emulator cannot simulate NFC capabilities. Because of this, we have implemented tests in other ways. We tested the NFC capability manually, using two Android phones, and recorded a video to demonstrate the app's ability to cover all scenarios in the NFC User Story.
+Because we could not test against the UI using Espresso tests, we implemented additional Unit Tests beyond the requirements, with 14 total unit tests. This, combined with our one Espresso Test and video demonstration, comprise our testing submission for this iteration.
+
+We kept the same group roles as last iteration: Aaron worked primarily on Espresso testing and Unit testing, Austin worked on the Database interactions, Shane worked on UI and frontend interaction, and Tal worked on NFC functionality. We all worked to clean the code up, using abstraction principles learned in class and the checkstyle tools to improve the quiality of our codebase.
+
+In summary, we produced much cleaner and more thoroughly tested code this iteration then last. Going forward, we plan to continue this trend of improving the quality of our code while implementing more functionality in the last iteration.
+
+## Iteration 1
 Iteration 1 Goals Accomplished:
 - UI for Home, My Info, Contacts, and New Contact screens
 - Mock UI for Group, Important, and Settings screens
