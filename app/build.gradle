@@ -27,27 +27,23 @@ dependencies {
     // Android runner and rules support
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude module: 'support-annotations'
-
     }
     androidTestCompile('com.android.support.test:rules:0.5') {
         exclude module: 'support-annotations'
-
     }
     // Espresso support
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude module: 'support-annotations'
-
     }
     // add this for intent mocking support
     androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2') {
         exclude module: 'support-annotations'
-
     }
     // add this for webview testing support
     androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
         exclude module: 'support-annotations'
-
     }
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2')
 
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:appcompat-v7:26.+'

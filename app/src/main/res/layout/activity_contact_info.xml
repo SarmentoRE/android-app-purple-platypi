@@ -18,7 +18,7 @@
         android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/list_description" />
+        android:contentDescription="@string/image_contact" />
 
     <EditText
         android:id="@+id/info_name"

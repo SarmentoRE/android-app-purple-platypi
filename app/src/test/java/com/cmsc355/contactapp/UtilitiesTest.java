@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
-//@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class UtilitiesTest {
 
     @Rule
@@ -42,7 +43,7 @@ public class UtilitiesTest {
         LinkedHashMap<String, Object> testMap = new LinkedHashMap<>();
         int elements = 5;
         String[] keyArray = new String[elements];
-        
+
         for (int i = 0; i < elements; i++) {
             String key = "Key" + i;
             testMap.put(key, null);
@@ -53,7 +54,7 @@ public class UtilitiesTest {
         assertEquals("Map key at does not match array value at first position",
                 keyArray[position], Utilities.getKeyAtPosition(testMap, position));
 
-        position = elements-1;
+        position = elements - 1;
         assertEquals("Map key at does not match array value at last position",
                 keyArray[position], Utilities.getKeyAtPosition(testMap, position));
     }
@@ -78,7 +79,7 @@ public class UtilitiesTest {
     private Iterator<String> keysItrLower;
 
     @Test
-    public void JSONToMapTest() throws Exception {
+    public void jsonToMapTest() throws Exception {
 
         when(jsonUpper.get("JSONObject")).thenReturn(jsonLower);
         when(jsonUpper.get("JSONArray")).thenReturn(jsonArrayUpper);
@@ -107,23 +108,17 @@ public class UtilitiesTest {
                 ((ArrayMap<String, Object>) testMap.get("JSONObject")).get("Key1"));
 
         assertEquals("Map value does not match second level JSONObject value",
-                ((JSONObject)((JSONArray)jsonUpper.get("JSONArray")).get(0)).get("Key1"),
-                ((ArrayMap<String, Object>)((ArrayList<Object>) testMap.get("JSONArray")).get(0)).get("Key1"));
+                ((JSONObject) ((JSONArray) jsonUpper.get("JSONArray")).get(0)).get("Key1"),
+                ((ArrayMap<String, Object>) ((ArrayList<Object>) testMap.get("JSONArray")).get(0)).get("Key1"));
 
         assertEquals("List value does not match second level JSONArray value",
-                ((JSONArray)((JSONArray) jsonUpper.get("JSONArray")).get(1)).get(0),
-                ((ArrayList<String>)((ArrayList<Object>) testMap.get("JSONArray")).get(1)).get(0));
+                ((JSONArray) ((JSONArray) jsonUpper.get("JSONArray")).get(1)).get(0),
+                ((ArrayList<String>) ((ArrayList<Object>) testMap.get("JSONArray")).get(1)).get(0));
 
         testMap = Utilities.jsonToMap(null);
         assertTrue(testMap.isEmpty());
     }
 
-
-    //Don't know what to do here - more of a behavioral test
-//    @Test
-//    public void hideSoftKeyboard() throws Exception {
-//
-//    }
 
     @Mock
     private Contact firstContact;

@@ -84,7 +84,7 @@ public class ContactInfoActivity extends NonHomeActivity {
                 final Button addAttribute = (Button) findViewById(R.id.add_attribute);
 
                 //Button clicked for first time; enable editing on name, change button text, and
-                //reset adapter on recycerview to generate attributes again but with edittexts enabled
+                //reset adapter on recyclerview to generate attributes again but with edittexts enabled
                 if (!isEditEnabled) {
                     addAttribute.setVisibility(View.VISIBLE);
                     img.setClickable(true);
