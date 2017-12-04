@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -51,7 +53,6 @@ public class EditGroupActivity extends NonHomeActivity {
                         Log.e("EditGroup", "Trying to pull data from a null view.");
                     }
                 }
-                Log.d("EditGroup", "Found " + groupContacts.size() + " contacts");
 
                 EditText groupNameEdit = findViewById(R.id.edit_group_name);
                 String groupName = groupNameEdit.getText().toString();
@@ -59,6 +60,7 @@ public class EditGroupActivity extends NonHomeActivity {
                     groupName = "New Group";
                 }
                 ContactGroup newGroup = new ContactGroup(groupName,groupContacts);
+                Log.d("EditGroup", "# added contacts: " + newGroup.getContacts().size());
                 App.databaseIoManager.putGroup(newGroup);
 
                 finish();
@@ -86,5 +88,27 @@ public class EditGroupActivity extends NonHomeActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setupUi(View view) {
+
+        //Make it so that, if we touch a view that isn't edittext, it hides the keyboard
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View view, MotionEvent event) {
+                    view.performClick();
+                    Utilities.hideSoftKeyboard(EditGroupActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //recursive call to get children inside a viewgroup
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUi(innerView);
+            }
+        }
     }
 }

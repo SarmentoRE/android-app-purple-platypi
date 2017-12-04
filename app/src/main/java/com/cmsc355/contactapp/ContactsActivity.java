@@ -54,7 +54,9 @@ public class ContactsActivity extends NonHomeActivity {
     protected void onResume() {
         super.onResume();
         //Sorts the contact list, then displays it
-        ArrayList<Contact> sortedList = Utilities.sortContactList(App.databaseIoManager.getAllContacts());
+        ArrayList<Contact> unsortedList = App.databaseIoManager.getAllContacts();
+        unsortedList.remove(0);
+        ArrayList<Contact> sortedList = Utilities.sortContactList(unsortedList);
         recyclerView.setAdapter(new ContactsAdapter(sortedList));
     }
 

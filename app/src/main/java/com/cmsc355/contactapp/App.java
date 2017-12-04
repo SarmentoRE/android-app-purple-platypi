@@ -2,6 +2,7 @@ package com.cmsc355.contactapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public class App extends Application {
     //All of this is run only once, when the app starts
     @Override
     public void onCreate() {
+        Log.d("Init", "Starting app");
         super.onCreate();
         context = this.getApplicationContext();
         dbHelper = new DatabaseHelper();
@@ -35,6 +37,7 @@ public class App extends Application {
             databaseIoManager = new DatabaseIoManager();
         }
 
+        Log.d("Init", "Creating Test Contact");
         JSONObject testAttributes = new JSONObject();
         try {
             testAttributes.put("Email","test@example.com");
@@ -42,10 +45,8 @@ public class App extends Application {
             exception.printStackTrace();
         }
         Contact testContact = new Contact("Test",testAttributes);
-        databaseIoManager.putContact(testContact);
-
-        Contact testCopy = new Contact(testContact);
-        databaseIoManager.putContact(testCopy);
+        int i = databaseIoManager.putContact(testContact);
+        Log.d("Init", "Contact Id: " + i);
     }
 
     //sets up the variables where we are mocking database functionality
