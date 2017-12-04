@@ -1,33 +1,34 @@
 package com.cmsc355.contactapp;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
-class ContactsAdapter extends RecyclerView.Adapter {
+public class EditGroupAdapter extends RecyclerView.Adapter {
 
-    //holds all the contacts we want to display
+    //holds every contact
     private ArrayList<Contact> contactArrayList;
 
     //ViewHolder holds references to each view inside a generated item on the list, so we can access them later
-    private class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         public View layout;
-        TextView txtName;
+        CheckBox checkBox;
 
         ViewHolder(View view) {
             super(view);
             layout = view;
-            txtName = view.findViewById(R.id.contact_name);
+            checkBox = view.findViewById(R.id.edit_group_check);
         }
     }
 
     //constructor method
-    ContactsAdapter(ArrayList<Contact> contactList) {
+    EditGroupAdapter(ArrayList<Contact> contactList) {
+        Log.d("EditGroup", "Receiving " + contactList.size() + " contacts");
         this.contactArrayList = contactList;
     }
 
@@ -46,28 +47,19 @@ class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_contact, parent, false);
+        View view = inflater.inflate(R.layout.item_edit_group, parent, false);
         return new ViewHolder(view);
     }
 
     //this is where we actually modify the contents of the views. In this case, we just set the contact's
-    //name and make the whole thing clickable. If you click it, it takes you to the Contact Info screen
-    //with all the fields disabled for editing initially
+    //name.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Contact contact = contactArrayList.get(position);
+        Log.d("EditGroup","Binding view " + position + " from array size " + contactArrayList.size());
+        Contact contact = contactArrayList.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         String name = contact.getName();
-        viewHolder.txtName.setText(name);
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ContactInfoActivity.class);
-                intent.putExtra("ContactID", contact.getId());
-                intent.putExtra("isEditable", false);
-                view.getContext().startActivity(intent);
-            }
-        });
+        viewHolder.checkBox.setText(name);
     }
 
     //actually really important. this determines how many elements it's going to inflate, so

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ContactApp</string>
+    <string name="app_name">ConnecTogether</string>
 
     <!--App-wide Strings; defaults, etc.-->
     <string name="list_description">Description</string>
@@ -31,5 +31,8 @@
 
     <!--Favorites Screen Strings-->
     <string name="favorite_new">Add Favorite</string>
+
+    <!--Edit Group Screen Strings-->
+    <string name="edit_group_submit">Submit</string>
 
 </resources>

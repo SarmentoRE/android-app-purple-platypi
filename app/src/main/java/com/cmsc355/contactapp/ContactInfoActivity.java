@@ -43,7 +43,7 @@ public class ContactInfoActivity extends NonHomeActivity {
 
         setupUi(findViewById(R.id.info_parent));
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.info_list);
+        final RecyclerView recyclerView = findViewById(R.id.info_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //pulling info out of the incoming intent

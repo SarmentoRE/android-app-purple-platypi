@@ -33,7 +33,7 @@ public class GroupsActivity extends NonHomeActivity {
         newGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GroupsActivity.this, ContactsActivity.class);
+                Intent intent = new Intent(GroupsActivity.this, EditGroupActivity.class);
                 startActivity(intent);
             }
         });

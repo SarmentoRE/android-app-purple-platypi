@@ -32,8 +32,6 @@ public class ContactsActivity extends NonHomeActivity {
         recyclerView = (RecyclerView) findViewById(R.id.contacts_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //SQLiteDatabase db = DatabaseHelper.openDatabase(this);        //TODO - pull contacts from database
-
         //This button generates a new contact, and takes you to the ContactInfo screen to edit it
         Button newContactButton = (Button) findViewById(R.id.contact_new);
         newContactButton.setOnClickListener(new View.OnClickListener() {
