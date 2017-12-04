@@ -3,6 +3,7 @@ package com.cmsc355.contactapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,7 @@ class GroupRepo {
         values.put(ContactGroup.COLUMN_NAME, contactGroup.getName());
 
         groupId = (int) sqLiteDatabase.insert(ContactGroup.TABLE_NAME, null, values);
+        contactGroup.setGroupId(groupId);
         RelationRepo.updateRelations(contactGroup);
         DatabaseManager.getInstance().closeDatabase();
         return groupId;
@@ -66,6 +68,7 @@ class GroupRepo {
                 + " JOIN " + Contact.TABLE_NAME + " ON " + Contact._ID + " = " + Relation.COLUMN_CONTACT_ID
                 + " WHERE " + ContactGroup.COLUMN_NAME + " LIKE ? ORDER BY " + ContactGroup.COLUMN_NAME + " DESC";
         Cursor cursor = db.rawQuery(query, args); //grabs all groups that have the search string in the name and their associated contacts
+        Log.d("SEARCH GROUPS",query);
         ContactGroup group;
         String oldName = "";
         String groupName;
