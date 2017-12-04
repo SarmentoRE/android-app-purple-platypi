@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,16 @@ public class EditGroupActivity extends NonHomeActivity {
                     }
                 }
                 Log.d("EditGroup", "Found " + groupContacts.size() + " contacts");
+
+                EditText groupNameEdit = findViewById(R.id.edit_group_name);
+                String groupName = groupNameEdit.getText().toString();
+                if (groupName.isEmpty()) {
+                    groupName = "New Group";
+                }
+                ContactGroup newGroup = new ContactGroup(groupName,groupContacts);
+                App.databaseIoManager.putGroup(newGroup);
+
+                finish();
             }
         });
     }

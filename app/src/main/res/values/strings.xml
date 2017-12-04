@@ -34,5 +34,6 @@
 
     <!--Edit Group Screen Strings-->
     <string name="edit_group_submit">Submit</string>
+    <string name="edit_group_name">Enter Group Name</string>
 
 </resources>
