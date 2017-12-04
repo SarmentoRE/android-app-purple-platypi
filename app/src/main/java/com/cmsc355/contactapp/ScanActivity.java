@@ -1,22 +1,26 @@
 package com.cmsc355.contactapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 //This activity is empty and doesn't do anything yet
 public class ScanActivity extends NonHomeActivity {
+    private static final int REQUEST_CAMERA = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        Toolbar scanToolbar = (Toolbar) findViewById(R.id.scan_toolbar);
+        Toolbar scanToolbar = findViewById(R.id.scan_toolbar);
         setSupportActionBar(scanToolbar);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
 
     }
 
