@@ -25,11 +25,10 @@
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConnectActivity">
+        <activity android:name=".ConnectActivity" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -37,7 +36,6 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_filter" />
@@ -47,10 +45,10 @@
         <activity android:name=".GroupsActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity
-            android:name=".ContactInfoActivity"
+        <activity android:name=".ContactInfoActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".EditGroupActivity"></activity>
+        <activity android:name=".EditGroupActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

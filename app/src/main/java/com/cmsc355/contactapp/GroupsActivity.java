@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class GroupsActivity extends NonHomeActivity {
         //that way, it can generate the correct amount of items in its list, and also put them
         //in the correct order
         ArrayList<ContactGroup> groupsList = Utilities.sortGroupList(App.databaseIoManager.getAllGroups());
+        Log.d("Groups","# groups loaded: " + groupsList.size());
 
         recyclerView.setAdapter(new GroupsAdapter(groupsList));
     }

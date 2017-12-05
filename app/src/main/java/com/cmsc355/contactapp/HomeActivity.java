@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,10 +16,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.cmsc355.contactapp.App.databaseIoManager;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Home","Creating Home activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -27,6 +31,23 @@ public class HomeActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.home_list);
 
         setupButtonList(listView);
+
+        if (databaseIoManager.getContact(1) == null) {
+            Log.d("Home", "Creating First Contact");
+            JSONObject testAttributes = new JSONObject();
+            try {
+                testAttributes.put("Email","Enter Email");
+            } catch (JSONException exception) {
+                exception.printStackTrace();
+            }
+            Contact myInfoContact = new Contact("Enter Name",testAttributes);
+            int i = databaseIoManager.putContact(myInfoContact);
+            Log.d("Home", "Contact Id: " + i);
+        }
+        else {
+            Log.d("Home","NonNull first contact");
+            Log.d("Home","First contact name: " + databaseIoManager.getContact(1).getName());
+        }
     }
 
     private void setupButtonList(ListView listView) {

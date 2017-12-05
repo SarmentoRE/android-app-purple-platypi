@@ -1,6 +1,7 @@
 package com.cmsc355.contactapp;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,8 @@ public class EditGroupActivity extends NonHomeActivity {
     private RecyclerView recyclerView;
     private ArrayList<Contact> allContacts;
 
+    private long clickTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,8 @@ public class EditGroupActivity extends NonHomeActivity {
         Toolbar editGroupToolbar = findViewById(R.id.edit_group_toolbar);
         setSupportActionBar(editGroupToolbar);
 
+        setupUi(findViewById(R.id.edit_group_activity));
+
         recyclerView = findViewById(R.id.edit_group_contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -35,35 +40,39 @@ public class EditGroupActivity extends NonHomeActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Contact> groupContacts = new ArrayList<>();
-                for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
-                    EditGroupAdapter.ViewHolder viewHolder = (EditGroupAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                if (SystemClock.elapsedRealtime() - clickTime > 1000) {
+                    ArrayList<Contact> groupContacts = new ArrayList<>();
+                    for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
+                        EditGroupAdapter.ViewHolder viewHolder = (EditGroupAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
 
-                    if (viewHolder != null) {
-                        if (viewHolder.checkBox.isChecked()) {
-                            // TODO - Add contact to group
-                            Log.d("EditGroup", viewHolder.checkBox.getText() + " is checked");
-                            groupContacts.add(allContacts.get(i));
+                        if (viewHolder != null) {
+                            if (viewHolder.checkBox.isChecked()) {
+                                // TODO - Add contact to group
+                                Log.d("EditGroup", viewHolder.checkBox.getText() + " is checked");
+                                groupContacts.add(allContacts.get(i));
+                            }
+                            else {
+                                Log.d("EditGroup", viewHolder.checkBox.getText() + " is unchecked");
+                            }
                         }
                         else {
-                            Log.d("EditGroup", viewHolder.checkBox.getText() + " is unchecked");
+                            Log.e("EditGroup", "Trying to pull data from a null view.");
                         }
                     }
-                    else {
-                        Log.e("EditGroup", "Trying to pull data from a null view.");
+
+                    EditText groupNameEdit = findViewById(R.id.edit_group_name);
+                    String groupName = groupNameEdit.getText().toString();
+                    if (groupName.isEmpty()) {
+                        groupName = "New Group";
                     }
-                }
+                    ContactGroup newGroup = new ContactGroup(groupName,groupContacts);
+                    Log.d("EditGroup", "# added contacts: " + newGroup.getContacts().size());
+                    int i = App.databaseIoManager.putGroup(newGroup);
+                    Log.d("EditGroup","Group ID: " + i);
 
-                EditText groupNameEdit = findViewById(R.id.edit_group_name);
-                String groupName = groupNameEdit.getText().toString();
-                if (groupName.isEmpty()) {
-                    groupName = "New Group";
+                    clickTime = SystemClock.elapsedRealtime();
+                    finish();
                 }
-                ContactGroup newGroup = new ContactGroup(groupName,groupContacts);
-                Log.d("EditGroup", "# added contacts: " + newGroup.getContacts().size());
-                App.databaseIoManager.putGroup(newGroup);
-
-                finish();
             }
         });
     }
@@ -72,7 +81,9 @@ public class EditGroupActivity extends NonHomeActivity {
     protected void onResume() {
         super.onResume();
         //Sorts the contact list, then displays it
-        allContacts = Utilities.sortContactList(App.databaseIoManager.getAllContacts());
+        allContacts = App.databaseIoManager.getAllContacts();
+        allContacts.remove(0);
+        allContacts = Utilities.sortContactList(allContacts);
         Log.d("EditGroup", "Sending " + allContacts.size() + " contacts");
         recyclerView.setAdapter(new EditGroupAdapter(allContacts));
     }

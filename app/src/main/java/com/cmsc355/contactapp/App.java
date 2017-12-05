@@ -36,17 +36,6 @@ public class App extends Application {
             DatabaseManager.initializeInstance(dbHelper);
             databaseIoManager = new DatabaseIoManager();
         }
-
-        Log.d("Init", "Creating Test Contact");
-        JSONObject testAttributes = new JSONObject();
-        try {
-            testAttributes.put("Email","test@example.com");
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
-        Contact testContact = new Contact("Test",testAttributes);
-        int i = databaseIoManager.putContact(testContact);
-        Log.d("Init", "Contact Id: " + i);
     }
 
     //sets up the variables where we are mocking database functionality

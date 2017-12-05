@@ -6,7 +6,7 @@
 
     <CheckBox
         android:id="@+id/edit_group_check"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/list_description"
         android:textSize="16sp" />
