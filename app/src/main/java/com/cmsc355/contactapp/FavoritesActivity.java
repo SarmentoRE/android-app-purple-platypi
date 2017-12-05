@@ -42,7 +42,7 @@ public class FavoritesActivity extends NonHomeActivity {
     protected void onResume() {
         super.onResume();
         //assumes the first group in the db is the favorites group
-        ArrayList<Contact> favoritesList = Utilities.sortContactList(App.databaseIoManager.getGroup(0).getContacts());
+        ArrayList<Contact> favoritesList = Utilities.sortContactList(App.databaseIoManager.getGroup(1).getContacts());
         recyclerView.setAdapter(new ContactsAdapter(favoritesList));
     }
 
