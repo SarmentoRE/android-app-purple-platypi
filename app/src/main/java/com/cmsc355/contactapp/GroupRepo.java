@@ -64,11 +64,11 @@ class GroupRepo {
         ArrayList<Contact> contacts = new ArrayList<>();
         String[] args = new String[]{"%" + searchQuery + "%"};
         String query = "SELECT * FROM " + ContactGroup.TABLE_NAME
-                + " JOIN " + Relation.TABLE_NAME + " ON " + ContactGroup._ID + " = " + Relation.COLUMN_GROUP_ID
-                + " JOIN " + Contact.TABLE_NAME + " ON " + Contact._ID + " = " + Relation.COLUMN_CONTACT_ID
+                + " LEFT OUTER JOIN " + Relation.TABLE_NAME + " ON " + ContactGroup._ID + " = " + Relation.COLUMN_GROUP_ID
+                + " LEFT OUTER JOIN " + Contact.TABLE_NAME + " ON " + Contact._ID + " = " + Relation.COLUMN_CONTACT_ID
                 + " WHERE " + ContactGroup.COLUMN_NAME + " LIKE ? ORDER BY " + ContactGroup.COLUMN_NAME + " DESC";
         Cursor cursor = db.rawQuery(query, args); //grabs all groups that have the search string in the name and their associated contacts
-        Log.d("SEARCH GROUPS",query);
+        Log.d("SEARCH GROUPS", query);
         ContactGroup group;
         String oldName = "";
         String groupName;
@@ -78,22 +78,26 @@ class GroupRepo {
                 groupName = cursor.getString(cursor.getColumnIndex(ContactGroup.COLUMN_NAME));
                 if (oldName.isEmpty() || oldName.equals(groupName)) {
                     //grab contact information and add it to the array only if it is in the same group as the previous iteration
-                    try {
-                        contacts.add(new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
-                                new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)))));
-                    } catch (JSONException exception) {
-                        exception.printStackTrace();
+                    if (cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)) != null) {
+                        try {
+                            contacts.add(new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
+                                    new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)))));
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 } else {
                     //if we are looking at a new group add the old group to the array and begin a new contact array for the new group
                     group = new ContactGroup(groupName, contacts);
                     groups.add(group);
                     contacts = new ArrayList<>();
-                    try {
-                        contacts.add(new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
-                                new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)))));
-                    } catch (JSONException exception) {
-                        exception.printStackTrace();
+                    if (cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)) != null) {
+                        try {
+                            contacts.add(new Contact(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)),
+                                    new JSONObject(cursor.getString(cursor.getColumnIndex(Contact.COLUMN_JSON)))));
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 }
                 oldName = cursor.getString(cursor.getColumnIndex(ContactGroup.COLUMN_NAME));
