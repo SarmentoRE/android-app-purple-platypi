@@ -1,5 +1,6 @@
 package com.cmsc355.contactapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,8 +33,8 @@ public class HomeActivity extends AppCompatActivity {
 
         setupButtonList(listView);
 
-        if (databaseIoManager.getContact(1) == null) {
-            Log.d("Home", "Creating First Contact");
+        // Check if My Info data has been inserted into the database already, insert if it hasn't
+        if (databaseIoManager.getAllContacts().isEmpty()) {
             JSONObject testAttributes = new JSONObject();
             try {
                 testAttributes.put("Email","Enter Email");
@@ -45,8 +46,18 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("Home", "Contact Id: " + i);
         }
         else {
-            Log.d("Home","NonNull first contact");
             Log.d("Home","First contact name: " + databaseIoManager.getContact(1).getName());
+        }
+
+        // Check if Favorites data has been inserted into the database already, insert if it hasn't
+        if (databaseIoManager.getAllGroups().isEmpty()) {
+            ArrayList<Contact> noContacts = new ArrayList<>();
+            ContactGroup favGroup = new ContactGroup("Favorites", noContacts);
+            int i = databaseIoManager.putGroup(favGroup);
+            Log.d("Home", "FavGroup id: " + i);
+        }
+        else {
+            Log.d("Home","First group name: " + databaseIoManager.getGroup(1).getName());
         }
     }
 

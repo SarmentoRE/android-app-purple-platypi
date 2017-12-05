@@ -82,9 +82,11 @@ public class EditGroupActivity extends NonHomeActivity {
         super.onResume();
         //Sorts the contact list, then displays it
         allContacts = App.databaseIoManager.getAllContacts();
-        allContacts.remove(0);
-        allContacts = Utilities.sortContactList(allContacts);
-        Log.d("EditGroup", "Sending " + allContacts.size() + " contacts");
+        if (!allContacts.isEmpty()) {
+            allContacts.remove(0);
+            allContacts = Utilities.sortContactList(allContacts);
+            Log.d("EditGroup", "Sending " + allContacts.size() + " contacts");
+        }
         recyclerView.setAdapter(new EditGroupAdapter(allContacts));
     }
 

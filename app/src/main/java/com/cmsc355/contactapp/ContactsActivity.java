@@ -54,12 +54,12 @@ public class ContactsActivity extends NonHomeActivity {
     protected void onResume() {
         super.onResume();
         //Sorts the contact list, then displays it
-        ArrayList<Contact> unsortedList = App.databaseIoManager.getAllContacts();
-        if (unsortedList.size() > 0) {
-            unsortedList.remove(0);
-            ArrayList<Contact> sortedList = Utilities.sortContactList(unsortedList);
-            recyclerView.setAdapter(new ContactsAdapter(sortedList));
+        ArrayList<Contact> sortedList = App.databaseIoManager.getAllContacts();
+        if (!sortedList.isEmpty()) {
+            sortedList.remove(0);
+            sortedList = Utilities.sortContactList(sortedList);
         }
+        recyclerView.setAdapter(new ContactsAdapter(sortedList));
     }
 
     //adds the home button to the toolbar
