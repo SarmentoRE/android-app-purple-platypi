@@ -76,6 +76,8 @@ class GroupRepo {
         if (cursor.moveToFirst()) {
             do {
                 groupName = cursor.getString(cursor.getColumnIndex(ContactGroup.COLUMN_NAME));
+                Log.d("GROUP REPO get all","Name is "+groupName);
+                Log.d("GROUP REPO get all","Old name is "+oldName);
                 if (oldName.isEmpty() || oldName.equals(groupName)) {
                     //grab contact information and add it to the array only if it is in the same group as the previous iteration
                     if (cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)) != null) {
@@ -88,7 +90,7 @@ class GroupRepo {
                     }
                 } else {
                     //if we are looking at a new group add the old group to the array and begin a new contact array for the new group
-                    group = new ContactGroup(groupName, contacts);
+                    group = new ContactGroup(oldName, contacts);
                     groups.add(group);
                     contacts = new ArrayList<>();
                     if (cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)) != null) {

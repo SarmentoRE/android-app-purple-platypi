@@ -84,5 +84,4 @@ public class DatabaseIoManager implements IoManager {
     public void deleteGroup(ContactGroup group) {
         GroupRepo.delete(group.getGroupId());
     }
-
 }
