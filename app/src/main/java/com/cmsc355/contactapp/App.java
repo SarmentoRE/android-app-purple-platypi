@@ -4,9 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class App extends Application {
     // TODO - figure out why android wants me to not use a static Context.
     // The app works with this currently but gives a warning which I would like to research.
@@ -36,6 +33,15 @@ public class App extends Application {
             DatabaseManager.initializeInstance(dbHelper);
             databaseIoManager = new DatabaseIoManager();
         }
+    }
+
+    static void nukeData() {
+        //set to true to clear data on app start, useful for testing
+        DatabaseHelper.deleteDatabaseData(DatabaseManager.getInstance().openDatabase());
+        DatabaseManager.getInstance().closeDatabase();
+        dbHelper = new DatabaseHelper();
+        DatabaseManager.initializeInstance(dbHelper);
+        databaseIoManager = new DatabaseIoManager();
     }
 
     //sets up the variables where we are mocking database functionality

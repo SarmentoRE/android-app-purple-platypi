@@ -1,11 +1,11 @@
 package com.cmsc355.contactapp;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 //This activity is empty and doesn't do anything yet
 public class SettingsActivity extends NonHomeActivity {
@@ -17,6 +17,14 @@ public class SettingsActivity extends NonHomeActivity {
 
         Toolbar settingsToolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(settingsToolbar);
+
+        Button nukeButton = findViewById(R.id.nuke_button);
+        nukeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.nukeData();
+            }
+        });
 
     }
 

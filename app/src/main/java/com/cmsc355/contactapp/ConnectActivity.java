@@ -85,7 +85,7 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
             Toast.makeText(getApplicationContext(),contactData ,
                     Toast.LENGTH_SHORT).show();
             String[] contactInfo = contactData.split("\\s",2); // parse the contact data into specific attributes
-            Log.d("ON RESUME", "CONTACT INFO: "+contactInfo.length);
+            Log.d("ON RESUME", "CONTACT INFO: " + contactInfo[1]);
             try {
                 Contact contact = new Contact(contactInfo[0], new JSONObject(contactInfo[1].trim())); // create contact object
                 databaseIoManager.putContact(contact); // put the new contact into the database
@@ -134,7 +134,6 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
 
     @Override
     protected void onPause() {
-        stopForegroundDispatch(this, nfcAdapter); //stop the task of waiting for the intent
         super.onPause();
     }
 
