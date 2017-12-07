@@ -11,7 +11,6 @@ import android.view.MenuItem;
 public class ScanActivity extends NonHomeActivity {
     private static final int REQUEST_CAMERA = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +20,8 @@ public class ScanActivity extends NonHomeActivity {
         setSupportActionBar(scanToolbar);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
-
     }
+
 
     //adds the home button to the toolbar
     @Override

@@ -43,7 +43,15 @@
         <activity android:name=".ContactsActivity" />
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".GroupsActivity" />
-        <activity android:name=".ScanActivity" />
+        <activity
+            android:name=".ScanActivity"
+            android:label="NFC Data Display">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ContactInfoActivity"
             android:windowSoftInputMode="adjustPan" />
