@@ -20,7 +20,7 @@ import static com.cmsc355.contactapp.ConnectActivity.TAG;
  */
 
 /* NdefReaderTask is the task that takes the tag and ensures it is in fact
-and Ndef Message, and if so, pulles out the Ndef Record and passes that to the reader
+a Ndef Message, and if so, pulls out the Ndef Record and passes that to the reader
  */
 class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 

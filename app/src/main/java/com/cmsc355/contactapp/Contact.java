@@ -6,7 +6,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -51,6 +50,7 @@ class Contact implements BaseColumns {
     public Contact(String name, JSONObject json) {
         this.name = name;
         this.attributes = json;
+        contactId = -1;
     }
 
     //This constructor copies a contact identically, used in ContactInfoActivity
