@@ -31,6 +31,7 @@ public class ContactInfoActivity extends NonHomeActivity {
     private long clickedTime;
     private String tag = "ContactInfoActivity";
     private String attributeName;
+    private long timeClicked = 0;
 
 
     @Override
@@ -48,9 +49,9 @@ public class ContactInfoActivity extends NonHomeActivity {
 
         //pulling info out of the incoming intent
         Intent intent = getIntent();
-        final int contactId = intent.getIntExtra("ContactID",-1);
-        Log.d(tag,"CONTACT ID IS: " + contactId);
-        final ImageView img = (ImageView) findViewById(R.id.info_pic);
+        final int contactId = intent.getIntExtra("ContactID", -1);
+        Log.d(tag, "CONTACT ID IS: " + contactId);
+        final ImageView img = findViewById(R.id.info_pic);
         //determine whether edittexts should be enabled at start
         isEditEnabled = intent.getBooleanExtra("isEditEnabled", false);
         //creating Contact from the info pulled out of JSONObject, stores initial contact values
@@ -99,24 +100,31 @@ public class ContactInfoActivity extends NonHomeActivity {
                         @Override
                         public void onClick(View view) {
                             try {
-                                contact.getAttributes().put("Enter Attribute Name","Enter Attribute Value");
+                                contact.getAttributes().put("Enter Attribute Name", "Enter Attribute Value");
                                 recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
                             } catch (JSONException exception) {
                                 exception.printStackTrace();
                             }
                         }
                     });
+
                     //Update contact picture
                     img.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            FileHandler fileHandler = new FileHandler(ContactInfoActivity.this);
-                            fileHandler.choosePicture();
+                            if (SystemClock.elapsedRealtime() - timeClicked > 1000) {
+                                FileHandler fileHandler = new FileHandler(ContactInfoActivity.this);
+                                fileHandler.choosePicture();
+                                timeClicked = SystemClock.elapsedRealtime();
+                            }
                         }
                     });
-                //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
-                //make the changes if needed, and update the correct contact in the mock db
-                } else if (SystemClock.elapsedRealtime() - clickedTime > 1000) {
+
+                    //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
+                    //make the changes if needed, and update the correct contact in the mock db
+                } else if (SystemClock.elapsedRealtime() - clickedTime > 1000)
+
+                {
                     addAttribute.setVisibility(View.GONE);
                     img.setClickable(false);
                     //newContact will hold all the updated values
@@ -177,7 +185,9 @@ public class ContactInfoActivity extends NonHomeActivity {
         });
 
         Button deleteButton = (Button) findViewById(R.id.info_delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 //Don't allow user to delete the My Info contact page

@@ -76,8 +76,8 @@ class GroupRepo {
         if (cursor.moveToFirst()) {
             do {
                 groupName = cursor.getString(cursor.getColumnIndex(ContactGroup.COLUMN_NAME));
-                Log.d("GROUP REPO get all","Name is "+groupName);
-                Log.d("GROUP REPO get all","Old name is "+oldName);
+                Log.d("GROUP REPO get all","Name is " + groupName);
+                Log.d("GROUP REPO get all","Old name is " + oldName);
                 if (oldName.isEmpty() || oldName.equals(groupName)) {
                     //grab contact information and add it to the array only if it is in the same group as the previous iteration
                     if (cursor.getString(cursor.getColumnIndex(Contact.COLUMN_NAME)) != null) {

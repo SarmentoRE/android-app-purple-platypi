@@ -1,6 +1,5 @@
 package com.cmsc355.contactapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +26,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);    //home doesn't have onCreateOptionsMenu, because
+        Toolbar homeToolbar = findViewById(R.id.home_toolbar);    //home doesn't have onCreateOptionsMenu, because
         setSupportActionBar(homeToolbar);                                   //it doesn't display the Home action button
-        ListView listView = (ListView) findViewById(R.id.home_list);
+        ListView listView = findViewById(R.id.home_list);
 
         setupButtonList(listView);
 
@@ -42,10 +41,9 @@ public class HomeActivity extends AppCompatActivity {
                 exception.printStackTrace();
             }
             Contact myInfoContact = new Contact("Enter Name",testAttributes);
-            int i = databaseIoManager.putContact(myInfoContact);
-            Log.d("Home", "Contact Id: " + i);
-        }
-        else {
+            int contactId = databaseIoManager.putContact(myInfoContact);
+            Log.d("Home", "Contact Id: " + contactId);
+        } else {
             Log.d("Home","First contact name: " + databaseIoManager.getContact(1).getName());
         }
 
@@ -53,10 +51,9 @@ public class HomeActivity extends AppCompatActivity {
         if (databaseIoManager.getAllGroups().isEmpty()) {
             ArrayList<Contact> noContacts = new ArrayList<>();
             ContactGroup favGroup = new ContactGroup("Favorites", noContacts);
-            int i = databaseIoManager.putGroup(favGroup);
-            Log.d("Home", "FavGroup id: " + i);
-        }
-        else {
+            int favoriteId = databaseIoManager.putGroup(favGroup);
+            Log.d("Home", "FavGroup id: " + favoriteId);
+        } else {
             Log.d("Home","First group name: " + databaseIoManager.getGroup(1).getName());
         }
     }

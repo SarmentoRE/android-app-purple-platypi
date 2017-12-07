@@ -39,7 +39,7 @@ public class EditGroupActivity extends NonHomeActivity {
         Button submitButton = findViewById(R.id.edit_group_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (SystemClock.elapsedRealtime() - clickTime > 1000) {
                     ArrayList<Contact> groupContacts = new ArrayList<>();
                     for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
@@ -50,12 +50,10 @@ public class EditGroupActivity extends NonHomeActivity {
                                 // TODO - Add contact to group
                                 Log.d("EditGroup", viewHolder.checkBox.getText() + " is checked");
                                 groupContacts.add(allContacts.get(i));
-                            }
-                            else {
+                            } else {
                                 Log.d("EditGroup", viewHolder.checkBox.getText() + " is unchecked");
                             }
-                        }
-                        else {
+                        } else {
                             Log.e("EditGroup", "Trying to pull data from a null view.");
                         }
                     }
@@ -67,8 +65,8 @@ public class EditGroupActivity extends NonHomeActivity {
                     }
                     ContactGroup newGroup = new ContactGroup(groupName,groupContacts);
                     Log.d("EditGroup", "# added contacts: " + newGroup.getContacts().size());
-                    int i = App.databaseIoManager.putGroup(newGroup);
-                    Log.d("EditGroup","Group ID: " + i);
+                    int groupId = App.databaseIoManager.putGroup(newGroup);
+                    Log.d("EditGroup","Group ID: " + groupId);
 
                     clickTime = SystemClock.elapsedRealtime();
                     finish();

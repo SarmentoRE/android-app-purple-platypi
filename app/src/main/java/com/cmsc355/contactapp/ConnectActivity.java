@@ -52,17 +52,17 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcCheck(); // check for NFC settings
 
-        NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mAdapter == null) {
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
             Toast.makeText(this, "Sorry this device does not have NFC.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mAdapter.isEnabled()) {
+        if (!nfcAdapter.isEnabled()) {
             Toast.makeText(this, "Please enable NFC via Settings.", Toast.LENGTH_LONG).show();
         }
 
-        mAdapter.setNdefPushMessageCallback(this, this);
+        nfcAdapter.setNdefPushMessageCallback(this, this);
     }
 
     @Override
@@ -79,21 +79,19 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
 
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
 
-
             String contactData = new String(message.getRecords()[0].getPayload());
             Log.d("ON RESUME DISCOVERED", contactData);
 
             Toast.makeText(getApplicationContext(),contactData ,
                     Toast.LENGTH_SHORT).show();
             String[] contactInfo = contactData.split("\\s",2);
-            Log.d("ON RESUME", "CONTACT INFO: "+contactInfo.length);
+            Log.d("ON RESUME", "CONTACT INFO: " + contactInfo.length);
             try {
                 Contact contact = new Contact(contactInfo[0], new JSONObject(contactInfo[1].trim()));
                 databaseIoManager.putContact(contact);
             } catch (JSONException exception) {
                 exception.printStackTrace();
             }
-
         } else {
             Log.d("ON RESUME NOT DISC", "Waiting for NDEF Message");
         }
@@ -177,7 +175,7 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
     public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
         Contact contact = databaseIoManager.getContact(1);
         //contact string here
-        String message = contact.getName()+" "+contact.getAttributes().toString();
+        String message = contact.getName() + " " + contact.getAttributes().toString();
         NdefRecord ndefRecord = NdefRecord.createMime("text/plain", message.getBytes());
         NdefMessage ndefMessage = new NdefMessage(ndefRecord);
         return ndefMessage;
