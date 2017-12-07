@@ -12,7 +12,6 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
@@ -64,43 +63,11 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         }
 
         mAdapter.setNdefPushMessageCallback(this, this);
-
-        final String text = "WORKING!!!!!!!!!!?";
-        handleIntent(getIntent());
-    }
-
-    // Handles the incoming Intent
-    private void handleIntent(Intent intent) {
-        String action = intent.getAction();
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) { // If the intent filter discovers an NDEF Message
-            tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String type = intent.getType();
-            if (MIME_TEXT_PLAIN.equals(type)) { // If the intent type matches MIME_TEXT_PLAIN
-
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG); // set tag to NFC extra tag
-                new NdefReaderTask().execute(tag); // Runds NdefReaderTask to see if the tag is an NDEF message, Returns null if not the right tag
-
-            } else {
-                Log.d(TAG, "Wrong mime type: " + type); //Show in the log the type
-            }
-        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
-
-            // In case we would still use the Tech Discovered Intent
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String[] techList = tag.getTechList();
-            String searchedTech = Ndef.class.getName();
-
-            for (String tech : techList) {
-                if (searchedTech.equals(tech)) {
-                    new NdefReaderTask().execute(tag);
-                    break;
-                }
-            }
-        }
     }
 
     @Override
     protected void onResume() {
+        Log.d("On resume called"," Yeah");
         //Set adapter onResume, so that our list updates every time we come to the screen,
         super.onResume();           //not just the first time
         ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
@@ -133,7 +100,6 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         } else {
             Log.d("ON RESUME NOT DISC", "Waiting for NDEF Message");
         }
-        setupForegroundDispatch(this, nfcAdapter); // Start the foreground dispatch so that the intent can be caught
     }
 
     //adds the home button to the toolbar
@@ -176,16 +142,6 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         super.onPause();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        /*
-         * This method gets called, when a new Intent gets associated with the current activity instance.
-         * Instead of creating a new activity, onNewIntent will be called.
-         * In our case this method gets called, when the user attaches a Tag to the device.
-         */
-        Log.d("onNewIntent","Reached onNewIntent");
-        handleIntent(intent);
-    }
 
     /**
      * @param activity The corresponding {@link Activity} requesting the foreground dispatch.
