@@ -90,9 +90,6 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
             try {
                 Contact contact = new Contact(contactInfo[0], new JSONObject(contactInfo[1].trim()));
                 databaseIoManager.putContact(contact);
-                Toast.makeText(this,contact.getId() ,
-                        Toast.LENGTH_SHORT).show();
-
             } catch (JSONException exception) {
                 exception.printStackTrace();
             }
