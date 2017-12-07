@@ -73,25 +73,26 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
         Intent intent = getIntent();
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) { //if ndef message is discovered, begin trying to figure out if it fits our app
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(
                     NfcAdapter.EXTRA_NDEF_MESSAGES);
 
             NdefMessage message = (NdefMessage) rawMessages[0]; // only one message transferred
 
-            String contactData = new String(message.getRecords()[0].getPayload());
+            String contactData = new String(message.getRecords()[0].getPayload()); // Get NDEF record to parse it into the different parts
             Log.d("ON RESUME DISCOVERED", contactData);
 
             Toast.makeText(getApplicationContext(),contactData ,
                     Toast.LENGTH_SHORT).show();
-            String[] contactInfo = contactData.split("\\s",2);
-            Log.d("ON RESUME", "CONTACT INFO: " + contactInfo.length);
+            String[] contactInfo = contactData.split("\\s",2); // parse the contact data into specific attributes
+            Log.d("ON RESUME", "CONTACT INFO: "+contactInfo.length);
             try {
-                Contact contact = new Contact(contactInfo[0], new JSONObject(contactInfo[1].trim()));
-                databaseIoManager.putContact(contact);
+                Contact contact = new Contact(contactInfo[0], new JSONObject(contactInfo[1].trim())); // create contact object
+                databaseIoManager.putContact(contact); // put the new contact into the database
             } catch (JSONException exception) {
                 exception.printStackTrace();
             }
+
         } else {
             Log.d("ON RESUME NOT DISC", "Waiting for NDEF Message");
         }
