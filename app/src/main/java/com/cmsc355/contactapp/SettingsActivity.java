@@ -15,7 +15,7 @@ public class SettingsActivity extends NonHomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Toolbar settingsToolbar = (Toolbar) findViewById(R.id.settings_toolbar);
+        Toolbar settingsToolbar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(settingsToolbar);
 
         Button nukeButton = findViewById(R.id.nuke_button);

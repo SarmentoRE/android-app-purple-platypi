@@ -29,8 +29,6 @@ public class ContactInfoActivity extends NonHomeActivity {
     private boolean isEditEnabled;
     private KeyListener keyListener;
     private long clickedTime;
-    private String tag = "ContactInfoActivity";
-    private String attributeName;
     private long timeClicked = 0;
 
 
@@ -39,7 +37,7 @@ public class ContactInfoActivity extends NonHomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_info);
 
-        Toolbar infoToolbar = (Toolbar) findViewById(R.id.info_toolbar);
+        Toolbar infoToolbar = findViewById(R.id.info_toolbar);
         setSupportActionBar(infoToolbar);
 
         setupUi(findViewById(R.id.info_parent));
@@ -50,6 +48,7 @@ public class ContactInfoActivity extends NonHomeActivity {
         //pulling info out of the incoming intent
         Intent intent = getIntent();
         final int contactId = intent.getIntExtra("ContactID", -1);
+        String tag = "ContactInfoActivity";
         Log.d(tag, "CONTACT ID IS: " + contactId);
         final ImageView img = findViewById(R.id.info_pic);
         //determine whether edittexts should be enabled at start
@@ -58,7 +57,7 @@ public class ContactInfoActivity extends NonHomeActivity {
         final Contact contact = App.databaseIoManager.getContact(contactId);
 
         //Disabling editing on the Name edittext; this happens here because it's independent of the recyclerview
-        final EditText editName = (EditText) findViewById(R.id.info_name);
+        final EditText editName = findViewById(R.id.info_name);
         editName.setHint(contact.getName());
         if (!isEditEnabled) {
             keyListener = editName.getKeyListener();
@@ -72,7 +71,7 @@ public class ContactInfoActivity extends NonHomeActivity {
         recyclerView.setAdapter(new InfoAdapter(contact, isEditEnabled));
 
         //this button first enables the ability to edit fields, and after that submits the changes made to the fields
-        Button submitButton = (Button) findViewById(R.id.info_edit_button);
+        Button submitButton = findViewById(R.id.info_edit_button);
         if (isEditEnabled) {
             submitButton.setText(R.string.info_submit);
         } else {
@@ -82,7 +81,7 @@ public class ContactInfoActivity extends NonHomeActivity {
             @Override
             public void onClick(View view) {
                 Button thisButton = (Button) view;
-                final Button addAttribute = (Button) findViewById(R.id.add_attribute);
+                final Button addAttribute = findViewById(R.id.add_attribute);
 
                 //Button clicked for first time; enable editing on name, change button text, and
                 //reset adapter on recyclerview to generate attributes again but with edittexts enabled
@@ -122,9 +121,7 @@ public class ContactInfoActivity extends NonHomeActivity {
 
                     //Button clicked second time (debounced); read edittext inputs, decide if any of them have changes,
                     //make the changes if needed, and update the correct contact in the mock db
-                } else if (SystemClock.elapsedRealtime() - clickedTime > 1000)
-
-                {
+                } else if (SystemClock.elapsedRealtime() - clickedTime > 1000) {
                     addAttribute.setVisibility(View.GONE);
                     img.setClickable(false);
                     //newContact will hold all the updated values
@@ -184,10 +181,8 @@ public class ContactInfoActivity extends NonHomeActivity {
             }
         });
 
-        Button deleteButton = (Button) findViewById(R.id.info_delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener()
-
-        {
+        Button deleteButton = findViewById(R.id.info_delete_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Don't allow user to delete the My Info contact page

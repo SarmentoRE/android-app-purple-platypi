@@ -73,7 +73,9 @@ public class ConnectActivity extends NonHomeActivity implements NfcAdapter.Creat
         ArrayMap<String, Object> myInfoAttributes = Utilities.jsonToMap(App.databaseIoManager.getContact(0).getAttributes());
         recyclerView.setAdapter(new ConnectAdapter(myInfoAttributes));
         Intent intent = getIntent();
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) { //if ndef message is discovered, begin trying to figure out if it fits our app
+
+        //if ndef message is discovered, begin trying to figure out if it fits our app
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(
                     NfcAdapter.EXTRA_NDEF_MESSAGES);
 
