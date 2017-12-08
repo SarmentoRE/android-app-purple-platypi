@@ -78,7 +78,7 @@ public class MyInfoContactFunctionality {
 
         //clicks the "Nuke Data" button which is designed to clear out the entire app of any persistent information
         //from the SQLite Database
-        onView(withId(R.id.nuke_button)).perform(click());
+        onView(withId(R.id.settings_nuke)).perform(click());
     }
 
     @Test //Associated with Get to the My Info Activity screen (Scenario 1)

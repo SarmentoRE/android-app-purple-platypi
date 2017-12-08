@@ -36,4 +36,19 @@
     <string name="edit_group_submit">Submit</string>
     <string name="edit_group_name">Enter Group Name</string>
 
+    <!--Settings Screen Strings-->
+    <string name="settings_title">Settings</string>
+    <string name="settings_nuke">Nuke Data</string>
+    <string name="settings_about">About App</string>
+
+    <!--App Info Screen Strings-->
+    <string name="app_info_title">About</string>
+    <string name="app_info_devs_text">Developers:</string>
+    <string name="app_info_devs_1">Aaron</string>
+    <string name="app_info_devs_2">Austin</string>
+    <string name="app_info_devs_3">Shane</string>
+    <string name="app_info_devs_4">Tal</string>
+    <string name="app_info_version_text">App Version:</string>
+    <string name="app_info_version">0.3.1</string>
+
 </resources>

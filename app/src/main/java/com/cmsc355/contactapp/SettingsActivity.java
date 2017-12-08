@@ -1,5 +1,6 @@
 package com.cmsc355.contactapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,7 +18,7 @@ public class SettingsActivity extends NonHomeActivity {
         Toolbar settingsToolbar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(settingsToolbar);
 
-        Button nukeButton = findViewById(R.id.nuke_button);
+        Button nukeButton = findViewById(R.id.settings_nuke);
         nukeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,6 +26,14 @@ public class SettingsActivity extends NonHomeActivity {
             }
         });
 
+        Button infoButton = findViewById(R.id.settings_info);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, AppInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //adds the home button to the toolbar
