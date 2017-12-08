@@ -32,7 +32,7 @@ public class AssociatePhotoWithContact {
     @Before //happens before each test occurs
     public void setUpTest() {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
-        final ListView homeLv = (ListView) main.getActivity().findViewById(R.id.home_list);
+        final ListView homeLv = main.getActivity().findViewById(R.id.home_list);
 
         //performs the click operation on the Contacts button in the HomeActivity screen
         instrum.runOnMainSync(new Runnable() {
@@ -61,7 +61,7 @@ public class AssociatePhotoWithContact {
         //app and only exists in this singular activity.
         onView(withId(R.id.info_delete_button)).check(matches(withText(R.string.info_delete)));
 
-        //types in the name "Aaron" into the name field for the Contact
+        //types in the name "Shane" into the name field for the Contact
         onView(withId(R.id.info_name)).perform(typeText("Shane"), closeSoftKeyboard());
 
         //performs a click operation on the "Submit Changes" button
@@ -88,7 +88,7 @@ public class AssociatePhotoWithContact {
         //performs a click operation on the new contact button
         onView(withId(R.id.contact_new)).perform(click());
 
-        //types in the name "Aaron" into the name field for the Contact
+        //types in the name "Shane" into the name field for the Contact
         onView(withId(R.id.info_name)).perform(typeText("Shane"), closeSoftKeyboard());
 
         //performs a click operation on the "Submit Changes" button
@@ -121,7 +121,7 @@ public class AssociatePhotoWithContact {
         //performs a click operation on the new contact button
         onView(withId(R.id.contact_new)).perform(click());
 
-        //types in the name "Aaron" into the name field for the Contact
+        //types in the name "Tal" into the name field for the Contact
         onView(withId(R.id.info_name)).perform(typeText("Tal"), closeSoftKeyboard());
 
         //performs a click operation on the "Submit Changes" button
@@ -143,7 +143,7 @@ public class AssociatePhotoWithContact {
         onView(withText("Add Photo!")).check(matches(isDisplayed()));
 
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
-        final ListView homeLv = (ListView) main.getActivity().findViewById(R.id.home_list);
+        final ListView homeLv = main.getActivity().findViewById(R.id.home_list);
 
         //performs the click operation on the Contacts button in the HomeActivity screen
         instrum.runOnMainSync(new Runnable() {

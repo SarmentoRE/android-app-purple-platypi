@@ -33,7 +33,7 @@ public class AddContactToNewGroup {
     @Before
     public void testSetUp() {
         Instrumentation instrum = InstrumentationRegistry.getInstrumentation();
-        final ListView homeLv = (ListView) main.getActivity().findViewById(R.id.home_list);
+        final ListView homeLv = main.getActivity().findViewById(R.id.home_list);
 
         //performs the click operation on the Groups button on the HomeActivity of app
         instrum.runOnMainSync(new Runnable() {
@@ -58,9 +58,9 @@ public class AddContactToNewGroup {
         onView(withId(R.id.group_new)).perform(click());
 
         //confirms that there exists a button on the current activity screen that is associated
-        //with the id contact_new and has a string associated with it that reads "New Contact". This
-        //button is unique in the app and only appears on the Contact Activity screen.
-        onView(withId(R.id.contact_new)).check(matches(withText(R.string.contact_new)));
+        //with the id edit_group_submit and has a string associated with it that reads "Submit". This
+        //button is unique in the app and only appears on the Edit Group Activity screen.
+        onView(withId(R.id.edit_group_submit)).check(matches(withText("Submit")));
     }
 
     @Test //Associated with Create a new Group relation (Scenario 2)
@@ -91,9 +91,9 @@ public class AddContactToNewGroup {
         verify(testContactGroup).setGroupId(ArgumentMatchers.eq(5));
 
         //confirms that there exists a button on the current activity screen that is associated
-        //with the id contact_new and has a string associated with it that reads "New Contact". This
-        //button is unique in the app and only appears on the Contact Activity screen.
-        onView(withId(R.id.contact_new)).check(matches(withText(R.string.contact_new)));
+        //with the id edit_group_submit and has a string associated with it that reads "Submit". This
+        //button is unique in the app and only appears on the Edit Group Activity screen.
+        onView(withId(R.id.edit_group_submit)).check(matches(withText("Submit")));
     }
 
     @Test //Associated with Add one Contact to a Group (Scenario 3)

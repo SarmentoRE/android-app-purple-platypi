@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-//This activity is empty and doesn't do anything yet
 public class SettingsActivity extends NonHomeActivity {
 
     @Override

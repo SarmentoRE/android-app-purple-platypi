@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-//This activity is empty and doesn't do anything yet
 public class ScanActivity extends NonHomeActivity {
     private static final int REQUEST_CAMERA = 0;
 
