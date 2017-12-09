@@ -28,7 +28,7 @@ public class EditGroupAdapter extends RecyclerView.Adapter {
 
     //constructor method
     EditGroupAdapter(ArrayList<Contact> contactList) {
-        Log.d("EditGroup", "Receiving " + contactList.size() + " contacts");
+        //Log.d("EditGroup", "Receiving " + contactList.size() + " contacts");
         this.contactArrayList = contactList;
     }
 
