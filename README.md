@@ -1,6 +1,28 @@
-# CONTACT APP
+# ConnecTogether
 
 This documentation tracks the progress of our app "Contact App".
+
+
+## Iteration 3
+Iteration 3 Goals Accomplished:
+- NFC functionality implemented (able to transfer Contacts)
+- Full test suite implemented
+- Additional functionality implemented for UI
+  - Settings information and functionality
+  - My Info functionality fully realized
+  - Scan Activity able to access camera
+  
+Iteration 3 Unfinished:
+- Scan in text recognition function
+- Optional user backup of data to remote server
+- Ability to only share specific information over NFC
+- Ability to upload and store different file types
+- Search bar functionality for contacts and groups
+
+**Comments:**
+All set goals for Iteration 3 were completed and marked accordingly in GitHub. Espresso and Unit tests were written per project specification and implemented accordingly. Note that as in previous iteration, per Damevski, one of the Espresso tests is demonstrated utilizing an uploaded video
+Individual responsibilities were as follows: Aaron worked primarily on Espresso/Unit testing and getting the GitHub page set up properly, Shane was responsible for front end UI implementation details, Austin switched between working on NFC functionality and getting the final pieces of the SQLite database set up, and Tal worked exclusively on getting NFC functionality up and running. 
+In summary, we finished out Iteration 3 strong and completed all necessary goals. All remaining user stories in GitHub were initially designed to be stretch goals and the ConnecTogether app as a whole is complete and functional. 
 
 ## Iteration 2
 Iteration 2 Goals Accomplished:
